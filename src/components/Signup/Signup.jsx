@@ -15,6 +15,9 @@ import { auth } from "../../firebase";
 import { useAuth } from "../../contexts/AuthContext";
 import { useHistory, Link } from "react-router-dom";
 import Alert from "@material-ui/lab/Alert";
+import { collection, addDoc } from "firebase/firestore";
+import {db } from "../../firebase" 
+
 
 const Signup = () => {
   const classes = useStyles();
@@ -41,6 +44,12 @@ const Signup = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log("sign up method =>", auth);
+    if(usernameRef.current.value===""){
+      return setError("Please enter an Username")
+    }
+    if(emailRef.current.value === ""){
+      return setError("Email is mandatory");
+    }
 
     if (passwordRef.current.value !== passwordConfirmRef.current.value) {
       return setError("Passwords do not match!");
@@ -55,9 +64,21 @@ const Signup = () => {
         emailRef.current.value,
         passwordRef.current.value
       );
-      if (result) {
-        setSigninSuccess("Account registered Successfully!");
+      try {
+        const docRef = await addDoc(collection(db, "users"), {
+          username: usernameRef.current.value,
+          email: emailRef.current.value,
+          password: passwordRef.current.value,
+          posts : [],
+          verified : false
+        });
+        console.log("Document written with ID: ", docRef.id);
+      } catch (e) {
+        
+        console.error("Error adding document: ", e);
+        return setError("Signup failed. Please retry!")
       }
+      
       history.push("/");
       console.log("result =>", result);
     } catch (error) {
