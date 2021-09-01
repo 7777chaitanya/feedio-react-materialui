@@ -15,7 +15,7 @@ import { auth } from "../../firebase";
 import { useAuth } from "../../contexts/AuthContext";
 import { useHistory, Link } from "react-router-dom";
 import Alert from "@material-ui/lab/Alert";
-import { collection, addDoc } from "firebase/firestore";
+import { collection, addDoc, setDoc, doc } from "firebase/firestore";
 import {db } from "../../firebase" 
 
 
@@ -64,18 +64,26 @@ const Signup = () => {
         emailRef.current.value,
         passwordRef.current.value
       );
-      try {
-        const docRef = await addDoc(collection(db, "users"), {
+  try{
+        // const docRef = await setDoc(collection(db, "users", emailRef.current.value), {
+        //   username: usernameRef.current.value,
+        //   email: emailRef.current.value,
+        //   password: passwordRef.current.value,
+        //   posts : [],
+        //   verified : false
+        // });
+        const docRef = await setDoc(doc(db, "users", emailRef.current.value), {
           username: usernameRef.current.value,
           email: emailRef.current.value,
           password: passwordRef.current.value,
           posts : [],
           verified : false
         });
-        console.log("Document written with ID: ", docRef.id);
+        
+        console.log("Document written with ID: ", docRef);
       } catch (e) {
         
-        console.error("Error adding document: ", e);
+        console.log("Error adding document: ", e);
         return setError("Signup failed. Please retry!")
       }
       
