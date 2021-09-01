@@ -5,7 +5,7 @@ import NavBar from "../NavBar/NavBar";
 import { db } from "../../firebase";
 import { doc, getDoc } from "firebase/firestore";
 
-const Home = () => {
+const Home = ({handleReloadAfterWassupUpload}) => {
   const { currentUser } = useAuth();
   const [currentUserDoc, setcurrentUserDoc] = useState({});
 
@@ -26,7 +26,7 @@ const Home = () => {
   return (
     <div>
       <NavBar currentUsername={currentUserDoc.username} />
-      <Wassup currentUser={currentUser} />
+      <Wassup currentUser={currentUser} handleReloadAfterWassupUpload={handleReloadAfterWassupUpload}/>
     </div>
   );
 };

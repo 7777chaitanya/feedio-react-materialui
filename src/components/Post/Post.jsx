@@ -4,7 +4,7 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 import useStyles from "./styles.js";
 import { Box, Typography, useTheme } from '@material-ui/core';
 
-const Post = ({handleLike, like}) => {
+const Post = ({handleLike, like, wassupText, likesCount}) => {
     const classes = useStyles();
     const theme = useTheme();
     console.log(theme)
@@ -14,7 +14,7 @@ const Post = ({handleLike, like}) => {
                 <Typography variant="h6" className={classes.username}>You</Typography>
            </Box>
            <Box>
-               <Typography>It's a nice day</Typography>
+               <Typography>{wassupText}</Typography>
            </Box>
            <Box>
                <Box className={classes.iconColor}>  
@@ -22,7 +22,7 @@ const Post = ({handleLike, like}) => {
                    {!like ? <FavoriteBorderIcon onClick={handleLike}/> : <FavoriteIcon onClick={handleLike}/>}
                 </Box>
                <Box >
-                   25 Likes
+                   {likesCount} Likes
                </Box>
              
            </Box>

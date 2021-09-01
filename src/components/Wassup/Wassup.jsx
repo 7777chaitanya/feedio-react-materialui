@@ -8,7 +8,7 @@ import { arrayUnion, updateDoc, doc } from "firebase/firestore";
 import { ToastContainer, toast } from "react-toastify";
 import { db } from "../../firebase";
 
-const Wassup = ({currentUser}) => {
+const Wassup = ({currentUser, handleReloadAfterWassupUpload}) => {
 //   const wassupRef = useRef();
   const classes = useStyles();
     const [wassupText, setWassupText] = useState("");
@@ -44,7 +44,9 @@ const Wassup = ({currentUser}) => {
         likes : 0})
     });
     setWassupText("");
-    toast.success("Posted successfully")
+    handleReloadAfterWassupUpload();
+
+    toast.success("Posted successfully");
 }
 catch(e){
     toast.warn("Couldn't post at the moment. Please retry after sometime!")
