@@ -2,8 +2,7 @@ import { Box } from "@material-ui/core";
 import React from "react";
 import Post from "../Post/Post";
 import NavBar from "../NavBar/NavBar";
-import { classes } from "istanbul-lib-coverage";
-import useStyles from "./styles.js";
+import useStyles from "../AllPosts/styles.js";
 import { useAuth } from "../../contexts/AuthContext";
 
 const MyPosts = ({ handleLike, like, allPosts }) => {

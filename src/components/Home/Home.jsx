@@ -4,6 +4,7 @@ import Wassup from "../Wassup/Wassup";
 import NavBar from "../NavBar/NavBar";
 import { db } from "../../firebase";
 import { doc, getDoc } from "firebase/firestore";
+import { Box } from "@material-ui/core";
 
 const Home = ({handleReloadAfterWassupUpload}) => {
   const { currentUser } = useAuth();

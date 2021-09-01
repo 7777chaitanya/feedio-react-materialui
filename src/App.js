@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Login, Home, Signup, ForgotPassword, MyPosts } from "./components";
+import { Login, Home, Signup, ForgotPassword, MyPosts, AllPosts } from "./components";
 import "./index.css";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import { AuthProvider } from "./contexts/AuthContext";
@@ -70,6 +70,12 @@ const App = () => {
             </Route>
             <Route path="/my-posts" >
               <MyPosts handleLike={handleLike} like={like} allPosts={allPosts}/>
+            </Route>
+            <Route path="/my-posts" >
+              <AllPosts handleLike={handleLike} like={like} allPosts={allPosts}/>
+            </Route>
+            <Route path="/all-posts" >
+              <AllPosts handleLike={handleLike} like={like} allPosts={allPosts}/>
             </Route>
             <Route path="/" exact>
               <Home handleReloadAfterWassupUpload={handleReloadAfterWassupUpload}/>

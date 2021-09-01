@@ -80,6 +80,7 @@ const useStyles = makeStyles((theme) => ({
         marginLeft : "auto",
         marginRight: "auto", 
         border : "0.2rem solid lawngreen",
+        // boxshadow : "1rem 1rem 1rem lawngreen",
         borderRadius : "5px",
         padding : "1rem"
     },

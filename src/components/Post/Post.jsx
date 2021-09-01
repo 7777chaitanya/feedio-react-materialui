@@ -4,14 +4,14 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 import useStyles from "./styles.js";
 import { Box, Typography, useTheme } from '@material-ui/core';
 
-const Post = ({handleLike, like, wassupText, likesCount}) => {
+const Post = ({handleLike, like, wassupText, likesCount, userName}) => {
     const classes = useStyles();
     const theme = useTheme();
     console.log(theme)
     return (
        <Box className={classes.outerBox}>
            <Box >
-                <Typography variant="h6" className={classes.username}>You</Typography>
+                <Typography variant="h6" className={classes.username}>{userName ? userName : "You"}</Typography>
            </Box>
            <Box>
                <Typography>{wassupText}</Typography>
