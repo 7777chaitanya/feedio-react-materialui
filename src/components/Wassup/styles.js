@@ -87,11 +87,10 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "center",
     alignItems: "center",
 
-    flex: 2,
-    // flexGrow : 1,
+    flex: 1,
   },
   wassuptextbox: {
-    flex: 8,
+    flex: 0.8,
   },
   mainOuterBox: {
     border: "0.2 rem solid lightgray",
@@ -99,6 +98,15 @@ const useStyles = makeStyles((theme) => ({
   input: {
     display: "none",
   },
+//   uploadImageButton : {
+//       display : "none"
+//   }
+postButton:{
+    display : "flex",
+    justifyContent : "center",
+    alignItems : "center",
+    marginTop : "1rem"
+},
 }));
 
 export default useStyles;

@@ -4,7 +4,11 @@ import { createTheme, ThemeProvider } from "@material-ui/core/styles";
 import { useRef, useState } from "react";
 import useStyles from "./styles";
 import { PhotoCamera } from "@material-ui/icons";
-const Wassup = () => {
+import { arrayUnion, updateDoc, doc } from "firebase/firestore";
+import { ToastContainer, toast } from "react-toastify";
+import { db } from "../../firebase";
+
+const Wassup = ({currentUser}) => {
 //   const wassupRef = useRef();
   const classes = useStyles();
     const [wassupText, setWassupText] = useState("");
@@ -32,8 +36,20 @@ const Wassup = () => {
     setWassupText(e.target.value)
   }
 
-  const handlePostToFirestore = () => {
-
+  const handlePostToFirestore = async () => {
+    const usersDocRef = doc(db, 'users', currentUser.email);
+    try{
+    await updateDoc(usersDocRef, {
+        posts: arrayUnion({text : wassupText,
+        likes : 0})
+    });
+    setWassupText("");
+    toast.success("Posted successfully")
+}
+catch(e){
+    toast.warn("Couldn't post at the moment. Please retry after sometime!")
+}
+    
   }
   return (
     <>
@@ -59,7 +75,7 @@ const Wassup = () => {
                 />
               </ThemeProvider>
             </Box>
-            <Box>
+            {/* <Box className={classes.uploadImageButton}>
               <input
                 accept="image/*"
                 className={classes.input}
@@ -78,8 +94,8 @@ const Wassup = () => {
                   </IconButton>
                 </ThemeProvider>
               </label>
-            </Box>
-            <Box onClick={handlePostToFirestore}>
+            </Box> */}
+            <Box onClick={handlePostToFirestore} className={classes.postButton}>
               <ThemeProvider theme={theme}>
                 <Button variant="contained" color="secondary">
                   POST
@@ -88,6 +104,7 @@ const Wassup = () => {
             </Box>
           </Box>
         </Box>
+
       </Box>
     </>
   );
