@@ -1,26 +1,46 @@
 import { Box } from "@material-ui/core";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Post from "../Post/Post";
 import NavBar from "../NavBar/NavBar";
 import useStyles from "../AllPosts/styles.js";
 import { useAuth } from "../../contexts/AuthContext";
+import { doc, getDoc } from "firebase/firestore";
+import { db } from "../../firebase";
 
-const MyPosts = ({ handleLike, like, allPosts }) => {
+const MyPosts = ({ handleLike, like, allPosts, handleReloadAfterWassupUpload }) => {
   const classes = useStyles();
   const { currentUser } = useAuth();
+  const [currentUserRefDoc, setcurrentUserRefDoc] = useState({});
+
+  
+  
+  let currentUserDoc = currentUser ? allPosts.find(user => user.email === currentUser.email) : null;
+  // allPosts.forEach(user => console.log("user email => ",user.email));
   let myPosts = allPosts.find(post => currentUser && post.email=== currentUser.email)
+  // console.log("allPosts from MyPosts =>", currentUserDoc && (currentUserDoc, currentUser.email));
+  useEffect(async () => {
+    const docRef = doc(db, "users", currentUser.email);
+    const docSnap = await getDoc(docRef);
+
+    if (docSnap.exists()) {
+      console.log("Document data:", docSnap.data());
+      setcurrentUserRefDoc(docSnap.data());
+    } else {
+      // doc.data() will be undefined in this case
+      console.log("No such document!");
+    }
+  }, []);
 
 
-  console.log("my posts =>",( myPosts && myPosts.posts));
   return (
     <>
 
       <Box className={classes.navbar}>
-        <NavBar />
+        <NavBar currentUsername={currentUserRefDoc.username}/>
       </Box>
       {myPosts && myPosts.posts.map(post => 
       <Box className={classes.postItem}>
-          <Post handleLike={handleLike} like={like} likesCount={post.likes} wassupText={post.text} />
+          <Post handleLike={handleLike} like={like} likesCount={post.likes} wassupText={post.text} allPosts={allPosts} myPosts={myPosts} handleReloadAfterWassupUpload={handleReloadAfterWassupUpload} userEmail={currentUser.email}/>
         </Box>)}
       
         
@@ -31,14 +51,4 @@ const MyPosts = ({ handleLike, like, allPosts }) => {
 
 export default MyPosts;
 
-// doc.data() is never undefined for query doc snapshots
-// console.log(doc.id, " => ", doc.data());
 
-// temporaryDocumentHolder.forEach(post => {
-//   allPosts.push(post)
-// })
-// ---------
-// let temporaryDocumentHolder = doc.data().posts;
-// temporaryDocumentHolder.forEach(post =>{
-//   allPosts.push(post)
-//   -------------------

@@ -73,50 +73,12 @@ const useStyles = makeStyles((theme) => ({
         width : "70vw"
 
     },
-    outerBox : {
-        display : 'flex',
-        flexDirection : "column",
-        maxWidth : "60vw",
-        marginLeft : "auto",
-        marginRight: "auto", 
-        border : "0.2rem solid lawngreen",
-        // boxshadow : "1rem 1rem 1rem lawngreen",
-        borderRadius : "5px",
-        padding : "1rem"
+    navbar : {
+        marginBottom : "1rem",
     },
-    username : {
-        fontWeight : "800"
-    },
-    iconColor:{
-        color : "lawnGreen"
-    },
-    buttonsCover:{
-        display : "flex",
-        justifyContent : "space-evenly",
-        alignItems : "center",
-        marginTop : "1rem"
-    },
-    paper: {
-        position: 'absolute',
-        width: 400,
-        backgroundColor: theme.palette.background.paper,
-        border: '2px solid #000',
-        boxShadow: theme.shadows[5],
-        padding: theme.spacing(2, 4, 3),
-      },
-      wassuptextbox:{
-          display: "flex",
-          justifyContent : "center",
-          alignItems : "center",
-          margin : "1rem 0"
-      }
-    
-    // buttonBox:{
-    //     display : "flex",
-    //     justifyContent : "center",
-    //     alignItems : "center"
-    // }
-
+    postItem : {
+        marginBottom : "1rem"
+    }
 
 }));
 

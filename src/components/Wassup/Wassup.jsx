@@ -57,9 +57,9 @@ catch(e){
     <>
       <Box className={classes.mainOuterBox}>
         <Box className={classes.outerBox}>
-          <Box className={classes.avatarBox}>
+          {/* <Box className={classes.avatarBox}>
             <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
-          </Box>
+          </Box> */}
           <Box>
             <Box className={classes.wassuptextbox}>
               <ThemeProvider theme={theme}>

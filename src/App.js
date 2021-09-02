@@ -72,7 +72,7 @@ const App = () => {
               <MyPosts handleLike={handleLike} like={like} allPosts={allPosts}/>
             </Route>
             <Route path="/my-posts" >
-              <AllPosts handleLike={handleLike} like={like} allPosts={allPosts}/>
+              <AllPosts handleLike={handleLike} like={like} allPosts={allPosts} handleReloadAfterWassupUpload={handleReloadAfterWassupUpload}/>
             </Route>
             <Route path="/all-posts" >
               <AllPosts handleLike={handleLike} like={like} allPosts={allPosts}/>
