@@ -10,6 +10,7 @@ import {
   arrayUnion,
   arrayRemove,
   setDoc,
+  getDoc,
 } from "firebase/firestore";
 import { ToastContainer, toast } from "react-toastify";
 import { useLocation } from "react-router-dom";
@@ -44,8 +45,8 @@ function getModalStyle() {
 }
 
 const Post = ({
-  handleLike,
-  like,
+  // handleLike,
+  // like,
   wassupText,
   likesCount,
   userName,
@@ -61,6 +62,7 @@ const Post = ({
   const [updateFieldText, setUpdateFieldText] = useState(wassupText);
   const { currentUser } = useAuth();
   const location = useLocation();
+  const [like, setLike] = useState(false);
 
   const theme = createTheme({
     palette: {
@@ -160,10 +162,11 @@ const Post = ({
 
   const handleDelete = async () => {
     console.log("deleted");
-    const docRef = doc(db, "users", currentUser.email);
+    const docRef = doc(db, "users", userEmail);
+
     const localPosts = myPosts.posts;
 
-    const filteredPosts = localPosts.filter(post => post.text!==wassupText);
+    const filteredPosts = localPosts.filter((post) => post.text !== wassupText);
     console.log("handleDelete => ", filteredPosts);
     try {
       console.log("try block");
@@ -176,7 +179,6 @@ const Post = ({
       // handleReloadAfterWassupUpload();
     } catch (e) {
       toast.warn("Failed to Delete. Please retry!");
-
     }
     setOpenDelete(false);
   };
@@ -184,7 +186,9 @@ const Post = ({
   const bodyDelete = (
     <div style={modalStyle} className={classes.paper}>
       {/* <Box className={classes.deleteModalText}> */}
-      <Typography variant="h5" align="center">Are you sure want to delete?</Typography>
+      <Typography variant="h5" align="center">
+        Are you sure want to delete?
+      </Typography>
       {/* </Box> */}
       <Box className={classes.deleteModalButtons}>
         <ThemeProvider theme={theme}>
@@ -204,6 +208,40 @@ const Post = ({
       </Box>
     </div>
   );
+
+  const handleLike = async (e) => {
+    if (!like) {
+      setLike(true);
+    } else {
+      setLike(false);
+    }
+
+    const docRef = doc(db, "users", userEmail);
+    const docSnap = await getDoc(docRef);
+
+    if (docSnap.exists()) {
+      console.log("Document data:", docSnap.data());
+    } else {
+      // doc.data() will be undefined in this case
+      console.log("No such document!");
+    }
+
+    let posts = docSnap.data().posts;
+    posts.forEach(post => {
+      if(post.text === wassupText){
+        post.likes = post.likes + 1;
+      }
+    });
+    try{
+    await setDoc(doc(db, "users", userEmail), {
+      posts
+    });
+  }catch(e){
+    console.log(e);
+  }
+
+    console.log(posts);
+  };
 
   return (
     <Box className={classes.outerBox}>

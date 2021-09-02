@@ -35,7 +35,7 @@ const AllPosts = ({ handleLike, like, allPosts }) => {
     let email = post.email;
     // console.log("post =>", post);
     let tempArray = post.posts;
-    tempArray.forEach((obj) => {
+    tempArray && tempArray.forEach((obj) => {
       obj.username = username;
       obj.email=email;
       console.log("obj =>",obj);

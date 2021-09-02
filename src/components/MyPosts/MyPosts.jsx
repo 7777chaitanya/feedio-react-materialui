@@ -12,9 +12,13 @@ const MyPosts = ({ handleLike, like, allPosts, handleReloadAfterWassupUpload }) 
   const { currentUser } = useAuth();
   const [currentUserRefDoc, setcurrentUserRefDoc] = useState({});
 
+  // useEffect(() => {
+    
+  // }, [])
+
   
   
-  let currentUserDoc = currentUser ? allPosts.find(user => user.email === currentUser.email) : null;
+  // let currentUserDoc = currentUser ? allPosts.find(user => user.email === currentUser.email) : null;
   // allPosts.forEach(user => console.log("user email => ",user.email));
   let myPosts = allPosts.find(post => currentUser && post.email=== currentUser.email)
   // console.log("allPosts from MyPosts =>", currentUserDoc && (currentUserDoc, currentUser.email));
