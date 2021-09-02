@@ -79,10 +79,10 @@ const useStyles = makeStyles((theme) => ({
         maxWidth : "60vw",
         marginLeft : "auto",
         marginRight: "auto", 
-        border : "0.2rem solid lawngreen",
+        borderBottom : "0.08rem solid lawngreen",
         // boxshadow : "1rem 1rem 1rem lawngreen",
-        borderRadius : "5px",
-        padding : "1rem"
+        // borderRadius : "5px",
+        padding : "1rem 1rem 3rem 1rem"
     },
     username : {
         fontWeight : "800"

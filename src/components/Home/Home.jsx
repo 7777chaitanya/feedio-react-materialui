@@ -13,6 +13,7 @@ const Home = ({handleReloadAfterWassupUpload}) => {
   useEffect(async () => {
     const docRef = doc(db, "users", currentUser.email);
     const docSnap = await getDoc(docRef);
+    
 
     if (docSnap.exists()) {
       console.log("Document data:", docSnap.data());
@@ -22,6 +23,8 @@ const Home = ({handleReloadAfterWassupUpload}) => {
       console.log("No such document!");
     }
   }, []);
+
+  console.log("Home =>",currentUserDoc);
   
 
   return (

@@ -233,7 +233,7 @@ const Post = ({
       }
     });
     try{
-    await setDoc(doc(db, "users", userEmail), {
+    await updateDoc(doc(db, "users", userEmail), {
       posts
     });
   }catch(e){

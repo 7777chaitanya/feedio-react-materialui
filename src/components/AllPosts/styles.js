@@ -16,6 +16,7 @@ const useStyles = makeStyles((theme) => ({
         display : "flex",
         justifyContent : "center",
         alignItem : "center",
+        marginBottom : "1rem"
     },
     logo : {
         height : "10vh", 

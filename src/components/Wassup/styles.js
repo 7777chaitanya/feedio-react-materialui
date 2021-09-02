@@ -73,6 +73,7 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
+    marginTop : "1rem",
     marginLeft: "auto",
     marginRight: "auto",
     [theme.breakpoints.down("sm")]: {

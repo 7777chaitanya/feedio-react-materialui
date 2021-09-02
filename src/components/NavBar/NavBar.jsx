@@ -15,11 +15,21 @@ const NavBar = ({currentUsername}) => {
   const {logout } = useAuth();
 
 
-  const theme = createTheme({
+  const themeGreen = createTheme({
     palette: {
       primary: {
         main: "rgb(140,233,23)",
         dark: "#1db954",
+      },
+    },
+  });
+
+
+  const theme = createTheme({
+    palette: {
+      primary: {
+        main: "rgb(255,255,255)",
+        dark: "rgb(140,233,23)",
       },
     },
   });
@@ -53,14 +63,15 @@ const NavBar = ({currentUsername}) => {
         <Typography variant="h6" className={classes.title}>
           Hi, {currentUsername}
         </Typography>
-        <Box className={classes.logoBox}>
+        {/* <Box className={classes.logoBox}>
             <img className={classes.logo} src={feedionameCropped} alt="logo" />
-        </Box>
+        </Box> */}
+        {/* <ThemeProvider theme={themeGreen}> */}
         <Button color="inherit" component={Link} to="/my-posts">My posts</Button>
 
         <Button color="inherit" component={Link} to="/all-posts">All Posts</Button>
         <Button color="inherit" onClick={handleLogout}>Log out</Button>
-
+        {/* </ThemeProvider> */}
       </Toolbar>
     </AppBar>
     </ThemeProvider>

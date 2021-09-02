@@ -7,7 +7,7 @@ import { useAuth } from "../../contexts/AuthContext";
 import feedionameCropped from "./feedionameCropped.png";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../../firebase";
-import { useLocation } from "react-router-dom";
+import { useLocation, Link } from "react-router-dom";
 
 const AllPosts = ({ handleLike, like, allPosts }) => {
   const classes = useStyles();
@@ -46,16 +46,18 @@ const AllPosts = ({ handleLike, like, allPosts }) => {
   console.log("my posts =>", myPosts && myPosts);
   return (
     <>
-      <Box className={classes.box}>
+      <Box className={classes.box} component={Link}
+          to="/">
         <img
           className={classes.logo}
           src={feedionameCropped}
           alt="feedio logo"
+          
         />
       </Box>
-      <Box className={classes.box}>
+      {/* <Box className={classes.box}>
         <Divider className={classes.divider} />
-      </Box>
+      </Box> */}
 
       <Box className={classes.navbar}>
         <NavBar currentUsername={currentUserRefDoc.username}/>

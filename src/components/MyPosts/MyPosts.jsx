@@ -1,4 +1,4 @@
-import { Box } from "@material-ui/core";
+import { Box, Divider } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import Post from "../Post/Post";
 import NavBar from "../NavBar/NavBar";
@@ -6,6 +6,9 @@ import useStyles from "../AllPosts/styles.js";
 import { useAuth } from "../../contexts/AuthContext";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../../firebase";
+import feedionameCropped from "./feedionameCropped.png";
+import {Link} from "react-router-dom";
+
 
 const MyPosts = ({ handleLike, like, allPosts, handleReloadAfterWassupUpload }) => {
   const classes = useStyles();
@@ -38,6 +41,17 @@ const MyPosts = ({ handleLike, like, allPosts, handleReloadAfterWassupUpload }) 
 
   return (
     <>
+    <Box className={classes.box} component={Link}
+          to="/">
+        <img
+          className={classes.logo}
+          src={feedionameCropped}
+          alt="feedio logo"
+        />
+      </Box>
+      {/* <Box className={classes.box}>
+        <Divider className={classes.divider} />
+      </Box> */}
 
       <Box className={classes.navbar}>
         <NavBar currentUsername={currentUserRefDoc.username}/>

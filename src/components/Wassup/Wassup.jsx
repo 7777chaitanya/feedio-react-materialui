@@ -57,9 +57,7 @@ catch(e){
     <>
       <Box className={classes.mainOuterBox}>
         <Box className={classes.outerBox}>
-          {/* <Box className={classes.avatarBox}>
-            <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
-          </Box> */}
+          
           <Box>
             <Box className={classes.wassuptextbox}>
               <ThemeProvider theme={theme}>
@@ -77,26 +75,7 @@ catch(e){
                 />
               </ThemeProvider>
             </Box>
-            {/* <Box className={classes.uploadImageButton}>
-              <input
-                accept="image/*"
-                className={classes.input}
-                id="icon-button-file"
-                type="file"
-                onChange={handleWassupImageChange}
-              />
-              <label htmlFor="icon-button-file">
-                <ThemeProvider theme={theme}>
-                  <IconButton
-                    color="secondary"
-                    aria-label="upload picture"
-                    component="span"
-                  >
-                    <PhotoCamera />
-                  </IconButton>
-                </ThemeProvider>
-              </label>
-            </Box> */}
+            
             <Box onClick={handlePostToFirestore} className={classes.postButton}>
               <ThemeProvider theme={theme}>
                 <Button variant="contained" color="secondary">
