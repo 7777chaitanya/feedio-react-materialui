@@ -26,7 +26,7 @@ const Home = ({handleReloadAfterWassupUpload}) => {
 
   return (
     <div>
-      <NavBar currentUsername={currentUserDoc.username} />
+      <NavBar currentUsername={currentUserDoc.username} handleReloadAfterWassupUpload={handleReloadAfterWassupUpload}/>
       <Wassup currentUser={currentUser} handleReloadAfterWassupUpload={handleReloadAfterWassupUpload}/>
     </div>
   );
