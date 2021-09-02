@@ -158,8 +158,27 @@ const Post = ({
     setOpenDelete(false);
   };
 
-  const handleDelete = () => {
+  const handleDelete = async () => {
     console.log("deleted");
+    const docRef = doc(db, "users", currentUser.email);
+    const localPosts = myPosts.posts;
+
+    const filteredPosts = localPosts.filter(post => post.text!==wassupText);
+    console.log("handleDelete => ", filteredPosts);
+    try {
+      console.log("try block");
+      await updateDoc(docRef, {
+        posts: filteredPosts,
+      });
+      toast.success("Deleted Post!");
+
+      // setOpenDelete(false);
+      // handleReloadAfterWassupUpload();
+    } catch (e) {
+      toast.warn("Failed to Delete. Please retry!");
+
+    }
+    setOpenDelete(false);
   };
 
   const bodyDelete = (
