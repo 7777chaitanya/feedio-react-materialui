@@ -104,7 +104,6 @@ const Post = ({
 
       setOpen(false);
       // handleReloadAfterWassupUpload();
-
     } catch (e) {
       toast.warn("Update failed. Please retry");
     }
@@ -149,6 +148,43 @@ const Post = ({
   );
 
   //   const handleModalOpen = () => {};
+  const [openDelete, setOpenDelete] = React.useState(false);
+
+  const handleOpenDelete = () => {
+    setOpenDelete(true);
+  };
+
+  const handleCloseDelete = () => {
+    setOpenDelete(false);
+  };
+
+  const handleDelete = () => {
+    console.log("deleted");
+  };
+
+  const bodyDelete = (
+    <div style={modalStyle} className={classes.paper}>
+      {/* <Box className={classes.deleteModalText}> */}
+      <Typography variant="h5" align="center">Are you sure want to delete?</Typography>
+      {/* </Box> */}
+      <Box className={classes.deleteModalButtons}>
+        <ThemeProvider theme={theme}>
+          <Button onClick={handleDelete} color="secondary" variant="contained">
+            Yes
+          </Button>
+        </ThemeProvider>
+        <ThemeProvider theme={theme}>
+          <Button
+            onClick={() => setOpenDelete(false)}
+            color="primary"
+            variant="contained"
+          >
+            Cancel
+          </Button>
+        </ThemeProvider>
+      </Box>
+    </div>
+  );
 
   return (
     <Box className={classes.outerBox}>
@@ -194,12 +230,25 @@ const Post = ({
                 {body}
               </Modal>
             </Box>
-
-            <ThemeProvider theme={theme}>
-              <Button color="primary" variant="contained">
-                Delete
-              </Button>
-            </ThemeProvider>
+            <Box>
+              <ThemeProvider theme={theme}>
+                <Button
+                  color="primary"
+                  variant="contained"
+                  onClick={handleOpenDelete}
+                >
+                  Delete
+                </Button>
+              </ThemeProvider>
+              <Modal
+                open={openDelete}
+                onClose={handleCloseDelete}
+                aria-labelledby="simple-modal-title"
+                aria-describedby="simple-modal-description"
+              >
+                {bodyDelete}
+              </Modal>
+            </Box>
           </Box>
         )
       }

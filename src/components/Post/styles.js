@@ -109,7 +109,13 @@ const useStyles = makeStyles((theme) => ({
           justifyContent : "center",
           alignItems : "center",
           margin : "1rem 0"
-      }
+      },
+      deleteModalButtons:{
+          display: "flex",
+          justifyContent : "space-evenly",
+          marginTop: "1rem"
+      },
+
     
     // buttonBox:{
     //     display : "flex",
