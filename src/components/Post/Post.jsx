@@ -64,6 +64,8 @@ const Post = ({
   const location = useLocation();
   const [like, setLike] = useState(false);
 
+  console.log("myPosts in post => ",myPosts);
+
   const theme = createTheme({
     palette: {
       secondary: {
@@ -92,15 +94,16 @@ const Post = ({
       localPosts.find((post) => post.text === wassupTextBeforeChange);
     if (postToUpdate) {
       postToUpdate.text = updateFieldText;
+      // postToUpdate.date = new Date();
     }
     const mappedLocalPosts = localPosts.map((post) => {
-      return { text: post.text, likes: post.likes };
+      return { text: post.text, likes: post.likes, date: post.date };
     });
-    console.log(mappedLocalPosts);
+    console.log("mapped Local Posts => ",mappedLocalPosts);
     try {
       console.log("try block");
       await updateDoc(docRef, {
-        posts: localPosts,
+        posts: mappedLocalPosts,
       });
       toast.success("Update Succcessful");
 
@@ -247,7 +250,8 @@ const Post = ({
     <Box className={classes.outerBox}>
       <Box>
         <Typography variant="h6" className={classes.username}>
-          {userEmail === currentUser.email ? "You" : userName}
+          
+          {userEmail && (userEmail === currentUser.email ? "You" : userName)}
           {/* {userEmail===currentUser.email ? "You" : userName} */}
         </Typography>
       </Box>

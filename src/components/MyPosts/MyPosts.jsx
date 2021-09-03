@@ -15,9 +15,6 @@ const MyPosts = ({ handleLike, like, allPosts, handleReloadAfterWassupUpload }) 
   const { currentUser } = useAuth();
   const [currentUserRefDoc, setcurrentUserRefDoc] = useState({});
 
-  // useEffect(() => {
-    
-  // }, [])
 
   
   

@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { Login, Home, Signup, ForgotPassword, MyPosts, AllPosts } from "./components";
 import "./index.css";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { HashRouter as Router, Switch, Route, Link } from "react-router-dom";
 import { AuthProvider } from "./contexts/AuthContext";
 import { db } from "./firebase";
 import { useAuth } from "./contexts/AuthContext";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { collection, getDocs } from "firebase/firestore";
+import PrivateRoute from "./components/PrivateRoute";
+
 
 const App = () => {
   const [docs, setDocs] = useState([]);
@@ -77,9 +79,11 @@ const App = () => {
             <Route path="/all-posts" >
               <AllPosts handleLike={handleLike} like={like} allPosts={allPosts}/>
             </Route>
-            <Route path="/" exact>
+            {/* <Route path="/" exact>
               <Home handleReloadAfterWassupUpload={handleReloadAfterWassupUpload}/>
-            </Route>
+            </Route> */}
+            <PrivateRoute path="/" exact handleReloadAfterWassupUpload={handleReloadAfterWassupUpload} component={Home} />
+
           </Switch>
         </AuthProvider>
       </Router>

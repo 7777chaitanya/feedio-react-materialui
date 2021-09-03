@@ -41,10 +41,11 @@ const Wassup = ({currentUser, handleReloadAfterWassupUpload}) => {
     try{
     await updateDoc(usersDocRef, {
         posts: arrayUnion({text : wassupText,
-        likes : 0})
+        likes : 0, 
+      date : new Date()})
     });
     setWassupText("");
-    handleReloadAfterWassupUpload();
+    // handleReloadAfterWassupUpload();e
 
     toast.success("Posted successfully");
 }
