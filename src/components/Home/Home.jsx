@@ -6,7 +6,7 @@ import { db } from "../../firebase";
 import { doc, getDoc } from "firebase/firestore";
 import { Box } from "@material-ui/core";
 
-const Home = ({handleReloadAfterWassupUpload}) => {
+const Home = ({handleAllPostsUpdateDeleteOptimistically,allPosts}) => {
   const { currentUser } = useAuth();
   const [currentUserDoc, setcurrentUserDoc] = useState({});
 
@@ -24,13 +24,13 @@ const Home = ({handleReloadAfterWassupUpload}) => {
     }
   }, []);
 
-  console.log("Home =>",currentUserDoc);
+  console.log("Home =>",handleAllPostsUpdateDeleteOptimistically);
   
 
   return (
     <div>
-      <NavBar currentUsername={currentUserDoc.username} handleReloadAfterWassupUpload={handleReloadAfterWassupUpload}/>
-      <Wassup currentUser={currentUser} handleReloadAfterWassupUpload={handleReloadAfterWassupUpload}/>
+      <NavBar currentUsername={currentUserDoc.username} handleAllPostsUpdateDeleteOptimistically={handleAllPostsUpdateDeleteOptimistically} />
+      <Wassup currentUser={currentUser} handleAllPostsUpdateDeleteOptimistically={handleAllPostsUpdateDeleteOptimistically} allPosts={allPosts}/>
     </div>
   );
 };

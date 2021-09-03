@@ -8,7 +8,7 @@ import { auth } from "../../firebase.js";
 import { useAuth } from "../../contexts/AuthContext";
 
 
-const NavBar = ({currentUsername}) => {
+const NavBar = ({currentUsername, handleAllPostsUpdateDeleteOptimistically}) => {
   const classes = useStyles();
   const [error, setError] = useState("");
   const history = useHistory();
@@ -67,9 +67,9 @@ const NavBar = ({currentUsername}) => {
             <img className={classes.logo} src={feedionameCropped} alt="logo" />
         </Box> */}
         {/* <ThemeProvider theme={themeGreen}> */}
-        <Button color="inherit" component={Link} to="/my-posts">My posts</Button>
+        <Button color="inherit" component={Link} to="/my-posts" handleAllPostsUpdateDeleteOptimistically={handleAllPostsUpdateDeleteOptimistically}>My posts</Button>
 
-        <Button color="inherit" component={Link} to="/all-posts">All Posts</Button>
+        <Button color="inherit" component={Link} to="/all-posts" handleAllPostsUpdateDeleteOptimistically={handleAllPostsUpdateDeleteOptimistically}>All Posts</Button>
         <Button color="inherit" onClick={handleLogout}>Log out</Button>
         {/* </ThemeProvider> */}
       </Toolbar>

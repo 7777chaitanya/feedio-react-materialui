@@ -7,21 +7,21 @@ import { useAuth } from "../../contexts/AuthContext";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../../firebase";
 import feedionameCropped from "./feedionameCropped.png";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 
-
-const MyPosts = ({ handleLike, like, allPosts, handleReloadAfterWassupUpload }) => {
+const MyPosts = ({
+  handleLike,
+  like,
+  allPosts,
+  handleAllPostsUpdateDeleteOptimistically
+}) => {
   const classes = useStyles();
   const { currentUser } = useAuth();
   const [currentUserRefDoc, setcurrentUserRefDoc] = useState({});
 
-
-  
-  
-  // let currentUserDoc = currentUser ? allPosts.find(user => user.email === currentUser.email) : null;
-  // allPosts.forEach(user => console.log("user email => ",user.email));
-  let myPosts = allPosts.find(post => currentUser && post.email=== currentUser.email)
-  // console.log("allPosts from MyPosts =>", currentUserDoc && (currentUserDoc, currentUser.email));
+  let myPosts = allPosts.find(
+    (post) => currentUser && post.email === currentUser.email
+  );
   useEffect(async () => {
     const docRef = doc(db, "users", currentUser.email);
     const docSnap = await getDoc(docRef);
@@ -30,16 +30,15 @@ const MyPosts = ({ handleLike, like, allPosts, handleReloadAfterWassupUpload }) 
       console.log("Document data:", docSnap.data());
       setcurrentUserRefDoc(docSnap.data());
     } else {
-      // doc.data() will be undefined in this case
       console.log("No such document!");
     }
   }, []);
 
+  console.log("dummy in posts => ",handleAllPostsUpdateDeleteOptimistically)
 
   return (
     <>
-    <Box className={classes.box} component={Link}
-          to="/">
+      <Box className={classes.box} component={Link} to="/">
         <img
           className={classes.logo}
           src={feedionameCropped}
@@ -51,19 +50,25 @@ const MyPosts = ({ handleLike, like, allPosts, handleReloadAfterWassupUpload }) 
       </Box> */}
 
       <Box className={classes.navbar}>
-        <NavBar currentUsername={currentUserRefDoc.username}/>
+        <NavBar currentUsername={currentUserRefDoc.username} />
       </Box>
-      {myPosts && myPosts.posts.map(post => 
-      <Box className={classes.postItem}>
-          <Post handleLike={handleLike} like={like} likesCount={post.likes} wassupText={post.text} allPosts={allPosts} myPosts={myPosts} handleReloadAfterWassupUpload={handleReloadAfterWassupUpload} userEmail={currentUser.email}/>
-        </Box>)}
-      
-        
-      
+      {myPosts &&
+        myPosts.posts.map((post) => (
+          <Box className={classes.postItem}>
+            <Post
+              handleLike={handleLike}
+              like={like}
+              likesCount={post.likes}
+              wassupText={post.text}
+              allPosts={allPosts}
+              myPosts={myPosts}
+              handleAllPostsUpdateDeleteOptimistically={handleAllPostsUpdateDeleteOptimistically}
+              userEmail={currentUser.email}
+            />
+          </Box>
+        ))}
     </>
   );
 };
 
 export default MyPosts;
-
-

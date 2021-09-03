@@ -8,7 +8,7 @@ import { arrayUnion, updateDoc, doc } from "firebase/firestore";
 import { ToastContainer, toast } from "react-toastify";
 import { db } from "../../firebase";
 
-const Wassup = ({currentUser, handleReloadAfterWassupUpload}) => {
+const Wassup = ({currentUser, handleAllPostsUpdateDeleteOptimistically, allPosts}) => {
 //   const wassupRef = useRef();
   const classes = useStyles();
     const [wassupText, setWassupText] = useState("");
@@ -38,7 +38,20 @@ const Wassup = ({currentUser, handleReloadAfterWassupUpload}) => {
 
   const handlePostToFirestore = async () => {
     const usersDocRef = doc(db, 'users', currentUser.email);
+    
     try{
+      console.log("haha ",allPosts);
+      console.log("handleAllPostsUpdateDeleteOptimistically,.,.",handleAllPostsUpdateDeleteOptimistically)
+      let localRef = allPosts.find(post => currentUser.email === post.email);
+      let localRefSpread = [...(localRef.posts)];
+     
+      localRefSpread.push({
+        text : wassupText,
+        likes : 0,
+        date : new Date()
+      })
+      console.log("lala lala=>",localRefSpread);
+      handleAllPostsUpdateDeleteOptimistically(localRefSpread,currentUser.email);
     await updateDoc(usersDocRef, {
         posts: arrayUnion({text : wassupText,
         likes : 0, 

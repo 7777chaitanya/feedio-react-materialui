@@ -16,7 +16,6 @@ const App = () => {
   const [like, setLike] = useState(false);
   const [allPosts, setAllPosts] = useState([]);
   
-  console.log("allPosts => ", allPosts);
 
   useEffect(async () => {
     let allPosts = [];
@@ -27,23 +26,26 @@ const App = () => {
     setAllPosts(allPosts);
   }, []);
 
-  const handleReloadAfterWassupUpload = async () =>{
-    let allPosts = [];
-    const querySnapshot = await getDocs(collection(db, "users"));
-    querySnapshot.forEach((doc) => {
-      allPosts.push(doc.data());
-    });
-    setAllPosts(allPosts);
-  }
-
   const handleLike = (e) => {
-    console.log("handleLIke");
     if (!like) {
       setLike(true);
     } else {
       setLike(false);
     }
   };
+
+  const handleAllPostsUpdateDeleteOptimistically = (input,email) => {
+    console.log("handleAllPostsUpdateDeleteOptimistically",input, email);
+    let localPosts = [...allPosts];
+    let refPost = localPosts.find(post => {
+      return post.email === email;
+    })
+    refPost.posts = input;
+    setAllPosts(localPosts);
+    console.log("uddater => ",localPosts);
+
+  }
+
 
   return (
     <>
@@ -70,19 +72,27 @@ const App = () => {
             <Route path="/forgot-password">
               <ForgotPassword />
             </Route>
-            <Route path="/my-posts" >
+            {/* <Route path="/my-posts" >
               <MyPosts handleLike={handleLike} like={like} allPosts={allPosts}/>
-            </Route>
+            </Route> */}
             <Route path="/my-posts" >
-              <AllPosts handleLike={handleLike} like={like} allPosts={allPosts} handleReloadAfterWassupUpload={handleReloadAfterWassupUpload}/>
+              <MyPosts 
+                handleLike={handleLike} 
+                like={like} 
+                allPosts={allPosts} 
+                handleAllPostsUpdateDeleteOptimistically={handleAllPostsUpdateDeleteOptimistically} />
             </Route>
             <Route path="/all-posts" >
-              <AllPosts handleLike={handleLike} like={like} allPosts={allPosts}/>
+              <AllPosts 
+                handleLike={handleLike} 
+                like={like} 
+                allPosts={allPosts} 
+                handleAllPostsUpdateDeleteOptimistically={handleAllPostsUpdateDeleteOptimistically} />
             </Route>
             {/* <Route path="/" exact>
-              <Home handleReloadAfterWassupUpload={handleReloadAfterWassupUpload}/>
+              <Home />
             </Route> */}
-            <PrivateRoute path="/" exact handleReloadAfterWassupUpload={handleReloadAfterWassupUpload} component={Home} />
+            <PrivateRoute component={Home}  allPosts={allPosts} handleAllPostsUpdateDeleteOptimistically={handleAllPostsUpdateDeleteOptimistically} path="/" exact />
 
           </Switch>
         </AuthProvider>

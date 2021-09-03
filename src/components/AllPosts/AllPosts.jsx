@@ -9,7 +9,7 @@ import { doc, getDoc } from "firebase/firestore";
 import { db } from "../../firebase";
 import { useLocation, Link } from "react-router-dom";
 
-const AllPosts = ({ handleLike, like, allPosts }) => {
+const AllPosts = ({ handleLike, like, allPosts, handleAllPostsUpdateDeleteOptimistically }) => {
   const classes = useStyles();
   const { currentUser } = useAuth();
   const [currentUserRefDoc, setcurrentUserRefDoc] = useState({});

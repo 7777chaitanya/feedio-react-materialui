@@ -52,8 +52,8 @@ const Post = ({
   userName,
   allPosts,
   myPosts,
-  handleReloadAfterWassupUpload,
-  userEmail,
+  handleAllPostsUpdateDeleteOptimistically,
+  userEmail
 }) => {
   const wassupTextBeforeChange = wassupText;
   const classes = useStyles();
@@ -83,12 +83,11 @@ const Post = ({
     setOpen(true);
   };
 
+
   const handleModalClose = async () => {
     const docRef = doc(db, "users", currentUser.email);
-    console.log(docRef);
-    console.log("allPosts =>", myPosts);
-    console.log("myPosts => ", myPosts);
     const localPosts = myPosts && myPosts.posts;
+    console.log(localPosts)
     const postToUpdate =
       localPosts &&
       localPosts.find((post) => post.text === wassupTextBeforeChange);
@@ -99,9 +98,11 @@ const Post = ({
     const mappedLocalPosts = localPosts.map((post) => {
       return { text: post.text, likes: post.likes, date: post.date };
     });
-    console.log("mapped Local Posts => ",mappedLocalPosts);
+
     try {
-      console.log("try block");
+      handleAllPostsUpdateDeleteOptimistically(mappedLocalPosts,currentUser.email);
+      setOpen(false);
+      // throw new Error();
       await updateDoc(docRef, {
         posts: mappedLocalPosts,
       });
@@ -111,6 +112,7 @@ const Post = ({
       // handleReloadAfterWassupUpload();
     } catch (e) {
       toast.warn("Update failed. Please retry");
+
     }
 
     // await updateDoc(docRef)
@@ -164,26 +166,28 @@ const Post = ({
   };
 
   const handleDelete = async () => {
-    console.log("deleted");
+    
     const docRef = doc(db, "users", userEmail);
 
     const localPosts = myPosts.posts;
 
     const filteredPosts = localPosts.filter((post) => post.text !== wassupText);
-    console.log("handleDelete => ", filteredPosts);
     try {
-      console.log("try block");
+      handleAllPostsUpdateDeleteOptimistically(filteredPosts,currentUser.email);
+      setOpenDelete(false);
+
       await updateDoc(docRef, {
         posts: filteredPosts,
       });
       toast.success("Deleted Post!");
 
-      // setOpenDelete(false);
       // handleReloadAfterWassupUpload();
     } catch (e) {
+      handleAllPostsUpdateDeleteOptimistically(localPosts,currentUser.email);
+      setOpenDelete(false);
       toast.warn("Failed to Delete. Please retry!");
     }
-    setOpenDelete(false);
+    
   };
 
   const bodyDelete = (
@@ -223,9 +227,7 @@ const Post = ({
     const docSnap = await getDoc(docRef);
 
     if (docSnap.exists()) {
-      console.log("Document data:", docSnap.data());
     } else {
-      // doc.data() will be undefined in this case
       console.log("No such document!");
     }
 
