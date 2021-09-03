@@ -53,7 +53,8 @@ const Post = ({
   allPosts,
   myPosts,
   handleAllPostsUpdateDeleteOptimistically,
-  userEmail
+  userEmail,
+  date,
 }) => {
   const wassupTextBeforeChange = wassupText;
   const classes = useStyles();
@@ -63,8 +64,9 @@ const Post = ({
   const { currentUser } = useAuth();
   const location = useLocation();
   const [like, setLike] = useState(false);
+  const [localLikeCount, setLocalLikeCount] = useState(likesCount);
 
-  console.log("myPosts in post => ",myPosts);
+  console.log("myPosts in post => ", myPosts);
 
   const theme = createTheme({
     palette: {
@@ -83,11 +85,10 @@ const Post = ({
     setOpen(true);
   };
 
-
   const handleModalClose = async () => {
     const docRef = doc(db, "users", currentUser.email);
     const localPosts = myPosts && myPosts.posts;
-    console.log(localPosts)
+    console.log(localPosts);
     const postToUpdate =
       localPosts &&
       localPosts.find((post) => post.text === wassupTextBeforeChange);
@@ -100,7 +101,10 @@ const Post = ({
     });
 
     try {
-      handleAllPostsUpdateDeleteOptimistically(mappedLocalPosts,currentUser.email);
+      handleAllPostsUpdateDeleteOptimistically(
+        mappedLocalPosts,
+        currentUser.email
+      );
       setOpen(false);
       // throw new Error();
       await updateDoc(docRef, {
@@ -112,7 +116,6 @@ const Post = ({
       // handleReloadAfterWassupUpload();
     } catch (e) {
       toast.warn("Update failed. Please retry");
-
     }
 
     // await updateDoc(docRef)
@@ -166,14 +169,16 @@ const Post = ({
   };
 
   const handleDelete = async () => {
-    
     const docRef = doc(db, "users", userEmail);
 
     const localPosts = myPosts.posts;
 
     const filteredPosts = localPosts.filter((post) => post.text !== wassupText);
     try {
-      handleAllPostsUpdateDeleteOptimistically(filteredPosts,currentUser.email);
+      handleAllPostsUpdateDeleteOptimistically(
+        filteredPosts,
+        currentUser.email
+      );
       setOpenDelete(false);
 
       await updateDoc(docRef, {
@@ -183,11 +188,10 @@ const Post = ({
 
       // handleReloadAfterWassupUpload();
     } catch (e) {
-      handleAllPostsUpdateDeleteOptimistically(localPosts,currentUser.email);
+      handleAllPostsUpdateDeleteOptimistically(localPosts, currentUser.email);
       setOpenDelete(false);
       toast.warn("Failed to Delete. Please retry!");
     }
-    
   };
 
   const bodyDelete = (
@@ -218,8 +222,10 @@ const Post = ({
 
   const handleLike = async (e) => {
     if (!like) {
+      setLocalLikeCount(localLikeCount+1);
       setLike(true);
     } else {
+      setLocalLikeCount(localLikeCount-1);
       setLike(false);
     }
 
@@ -232,30 +238,38 @@ const Post = ({
     }
 
     let posts = docSnap.data().posts;
-    posts.forEach(post => {
-      if(post.text === wassupText){
+    posts.forEach((post) => {
+      if (post.text === wassupText) {
         post.likes = post.likes + 1;
       }
     });
-    try{
-    await updateDoc(doc(db, "users", userEmail), {
-      posts
-    });
-  }catch(e){
-    console.log(e);
-  }
+    try {
+      await updateDoc(doc(db, "users", userEmail), {
+        posts,
+      });
+    } catch (e) {
+      console.log(e);
+    }
 
     console.log(posts);
   };
 
   return (
     <Box className={classes.outerBox}>
-      <Box>
-        <Typography variant="h6" className={classes.username}>
-          
-          {userEmail && (userEmail === currentUser.email ? "You" : userName)}
-          {/* {userEmail===currentUser.email ? "You" : userName} */}
-        </Typography>
+      <Box className={classes.userAndTime}>
+        <Box>
+          <Typography
+            variant="h6"
+            className={classes.username}
+            display="inline"
+          >
+            {userEmail && (userEmail === currentUser.email ? "You" : userName)}
+            {/* {userEmail===currentUser.email ? "You" : userName} */}
+          </Typography>
+        </Box>
+        {/* <Box>
+          <Typography display="inline" variant="body2">{date.toString()}</Typography>
+        </Box> */}
       </Box>
       <Box>
         <Typography>{wassupText}</Typography>
@@ -268,7 +282,7 @@ const Post = ({
             <FavoriteIcon onClick={handleLike} />
           )}
         </Box>
-        <Box>{likesCount} Likes</Box>
+        <Box>{localLikeCount} Likes</Box>
       </Box>
       {
         // (currentUser.email === userEmail)

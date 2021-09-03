@@ -115,6 +115,11 @@ const useStyles = makeStyles((theme) => ({
           justifyContent : "space-evenly",
           marginTop: "1rem"
       },
+      userAndTime:{
+          display: "flex",
+          justifyContent : "space-between",
+          alignItems : "center"
+      }
 
     
     // buttonBox:{

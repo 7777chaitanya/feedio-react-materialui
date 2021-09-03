@@ -56,6 +56,7 @@ const MyPosts = ({
         myPosts.posts.map((post) => (
           <Box className={classes.postItem}>
             <Post
+              date={post.date}
               handleLike={handleLike}
               like={like}
               likesCount={post.likes}
