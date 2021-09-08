@@ -254,6 +254,12 @@ const Post = ({
     console.log(posts);
   };
 
+  const handlePostUserName = () => {
+    if(currentUser){
+    return (userEmail === currentUser.email ? "You" : userName)
+    }
+  }
+
   return (
     <Box className={classes.outerBox}>
       <Box className={classes.userAndTime}>
@@ -263,7 +269,7 @@ const Post = ({
             className={classes.username}
             display="inline"
           >
-            {userEmail && (userEmail === currentUser.email ? "You" : userName)}
+            {userEmail && handlePostUserName()}
             {/* {userEmail===currentUser.email ? "You" : userName} */}
           </Typography>
         </Box>

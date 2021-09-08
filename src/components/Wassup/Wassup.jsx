@@ -55,7 +55,9 @@ const Wassup = ({currentUser, handleAllPostsUpdateDeleteOptimistically, allPosts
     await updateDoc(usersDocRef, {
         posts: arrayUnion({text : wassupText,
         likes : 0, 
-      date : new Date()})
+      date : new Date(),
+    
+    })
     });
     setWassupText("");
     // handleReloadAfterWassupUpload();e

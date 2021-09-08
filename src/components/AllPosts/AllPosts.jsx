@@ -16,6 +16,7 @@ const AllPosts = ({ handleLike, like, allPosts, handleAllPostsUpdateDeleteOptimi
   const location = useLocation();
 
   useEffect(async () => {
+    if(currentUser){
     const docRef = doc(db, "users", currentUser.email);
     const docSnap = await getDoc(docRef);
 
@@ -26,7 +27,8 @@ const AllPosts = ({ handleLike, like, allPosts, handleAllPostsUpdateDeleteOptimi
       // doc.data() will be undefined in this case
       console.log("No such document!");
     }
-  }, []);
+  }}, []);
+
 
 
   let myPosts = [];

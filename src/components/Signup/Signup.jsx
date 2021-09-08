@@ -77,7 +77,11 @@ const Signup = () => {
           email: emailRef.current.value,
           password: passwordRef.current.value,
           posts : [],
-          verified : false
+          verified : false,
+          avatarUrl : "",
+          follows : [],
+          followedBy : [], 
+          likedPosts : []
         });
         
         console.log("Document written with ID: ", docRef);
