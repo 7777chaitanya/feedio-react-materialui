@@ -18,9 +18,9 @@ const AllPosts = ({ handleLike, like, allPosts, handleAllPostsUpdateDeleteOptimi
   const [currentUserRefDoc, setcurrentUserRefDoc] = useState({});
   const location = useLocation();
   const [currentUserDoc, setCurrentUserDoc] = useContext(CurrentUserDetailsContext);
-  console.log("all posts bro => ", currentUserDoc);
+  // console.log("all posts bro => ", currentUserDoc);
   const [allUserDocs, setAllUserDocs] = useContext(AllUserDetailsContext);
-  console.log("allusercontext in allposts => ",allUserDocs)
+  // console.log("allusercontext in allposts => ",allUserDocs)
 
   // useEffect(async () => {
   //   if(currentUser){
@@ -52,7 +52,7 @@ const AllPosts = ({ handleLike, like, allPosts, handleAllPostsUpdateDeleteOptimi
     });
   });
 
-  console.log("my posts =>", myPosts && myPosts);
+  // console.log("my posts =>", myPosts && myPosts);
   return (
     <>
       <Box className={classes.box} component={Link}
@@ -69,7 +69,7 @@ const AllPosts = ({ handleLike, like, allPosts, handleAllPostsUpdateDeleteOptimi
       </Box> */}
 
       <Box className={classes.navbar}>
-        <NavBar currentUsername={currentUserRefDoc.username}/>
+        <NavBar currentUsername={currentUserDoc.username}/>
       </Box>
       {myPosts &&
         myPosts.map((post) => (

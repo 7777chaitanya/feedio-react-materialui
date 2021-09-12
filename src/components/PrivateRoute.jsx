@@ -2,7 +2,7 @@ import React from 'react';
 import {Route, Redirect} from "react-router-dom";
 import {useAuth} from "../contexts/AuthContext";
 
-const PrivateRoute = ({component:Component,handleAllPostsUpdateDeleteOptimistically,allPosts, ...rest}) => {
+const PrivateRoute = ({component:Component,handleAllPostsUpdateDeleteOptimistically,handleDummy,allPosts, ...rest}) => {
     const {currentUser}= useAuth();
     return (
         
@@ -10,7 +10,7 @@ const PrivateRoute = ({component:Component,handleAllPostsUpdateDeleteOptimistica
         {...rest} 
        
         >
-       { currentUser ? (<Component handleAllPostsUpdateDeleteOptimistically={handleAllPostsUpdateDeleteOptimistically} allPosts={allPosts}/>)  : <Redirect to="/login"/>}
+       { currentUser ? (<Component handleAllPostsUpdateDeleteOptimistically={handleAllPostsUpdateDeleteOptimistically} handleDummy={handleDummy} allPosts={allPosts}/>)  : <Redirect to="/login"/>}
 
         
         </Route>

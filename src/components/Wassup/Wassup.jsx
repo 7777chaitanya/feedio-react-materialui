@@ -20,12 +20,12 @@ const Wassup = ({
   currentUser,
   handleAllPostsUpdateDeleteOptimistically,
   allPosts,
+  handleDummy
 }) => {
   //   const wassupRef = useRef();
   const classes = useStyles();
   const [wassupText, setWassupText] = useState("");
   const [wassupImage, setWassupImage] = useState(null);
-  console.log("wassup image bro => ", wassupImage);
   const [allUserDocs, setAllUserDocs] = useContext(AllUserDetailsContext);
   const [currentUserDoc, setCurrentUserDoc] = useContext(
     CurrentUserDetailsContext
@@ -49,10 +49,10 @@ const Wassup = ({
   };
 
   const handlePostToFireStore = async (inputObj) => {
-    const currentUserDocRefInFirestore = doc(db, "users", currentUserDoc.email);
+    const currentUserDocRefInFirestore = doc(db, "users", currentUserDoc?.email);
     try {
       await updateDoc(currentUserDocRefInFirestore, {
-        posts: [...currentUserDoc.posts],
+        posts: [...currentUserDoc?.posts],
       });
     } catch (e) {
       console.log("error =>", e);
@@ -67,7 +67,6 @@ const Wassup = ({
 
     // posting image to firestore--------------------------------------------
     if (wassupImage) {
-      // const mountainsRef = ref(storage, wassupImage.name);
       const storageRef = ref(storage, "images/" + file.name);
       const uploadTask = uploadBytesResumable(storageRef, file);
 
@@ -90,7 +89,6 @@ const Wassup = ({
         },
         (error) => {
           // A full list of error codes is available at
-          // https://firebase.google.com/docs/storage/web/handle-errors
           switch (error.code) {
             case "storage/unauthorized":
               // User doesn't have permission to access the object
@@ -116,18 +114,23 @@ const Wassup = ({
             postObj.date = new Date();
             console.log("postObbj =>", postObj);
 
-            setCurrentUserDoc((prevState) => prevState?.posts?.push(postObj));
-            console.log("after state update => ", currentUserDoc);
+            setCurrentUserDoc((prevState) =>{
+              //  prevState?.posts?.push(postObj)
+              const localCurrentUserDocRef = {...prevState};
+              localCurrentUserDocRef.posts.push(postObj);
+              return {...localCurrentUserDocRef}
+              });
+            console.log("currentUserDoc after state update=> ", currentUserDoc);
             setAllUserDocs((prevState) => {
               const localAllDocsRef = [...prevState];
               const currentUserDocToChange = localAllDocsRef.find(
                 (doc) => doc.email === currentUserDoc.email
               );
               currentUserDocToChange?.posts?.push(postObj);
-              console.log("localAllDocsRef => ", localAllDocsRef);
+              // console.log("localAllDocsRef => ", localAllDocsRef);
               return localAllDocsRef;
             });
-            console.log("all docs state update => ", allUserDocs);
+            console.log("allUserDocs after state update => ", allUserDocs);
             handlePostToFireStore({ ...postObj });
           });
         }
@@ -136,20 +139,25 @@ const Wassup = ({
       postObj.likes = 0;
       postObj.text = wassupText;
       postObj.date = new Date();
-      console.log("postObbj else =>", postObj);
+      // console.log("postObbj else =>", postObj);
 
-      setCurrentUserDoc((prevState) => prevState.posts.push(postObj));
-      console.log("after state update => ", currentUserDoc);
+      setCurrentUserDoc((prevState) =>{
+        //  prevState?.posts?.push(postObj)
+        const localCurrentUserDocRef = {...prevState};
+        localCurrentUserDocRef.posts.push(postObj);
+        return {...localCurrentUserDocRef}
+        });
+      console.log("currentUserDoc after state update => ", currentUserDoc);
       setAllUserDocs((prevState) => {
         const localAllDocsRef = [...prevState];
         const currentUserDocToChange = localAllDocsRef.find(
           (doc) => doc.email === currentUserDoc.email
         );
         currentUserDocToChange.posts.push(postObj);
-        console.log("localAllDocsRef => ", localAllDocsRef);
+        // console.log("localAllDocsRef => ", localAllDocsRef);
         return localAllDocsRef;
       });
-      console.log("all docs state update => ", allUserDocs);
+      console.log("allUserDocs after state update  => ", allUserDocs);
       handlePostToFireStore({ ...postObj });
     }
 

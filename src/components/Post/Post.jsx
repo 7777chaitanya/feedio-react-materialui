@@ -67,7 +67,6 @@ const Post = ({
   const [like, setLike] = useState(false);
   const [localLikeCount, setLocalLikeCount] = useState(likesCount);
 
-  console.log("myPosts in post => ", myPosts);
 
   const theme = createTheme({
     palette: {

@@ -10,17 +10,6 @@ export const CurrentUserDetailsProvider = ({ children }) => {
   const [currentUserDoc, setCurrentUserDoc] = useState({});
   console.log("hoola hoop=>", currentUserDoc);
 
-  // const fetchCurrentUserDocument = async () => {
-  //   const docRef = doc(db, "users", currentUser);
-  //   const docSnap = await getDoc(docRef);
-  //   if (docSnap.exists()) {
-  //     console.log("Document data:", docSnap?.data());
-  //     setCurrentUserDoc(docSnap?.data());
-  //   } else {
-  //     console.log("No such document!");
-  //   }
-  // };
-
   useEffect(async () => {
     if (currentUser) {
       const docRef = doc(db, "users", currentUser.email);

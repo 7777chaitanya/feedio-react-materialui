@@ -1,36 +1,28 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { useAuth } from "../../contexts/AuthContext";
 import Wassup from "../Wassup/Wassup";
 import NavBar from "../NavBar/NavBar";
 import { db } from "../../firebase";
 import { doc, getDoc } from "firebase/firestore";
 import { Box } from "@material-ui/core";
+import { CurrentUserDetailsContext } from '../../contexts/CurrentUserDetailsContext';
 
-const Home = ({handleAllPostsUpdateDeleteOptimistically,allPosts}) => {
+const Home = ({handleAllPostsUpdateDeleteOptimistically,handleDummy,allPosts}) => {
   const { currentUser } = useAuth();
-  const [currentUserDoc, setcurrentUserDoc] = useState({});
+  const [currentUserDoc, setCurrentUserDoc] = useContext(
+    CurrentUserDetailsContext
+  );
 
-  useEffect(async () => {
-    const docRef = doc(db, "users", currentUser.email);
-    const docSnap = await getDoc(docRef);
+
     
 
-    if (docSnap.exists()) {
-      console.log("Document data:", docSnap.data());
-      setcurrentUserDoc(docSnap.data());
-    } else {
-      // doc.data() will be undefined in this case
-      console.log("No such document!");
-    }
-  }, []);
 
-  console.log("Home =>",handleAllPostsUpdateDeleteOptimistically);
   
 
   return (
     <div>
       <NavBar currentUsername={currentUserDoc.username} handleAllPostsUpdateDeleteOptimistically={handleAllPostsUpdateDeleteOptimistically} />
-      <Wassup currentUser={currentUser} handleAllPostsUpdateDeleteOptimistically={handleAllPostsUpdateDeleteOptimistically} allPosts={allPosts}/>
+      <Wassup currentUser={currentUser} handleAllPostsUpdateDeleteOptimistically={handleAllPostsUpdateDeleteOptimistically} handleDummy={handleDummy} allPosts={allPosts}/>
     </div>
   );
 };

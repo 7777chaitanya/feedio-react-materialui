@@ -1,4 +1,4 @@
-import React, {  useState } from "react";
+import React, {  useState, useContext } from "react";
 import { AppBar, Box, Button, createTheme, IconButton, ThemeProvider, Toolbar, Typography } from "@material-ui/core";
 import MenuIcon from '@material-ui/icons/Menu';
 import useStyles from "./styles.js";
@@ -6,6 +6,7 @@ import feedionameCropped from "./feedionameCropped.png";
 import { useHistory, Link } from 'react-router-dom';
 import { auth } from "../../firebase.js";
 import { useAuth } from "../../contexts/AuthContext";
+import { CurrentUserDetailsContext } from '../../contexts/CurrentUserDetailsContext';
 
 
 const NavBar = ({currentUsername, handleAllPostsUpdateDeleteOptimistically}) => {
@@ -13,6 +14,10 @@ const NavBar = ({currentUsername, handleAllPostsUpdateDeleteOptimistically}) => 
   const [error, setError] = useState("");
   const history = useHistory();
   const {logout } = useAuth();
+  const [currentUserDoc, setCurrentUserDoc] = useContext(CurrentUserDetailsContext);
+
+  console.log("Navbar =>",currentUserDoc)
+
 
 
   const themeGreen = createTheme({
@@ -61,7 +66,7 @@ const NavBar = ({currentUsername, handleAllPostsUpdateDeleteOptimistically}) => 
           <MenuIcon />
         </IconButton>
         <Typography variant="h6" className={classes.title}>
-          Hi, {currentUsername}
+          Hi, {currentUserDoc.username}
         </Typography>
         {/* <Box className={classes.logoBox}>
             <img className={classes.logo} src={feedionameCropped} alt="logo" />

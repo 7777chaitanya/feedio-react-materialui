@@ -23,6 +23,11 @@ const App = () => {
   const [docs, setDocs] = useState([]);
   const [like, setLike] = useState(false);
   const [allPosts, setAllPosts] = useState([]);
+  const [dummy, setDummy] = useState(true);
+
+  const handleDummy = () => {
+    setDummy(prevState => !prevState);
+  }
 
   useEffect(async () => {
     let allPosts = [];
@@ -111,6 +116,7 @@ const App = () => {
                   handleAllPostsUpdateDeleteOptimistically={
                     handleAllPostsUpdateDeleteOptimistically
                   }
+                  handleDummy={handleDummy}
                   path="/"
                   exact
                 />
