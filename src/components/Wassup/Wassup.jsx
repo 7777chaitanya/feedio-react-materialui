@@ -1,12 +1,20 @@
 import { Avatar, Box, Button, IconButton, TextField } from "@material-ui/core";
-import React from "react";
+import React, { useContext } from "react";
 import { createTheme, ThemeProvider } from "@material-ui/core/styles";
 import { useRef, useState } from "react";
 import useStyles from "./styles";
 import { PhotoCamera } from "@material-ui/icons";
 import { arrayUnion, updateDoc, doc } from "firebase/firestore";
 import { ToastContainer, toast } from "react-toastify";
-import { db } from "../../firebase";
+import { db, storage } from "../../firebase";
+import {
+  getStorage,
+  ref,
+  uploadBytesResumable,
+  getDownloadURL,
+} from "firebase/storage";
+import { AllUserDetailsContext } from "../../contexts/AllUserDetailsContext";
+import { CurrentUserDetailsContext } from "../../contexts/CurrentUserDetailsContext";
 
 const Wassup = ({
   currentUser,
@@ -18,6 +26,10 @@ const Wassup = ({
   const [wassupText, setWassupText] = useState("");
   const [wassupImage, setWassupImage] = useState(null);
   console.log("wassup image bro => ", wassupImage);
+  const [allUserDocs, setAllUserDocs] = useContext(AllUserDetailsContext);
+  const [currentUserDoc, setCurrentUserDoc] = useContext(
+    CurrentUserDetailsContext
+  );
 
   const theme = createTheme({
     palette: {
@@ -28,8 +40,6 @@ const Wassup = ({
     },
   });
 
-  console.log("wassup text =>", wassupText);
-
   const handleWassupTextChange = (e) => {
     setWassupText(e.target.value);
   };
@@ -38,34 +48,143 @@ const Wassup = ({
     e.target.files[0] && setWassupImage(e.target.files[0]);
   };
 
-  const handlePostToFirestore = async () => {
-    const usersDocRef = doc(db, "users", currentUser.email);
-
+  const handlePostToFireStore = async (inputObj) => {
+    const currentUserDocRefInFirestore = doc(db, "users", currentUserDoc.email);
     try {
-      let localRef = allPosts.find((post) => currentUser.email === post.email);
-      let localRefSpread = [...localRef.posts];
-
-      localRefSpread.push({
-        text: wassupText,
-        likes: 0,
-        date: new Date(),
+      await updateDoc(currentUserDocRefInFirestore, {
+        posts: [...currentUserDoc.posts],
       });
-      console.log("lala lala=>", localRefSpread);
-      handleAllPostsUpdateDeleteOptimistically(
-        localRefSpread,
-        currentUser.email
-      );
-      await updateDoc(usersDocRef, {
-        posts: arrayUnion({ text: wassupText, likes: 0, date: new Date() }),
-      });
-      setWassupText("");
-      // handleReloadAfterWassupUpload();e
-
-      toast.success("Posted successfully");
     } catch (e) {
-      toast.warn("Couldn't post at the moment. Please retry after sometime!");
+      console.log("error =>", e);
     }
   };
+
+  const handlePostToFireStorage = async () => {
+    const postObj = {};
+    // console.log(wassupImage.name);
+    console.log(wassupText);
+    const file = wassupImage;
+
+    // posting image to firestore--------------------------------------------
+    if (wassupImage) {
+      // const mountainsRef = ref(storage, wassupImage.name);
+      const storageRef = ref(storage, "images/" + file.name);
+      const uploadTask = uploadBytesResumable(storageRef, file);
+
+      // Listen for state changes, errors, and completion of the upload.
+      uploadTask.on(
+        "state_changed",
+        (snapshot) => {
+          // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+          const progress =
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          console.log("Upload is " + progress + "% done");
+          switch (snapshot.state) {
+            case "paused":
+              console.log("Upload is paused");
+              break;
+            case "running":
+              console.log("Upload is running");
+              break;
+          }
+        },
+        (error) => {
+          // A full list of error codes is available at
+          // https://firebase.google.com/docs/storage/web/handle-errors
+          switch (error.code) {
+            case "storage/unauthorized":
+              // User doesn't have permission to access the object
+              break;
+            case "storage/canceled":
+              // User canceled the upload
+              break;
+
+            // ...
+
+            case "storage/unknown":
+              // Unknown error occurred, inspect error.serverResponse
+              break;
+          }
+        },
+        () => {
+          // Upload completed successfully, now we can get the download URL
+          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+            console.log("File available at", downloadURL);
+            postObj.imageUrl = downloadURL;
+            postObj.likes = 0;
+            postObj.text = wassupText;
+            postObj.date = new Date();
+            console.log("postObbj =>", postObj);
+
+            setCurrentUserDoc((prevState) => prevState?.posts?.push(postObj));
+            console.log("after state update => ", currentUserDoc);
+            setAllUserDocs((prevState) => {
+              const localAllDocsRef = [...prevState];
+              const currentUserDocToChange = localAllDocsRef.find(
+                (doc) => doc.email === currentUserDoc.email
+              );
+              currentUserDocToChange?.posts?.push(postObj);
+              console.log("localAllDocsRef => ", localAllDocsRef);
+              return localAllDocsRef;
+            });
+            console.log("all docs state update => ", allUserDocs);
+            handlePostToFireStore({ ...postObj });
+          });
+        }
+      );
+    } else {
+      postObj.likes = 0;
+      postObj.text = wassupText;
+      postObj.date = new Date();
+      console.log("postObbj else =>", postObj);
+
+      setCurrentUserDoc((prevState) => prevState.posts.push(postObj));
+      console.log("after state update => ", currentUserDoc);
+      setAllUserDocs((prevState) => {
+        const localAllDocsRef = [...prevState];
+        const currentUserDocToChange = localAllDocsRef.find(
+          (doc) => doc.email === currentUserDoc.email
+        );
+        currentUserDocToChange.posts.push(postObj);
+        console.log("localAllDocsRef => ", localAllDocsRef);
+        return localAllDocsRef;
+      });
+      console.log("all docs state update => ", allUserDocs);
+      handlePostToFireStore({ ...postObj });
+    }
+
+    // posting description, imageUrl, postDate to firestore---------------------------
+  };
+
+  // const handlePostToFirestore = async () => {
+  //   const usersDocRef = doc(db, "users", currentUser.email);
+
+  //   try {
+  //     let localRef = allPosts.find((post) => currentUser.email === post.email);
+  //     let localRefSpread = [...localRef.posts];
+
+  //     localRefSpread.push({
+  //       text: wassupText,
+  //       likes: 0,
+  //       date: new Date(),
+  //     });
+  //     console.log("lala lala=>", localRefSpread);
+  //     handleAllPostsUpdateDeleteOptimistically(
+  //       localRefSpread,
+  //       currentUser.email
+  //     );
+  //     await updateDoc(usersDocRef, {
+  //       posts: arrayUnion({ text: wassupText, likes: 0, date: new Date() }),
+  //     });
+  //     setWassupText("");
+  //     // handleReloadAfterWassupUpload();e
+
+  //     toast.success("Posted successfully");
+  //   } catch (e) {
+  //     toast.warn("Couldn't post at the moment. Please retry after sometime!");
+  //   }
+  // };
+
   return (
     <>
       <Box className={classes.mainOuterBox}>
@@ -89,7 +208,10 @@ const Wassup = ({
               </ThemeProvider>
             </Box>
 
-            <Box onClick={handlePostToFirestore} className={classes.postButton}>
+            <Box
+              onClick={handlePostToFireStorage}
+              className={classes.postButton}
+            >
               <ThemeProvider theme={theme}>
                 <Button variant="contained" color="secondary">
                   POST

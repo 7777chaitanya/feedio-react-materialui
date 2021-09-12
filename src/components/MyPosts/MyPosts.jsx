@@ -14,7 +14,8 @@ const MyPosts = ({
   handleLike,
   like,
   allPosts,
-  handleAllPostsUpdateDeleteOptimistically
+  handleAllPostsUpdateDeleteOptimistically,
+  
 }) => {
   const classes = useStyles();
   const { currentUser } = useAuth();
@@ -66,6 +67,7 @@ const MyPosts = ({
               myPosts={myPosts}
               handleAllPostsUpdateDeleteOptimistically={handleAllPostsUpdateDeleteOptimistically}
               userEmail={currentUser.email}
+              imageUrl={post.imageUrl}
             />
           </Box>
         ))}

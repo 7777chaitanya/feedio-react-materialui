@@ -55,6 +55,7 @@ const Post = ({
   handleAllPostsUpdateDeleteOptimistically,
   userEmail,
   date,
+  imageUrl
 }) => {
   const wassupTextBeforeChange = wassupText;
   const classes = useStyles();
@@ -276,6 +277,9 @@ const Post = ({
         {/* <Box>
           <Typography display="inline" variant="body2">{date.toString()}</Typography>
         </Box> */}
+      </Box>
+      <Box>
+          <img src={imageUrl} alt="" style={{width : "25rem"}}/>
       </Box>
       <Box>
         <Typography>{wassupText}</Typography>

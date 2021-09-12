@@ -81,6 +81,7 @@ const AllPosts = ({ handleLike, like, allPosts, handleAllPostsUpdateDeleteOptimi
               wassupText={post.text}
               userName={post.username}
               userEmail={post.email}
+              imageUrl={post.imageUrl}
             />
           </Box>
         ))}
