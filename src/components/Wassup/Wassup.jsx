@@ -20,7 +20,7 @@ const Wassup = ({
   currentUser,
   handleAllPostsUpdateDeleteOptimistically,
   allPosts,
-  handleDummy
+  handleDummy,
 }) => {
   //   const wassupRef = useRef();
   const classes = useStyles();
@@ -49,7 +49,11 @@ const Wassup = ({
   };
 
   const handlePostToFireStore = async (inputObj) => {
-    const currentUserDocRefInFirestore = doc(db, "users", currentUserDoc?.email);
+    const currentUserDocRefInFirestore = doc(
+      db,
+      "users",
+      currentUserDoc?.email
+    );
     try {
       await updateDoc(currentUserDocRefInFirestore, {
         posts: [...currentUserDoc?.posts],
@@ -62,7 +66,7 @@ const Wassup = ({
   const handlePostToFireStorage = async () => {
     const postObj = {};
     // console.log(wassupImage.name);
-    console.log(wassupText);
+    // console.log(wassupText);
     const file = wassupImage;
 
     // posting image to firestore--------------------------------------------
@@ -112,14 +116,16 @@ const Wassup = ({
             postObj.likes = 0;
             postObj.text = wassupText;
             postObj.date = new Date();
-            console.log("postObbj =>", postObj);
+            postObj.username = currentUserDoc.username;
+            postObj.email = currentUserDoc.email;
+            // console.log("postObbj =>", postObj);
 
-            setCurrentUserDoc((prevState) =>{
+            setCurrentUserDoc((prevState) => {
               //  prevState?.posts?.push(postObj)
-              const localCurrentUserDocRef = {...prevState};
+              const localCurrentUserDocRef = { ...prevState };
               localCurrentUserDocRef.posts.push(postObj);
-              return {...localCurrentUserDocRef}
-              });
+              return { ...localCurrentUserDocRef };
+            });
             console.log("currentUserDoc after state update=> ", currentUserDoc);
             setAllUserDocs((prevState) => {
               const localAllDocsRef = [...prevState];
@@ -139,14 +145,16 @@ const Wassup = ({
       postObj.likes = 0;
       postObj.text = wassupText;
       postObj.date = new Date();
-      // console.log("postObbj else =>", postObj);
+      postObj.username = currentUserDoc.username;
+      postObj.email = currentUserDoc.email;
+      console.log("postObbj else =>", postObj);
 
-      setCurrentUserDoc((prevState) =>{
+      setCurrentUserDoc((prevState) => {
         //  prevState?.posts?.push(postObj)
-        const localCurrentUserDocRef = {...prevState};
+        const localCurrentUserDocRef = { ...prevState };
         localCurrentUserDocRef.posts.push(postObj);
-        return {...localCurrentUserDocRef}
-        });
+        return { ...localCurrentUserDocRef };
+      });
       console.log("currentUserDoc after state update => ", currentUserDoc);
       setAllUserDocs((prevState) => {
         const localAllDocsRef = [...prevState];

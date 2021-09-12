@@ -18,41 +18,28 @@ const AllPosts = ({ handleLike, like, allPosts, handleAllPostsUpdateDeleteOptimi
   const [currentUserRefDoc, setcurrentUserRefDoc] = useState({});
   const location = useLocation();
   const [currentUserDoc, setCurrentUserDoc] = useContext(CurrentUserDetailsContext);
-  // console.log("all posts bro => ", currentUserDoc);
   const [allUserDocs, setAllUserDocs] = useContext(AllUserDetailsContext);
-  // console.log("allusercontext in allposts => ",allUserDocs)
-
-  // useEffect(async () => {
-  //   if(currentUser){
-  //   const docRef = doc(db, "users", currentUser.email);
-  //   const docSnap = await getDoc(docRef);
-
-  //   if (docSnap.exists()) {
-  //     console.log("Document data:", docSnap.data());
-  //     setcurrentUserRefDoc(docSnap.data());
-  //   } else {
-  //     // doc.data() will be undefined in this case
-  //     console.log("No such document!");
-  //   }
-  // }}, []);
+  // console.log("all User docs bro => ", allUserDocs)
+  let allThePosts = [];
+  allUserDocs?.forEach(doc=>doc?.posts.forEach(post => allThePosts.push(post)));
+  console.log("AllPosts extracted",allThePosts);
+  
 
 
 
-  let myPosts = [];
-  allPosts.forEach((post) => {
-    let username = post.username;
-    let email = post.email;
-    // console.log("post =>", post);
-    let tempArray = post.posts;
-    tempArray && tempArray.forEach((obj) => {
-      obj.username = username;
-      obj.email=email;
-      console.log("obj =>",obj);
-      myPosts.push(obj);
-    });
-  });
+  // let myPosts = [];
+  // allPosts.forEach((post) => {
+  //   let username = post.username;
+  //   let email = post.email;
+  //   let tempArray = post.posts;
+  //   tempArray && tempArray.forEach((obj) => {
+  //     obj.username = username;
+  //     obj.email=email;
+  //     // console.log("obj =>",obj);
+  //     myPosts.push(obj);
+  //   });
+  // });
 
-  // console.log("my posts =>", myPosts && myPosts);
   return (
     <>
       <Box className={classes.box} component={Link}
@@ -64,15 +51,12 @@ const AllPosts = ({ handleLike, like, allPosts, handleAllPostsUpdateDeleteOptimi
           
         />
       </Box>
-      {/* <Box className={classes.box}>
-        <Divider className={classes.divider} />
-      </Box> */}
+    
 
       <Box className={classes.navbar}>
         <NavBar currentUsername={currentUserDoc.username}/>
       </Box>
-      {myPosts &&
-        myPosts.map((post) => (
+      {allThePosts?.map((post) => (
           <Box className={classes.postItem}>
             <Post
               handleLike={handleLike}
