@@ -1,5 +1,5 @@
 import { Box, Divider } from "@material-ui/core";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import Post from "../Post/Post";
 import NavBar from "../NavBar/NavBar";
 import useStyles from "./styles.js";
@@ -8,26 +8,33 @@ import feedionameCropped from "./feedionameCropped.png";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../../firebase";
 import { useLocation, Link } from "react-router-dom";
+import { CurrentUserDetailsContext } from '../../contexts/CurrentUserDetailsContext';
+import {AllUserDetailsContext} from '../../contexts/AllUserDetailsContext';
+
 
 const AllPosts = ({ handleLike, like, allPosts, handleAllPostsUpdateDeleteOptimistically }) => {
   const classes = useStyles();
   const { currentUser } = useAuth();
   const [currentUserRefDoc, setcurrentUserRefDoc] = useState({});
   const location = useLocation();
+  const [currentUserDoc, setCurrentUserDoc] = useContext(CurrentUserDetailsContext);
+  console.log("all posts bro => ", currentUserDoc);
+  const [allUserDocs, setAllUserDocs] = useContext(AllUserDetailsContext);
+  console.log("allusercontext in allposts => ",allUserDocs)
 
-  useEffect(async () => {
-    if(currentUser){
-    const docRef = doc(db, "users", currentUser.email);
-    const docSnap = await getDoc(docRef);
+  // useEffect(async () => {
+  //   if(currentUser){
+  //   const docRef = doc(db, "users", currentUser.email);
+  //   const docSnap = await getDoc(docRef);
 
-    if (docSnap.exists()) {
-      console.log("Document data:", docSnap.data());
-      setcurrentUserRefDoc(docSnap.data());
-    } else {
-      // doc.data() will be undefined in this case
-      console.log("No such document!");
-    }
-  }}, []);
+  //   if (docSnap.exists()) {
+  //     console.log("Document data:", docSnap.data());
+  //     setcurrentUserRefDoc(docSnap.data());
+  //   } else {
+  //     // doc.data() will be undefined in this case
+  //     console.log("No such document!");
+  //   }
+  // }}, []);
 
 
 

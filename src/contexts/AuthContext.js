@@ -1,4 +1,5 @@
 import React, { useState, useContext, useEffect } from "react";
+import { CurrentUserDetailsProvider } from "./CurrentUserDetailsContext";
 
 import { auth } from "../firebase";
 import {
@@ -31,7 +32,7 @@ export function AuthProvider({ children }) {
     return signOut(auth);
   }
 
-  function passwordReset(auth, email, actionCodeSettings){
+  function passwordReset(auth, email, actionCodeSettings) {
     return sendPasswordResetEmail(auth, email, actionCodeSettings);
   }
 
@@ -50,11 +51,12 @@ export function AuthProvider({ children }) {
     login,
     logout,
     passwordReset,
+
   };
 
   return (
     <AuthContext.Provider value={value}>
-      {!loading && children}
+        {!loading && children}    
     </AuthContext.Provider>
   );
 }

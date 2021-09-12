@@ -8,12 +8,16 @@ import { arrayUnion, updateDoc, doc } from "firebase/firestore";
 import { ToastContainer, toast } from "react-toastify";
 import { db } from "../../firebase";
 
-const Wassup = ({currentUser, handleAllPostsUpdateDeleteOptimistically, allPosts}) => {
-//   const wassupRef = useRef();
+const Wassup = ({
+  currentUser,
+  handleAllPostsUpdateDeleteOptimistically,
+  allPosts,
+}) => {
+  //   const wassupRef = useRef();
   const classes = useStyles();
-    const [wassupText, setWassupText] = useState("");
-  const [wassupImage, setWassupImage] = useState();
-  
+  const [wassupText, setWassupText] = useState("");
+  const [wassupImage, setWassupImage] = useState(null);
+  console.log("wassup image bro => ", wassupImage);
 
   const theme = createTheme({
     palette: {
@@ -24,59 +28,52 @@ const Wassup = ({currentUser, handleAllPostsUpdateDeleteOptimistically, allPosts
     },
   });
 
-  console.log("wassup text =>",wassupText);
+  console.log("wassup text =>", wassupText);
 
-  const handleWassupImageChange = (event) => {
-    
-    console.log(event.target.files[0]);
-    setWassupImage(event.target.files[0]);
-  }
+  const handleWassupTextChange = (e) => {
+    setWassupText(e.target.value);
+  };
 
-  const handleWassupTextChange = (e) =>{
-    setWassupText(e.target.value)
-  }
+  const handleWassupImageChange = (e) => {
+    e.target.files[0] && setWassupImage(e.target.files[0]);
+  };
 
   const handlePostToFirestore = async () => {
-    const usersDocRef = doc(db, 'users', currentUser.email);
-    
-    try{
-      console.log("haha ",allPosts);
-      console.log("handleAllPostsUpdateDeleteOptimistically,.,.",handleAllPostsUpdateDeleteOptimistically)
-      let localRef = allPosts.find(post => currentUser.email === post.email);
-      let localRefSpread = [...(localRef.posts)];
-     
-      localRefSpread.push({
-        text : wassupText,
-        likes : 0,
-        date : new Date()
-      })
-      console.log("lala lala=>",localRefSpread);
-      handleAllPostsUpdateDeleteOptimistically(localRefSpread,currentUser.email);
-    await updateDoc(usersDocRef, {
-        posts: arrayUnion({text : wassupText,
-        likes : 0, 
-      date : new Date(),
-    
-    })
-    });
-    setWassupText("");
-    // handleReloadAfterWassupUpload();e
+    const usersDocRef = doc(db, "users", currentUser.email);
 
-    toast.success("Posted successfully");
-}
-catch(e){
-    toast.warn("Couldn't post at the moment. Please retry after sometime!")
-}
-    
-  }
+    try {
+      let localRef = allPosts.find((post) => currentUser.email === post.email);
+      let localRefSpread = [...localRef.posts];
+
+      localRefSpread.push({
+        text: wassupText,
+        likes: 0,
+        date: new Date(),
+      });
+      console.log("lala lala=>", localRefSpread);
+      handleAllPostsUpdateDeleteOptimistically(
+        localRefSpread,
+        currentUser.email
+      );
+      await updateDoc(usersDocRef, {
+        posts: arrayUnion({ text: wassupText, likes: 0, date: new Date() }),
+      });
+      setWassupText("");
+      // handleReloadAfterWassupUpload();e
+
+      toast.success("Posted successfully");
+    } catch (e) {
+      toast.warn("Couldn't post at the moment. Please retry after sometime!");
+    }
+  };
   return (
     <>
       <Box className={classes.mainOuterBox}>
         <Box className={classes.outerBox}>
-          
           <Box>
             <Box className={classes.wassuptextbox}>
               <ThemeProvider theme={theme}>
+                <input type="file" onChange={handleWassupImageChange} />
                 <TextField
                   id="outlined-secondary"
                   // label="Wassup?"
@@ -91,7 +88,7 @@ catch(e){
                 />
               </ThemeProvider>
             </Box>
-            
+
             <Box onClick={handlePostToFirestore} className={classes.postButton}>
               <ThemeProvider theme={theme}>
                 <Button variant="contained" color="secondary">
@@ -101,7 +98,6 @@ catch(e){
             </Box>
           </Box>
         </Box>
-
       </Box>
     </>
   );

@@ -1,5 +1,5 @@
 import { Box, Divider } from "@material-ui/core";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import Post from "../Post/Post";
 import NavBar from "../NavBar/NavBar";
 import useStyles from "../AllPosts/styles.js";
@@ -8,6 +8,7 @@ import { doc, getDoc } from "firebase/firestore";
 import { db } from "../../firebase";
 import feedionameCropped from "./feedionameCropped.png";
 import { Link } from "react-router-dom";
+import { CurrentUserDetailsContext } from '../../contexts/CurrentUserDetailsContext';
 
 const MyPosts = ({
   handleLike,
@@ -18,6 +19,8 @@ const MyPosts = ({
   const classes = useStyles();
   const { currentUser } = useAuth();
   const [currentUserRefDoc, setcurrentUserRefDoc] = useState({});
+  const [currentUserDoc, setCurrentUserDoc] = useContext(CurrentUserDetailsContext);
+  console.log("my posts bro => ", currentUserDoc);
 
   let myPosts = allPosts.find(
     (post) => currentUser && post.email === currentUser.email
@@ -45,9 +48,7 @@ const MyPosts = ({
           alt="feedio logo"
         />
       </Box>
-      {/* <Box className={classes.box}>
-        <Divider className={classes.divider} />
-      </Box> */}
+    
 
       <Box className={classes.navbar}>
         <NavBar currentUsername={currentUserRefDoc.username} />

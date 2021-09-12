@@ -34,6 +34,7 @@ const useStyles = makeStyles((theme) => ({
     border: "0.1rem solid lawngreen",
     borderRadius: 5,
     padding: "0.2rem 0.5rem",
+    display: "none",
   },
   box1: {
     display: "flex",
@@ -96,9 +97,9 @@ const useStyles = makeStyles((theme) => ({
   mainOuterBox: {
     border: "0.2 rem solid lightgray",
   },
-  input: {
-    display: "none",
-  },
+  // input: {
+  //   display: "none",
+  // },
 //   uploadImageButton : {
 //       display : "none"
 //   }
