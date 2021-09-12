@@ -2,7 +2,7 @@ import React, {  useState, useContext } from "react";
 import { AppBar, Box, Button, createTheme, IconButton, ThemeProvider, Toolbar, Typography } from "@material-ui/core";
 import MenuIcon from '@material-ui/icons/Menu';
 import useStyles from "./styles.js";
-import feedionameCropped from "./feedionameCropped.png";
+import feediowhitebackground from "../../assets/feediowhitebackground.png";
 import { useHistory, Link } from 'react-router-dom';
 import { auth } from "../../firebase.js";
 import { useAuth } from "../../contexts/AuthContext";
@@ -65,13 +65,16 @@ const NavBar = ({currentUsername, handleAllPostsUpdateDeleteOptimistically}) => 
         >
           <MenuIcon />
         </IconButton>
-        <Typography variant="h6" className={classes.title}>
+        <Box className={classes.logoBox}>
+            <img className={classes.logo} src={feediowhitebackground} alt="logo" />
+        </Box>
+        {/* <Typography variant="h6" className={classes.title}>
           Hi, {currentUserDoc.username}
-        </Typography>
-        {/* <Box className={classes.logoBox}>
-            <img className={classes.logo} src={feedionameCropped} alt="logo" />
-        </Box> */}
+        </Typography> */}
+        
         {/* <ThemeProvider theme={themeGreen}> */}
+
+        <Box className={classes.dummyBox}></Box>
         <Button color="inherit" component={Link} to="/my-posts" handleAllPostsUpdateDeleteOptimistically={handleAllPostsUpdateDeleteOptimistically}>My posts</Button>
 
         <Button color="inherit" component={Link} to="/all-posts" handleAllPostsUpdateDeleteOptimistically={handleAllPostsUpdateDeleteOptimistically}>All Posts</Button>

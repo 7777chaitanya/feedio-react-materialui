@@ -79,7 +79,7 @@ const useStyles = makeStyles((theme) => ({
 
       },
       menuButton: {
-        marginRight: theme.spacing(2),
+        // marginRight: theme.spacing(1),
       },
       title: {
         flexGrow: 1,
@@ -87,18 +87,21 @@ const useStyles = makeStyles((theme) => ({
       logo:{
         //   width : "19vw",
         //   height : "auto",
-        height : "5vw",
+        height : "2rem",
         width : "auto"
 
           
       },
 
       logoBox : {
-          flexGrow : 1,
+        //   flexGrow : 1,
           display: 'flex',
           justifyContent : "center",
           alignItems : "center",
-          backgroundColor : "rgba(140,233,23,0.2)"
+          backgroundColor : "white"
+      },
+      dummyBox:{
+          flexGrow : 1,
       }
 
 
