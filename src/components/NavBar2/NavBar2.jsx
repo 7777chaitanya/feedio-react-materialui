@@ -76,7 +76,7 @@ export default function NavBar2() {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
+      <MenuItem component={Link} to={`/profile/${currentUserDoc.username}`}>Profile</MenuItem>
       <MenuItem onClick={handleMenuClose} onClick={handleLogout}>Log out</MenuItem>
     </Menu>
   );
@@ -115,7 +115,9 @@ export default function NavBar2() {
           aria-haspopup="true"
           color="inherit"
         >
-          <AccountCircle />
+          {currentUserDoc?.avatarUrl ?
+                <Avatar alt={currentUserDoc.username} src={currentUserDoc?.avatarUrl} /> :
+              <AccountCircle />}
         </IconButton>
         <p>Profile</p>
       </MenuItem>

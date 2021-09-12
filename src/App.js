@@ -6,6 +6,7 @@ import {
   ForgotPassword,
   MyPosts,
   AllPosts,
+  Profile
 } from "./components";
 import "./index.css";
 import { HashRouter as Router, Switch, Route, Link } from "react-router-dom";
@@ -17,7 +18,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { collection, getDocs } from "firebase/firestore";
 import PrivateRoute from "./components/PrivateRoute";
 import { CurrentUserDetailsProvider } from "./contexts/CurrentUserDetailsContext";
-import {AllUserDetailsProvider} from "./contexts/AllUserDetailsContext";
+import { AllUserDetailsProvider } from "./contexts/AllUserDetailsContext";
 
 const App = () => {
   const [docs, setDocs] = useState([]);
@@ -26,8 +27,8 @@ const App = () => {
   const [dummy, setDummy] = useState(true);
 
   const handleDummy = () => {
-    setDummy(prevState => !prevState);
-  }
+    setDummy((prevState) => !prevState);
+  };
 
   useEffect(async () => {
     let allPosts = [];
@@ -107,6 +108,10 @@ const App = () => {
                     }
                   />
                 </Route>
+                <Route
+                  path="/profile/:username"
+                  render={(props) => <Profile {...props} />}
+                />
                 {/* <Route path="/" exact>
               <Home />
             </Route> */}

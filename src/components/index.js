@@ -7,3 +7,5 @@ export {default as MyPosts} from './MyPosts/MyPosts';
 export {default as Post} from './Post/Post';
 export {default as AllPosts} from './AllPosts/AllPosts';
 export {default as NavBar2} from './NavBar2/NavBar2';
+export {default as Profile} from './Profile/Profile';
+
