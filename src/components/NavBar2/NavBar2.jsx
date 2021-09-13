@@ -76,7 +76,7 @@ export default function NavBar2() {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem component={Link} to={`/profile/${currentUserDoc.username}`}>Profile</MenuItem>
+      <MenuItem component={Link} to={`/profile/${currentUserDoc?.username}`}>Profile</MenuItem>
       <MenuItem onClick={handleMenuClose} onClick={handleLogout}>Log out</MenuItem>
     </Menu>
   );

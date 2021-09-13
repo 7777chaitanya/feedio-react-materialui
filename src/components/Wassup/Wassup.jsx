@@ -119,7 +119,7 @@ const Wassup = ({
             postObj.username = currentUserDoc.username;
             postObj.email = currentUserDoc.email;
             postObj.likedBy = [];
-            postObj.id = `${currentUserDoc.email}+${postObj.date.toString()}`;
+            postObj.id = `${currentUserDoc.email}${postObj.date.toString()}`;
             postObj.avatarUrl = currentUserDoc.avatarUrl;
             // console.log("postObbj =>", postObj);
 
@@ -151,7 +151,7 @@ const Wassup = ({
       postObj.username = currentUserDoc.username;
       postObj.email = currentUserDoc.email;
       postObj.likedBy = [];
-      postObj.id = `${currentUserDoc.email}+${postObj.date.toString()}`;
+      postObj.id = `${currentUserDoc.email}${postObj.date.toString()}`;
       postObj.avatarUrl = currentUserDoc.avatarUrl;
 
 

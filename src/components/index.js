@@ -8,4 +8,8 @@ export {default as Post} from './Post/Post';
 export {default as AllPosts} from './AllPosts/AllPosts';
 export {default as NavBar2} from './NavBar2/NavBar2';
 export {default as Profile} from './Profile/Profile';
+export {default as MyPosts2} from './MyPosts2/MyPosts2';
+export {default as LikedPosts} from './LikedPosts/LikedPosts';
+export {default as SavedPosts} from './SavedPosts/SavedPosts';
+
 

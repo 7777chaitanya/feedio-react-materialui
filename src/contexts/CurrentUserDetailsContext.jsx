@@ -8,7 +8,6 @@ export const CurrentUserDetailsContext = createContext();
 export const CurrentUserDetailsProvider = ({ children }) => {
   const { currentUser } = useAuth();
   const [currentUserDoc, setCurrentUserDoc] = useState({});
-  console.log("hoola hoop=>", currentUserDoc);
 
   useEffect(async () => {
     if (currentUser) {
