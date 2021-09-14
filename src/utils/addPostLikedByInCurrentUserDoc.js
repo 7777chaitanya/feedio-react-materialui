@@ -19,6 +19,7 @@ const addPostLikedByInCurrentUserDoc = (
   }
   flag = 0;
   setCurrentUserDoc(currentUserDocCopy);
+  console.log("current User Doc after state update =>",currentUserDoc)
 };
 
 export default addPostLikedByInCurrentUserDoc;
