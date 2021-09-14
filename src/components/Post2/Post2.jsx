@@ -20,7 +20,8 @@ import useStyles from "./styles";
 import { AllUserDetailsContext } from "../../contexts/AllUserDetailsContext";
 import { doc, updateDoc } from "firebase/firestore";
 import { db } from "../../firebase";
-import addPostLikedByInCurrentUserDoc from "../../utils/addPostLikedByInCurrentUserDoc"
+import addPostLikedByInCurrentUserDoc from "../../utils/addPostLikedByInCurrentUserDoc";
+import updatePostLikedByAfterLikingInFirestore from "../../utils/updatePostLikedByAfterLikingInFirestore"
 
 const Post2 = ({ post }) => {
   const [currentUserDoc, setCurrentUserDoc] = useContext(
@@ -37,12 +38,7 @@ const Post2 = ({ post }) => {
     setExpanded(!expanded);
   };
 
-  const updatePostLikedByAfterLikingInFirestore = async (inputObj) => {
-    const userDocRef = doc(db, "users", currentUserDoc.email);
-    await updateDoc(userDocRef, {
-      ...inputObj,
-    });
-  };
+ 
 
   
   //update in both currentUserDocs & allUserDocs
@@ -53,7 +49,7 @@ const Post2 = ({ post }) => {
     likedByObj.avatarUrl = currentUserDoc?.avatarUrl;
 
     addPostLikedByInCurrentUserDoc({ ...likedByObj }, currentUserDoc,setCurrentUserDoc, post);
-    
+    updatePostLikedByAfterLikingInFirestore({ ...currentUserDoc },currentUserDoc);
   };
 
   const handleLike = () => {
