@@ -20,6 +20,7 @@ import useStyles from "./styles";
 import { AllUserDetailsContext } from "../../contexts/AllUserDetailsContext";
 import { doc, updateDoc } from "firebase/firestore";
 import { db } from "../../firebase";
+import addPostLikedByInCurrentUserDoc from "../../utils/addPostLikedByInCurrentUserDoc"
 
 const Post2 = ({ post }) => {
   const [currentUserDoc, setCurrentUserDoc] = useContext(
@@ -43,6 +44,7 @@ const Post2 = ({ post }) => {
     });
   };
 
+  
   //update in both currentUserDocs & allUserDocs
   const updatePostLikedByAfterLiking = () => {
     const likedByObj = {};
@@ -50,50 +52,8 @@ const Post2 = ({ post }) => {
     likedByObj.email = currentUserDoc.email;
     likedByObj.avatarUrl = currentUserDoc?.avatarUrl;
 
-    let localCurrentUserDocRef = { ...currentUserDoc };
-
-    let LikedPostsCopy = [...currentUserDoc.likedPosts];
-    if (LikedPostsCopy.indexOf(post.id) === -1) {
-      LikedPostsCopy.push(post.id);
-      localCurrentUserDocRef.likedPosts = [...LikedPostsCopy];
-    }
-
-    let postToModify = localCurrentUserDocRef.posts.find(
-      (iteratingPost) => iteratingPost.id === post.id
-    );
-    let flag = 0;
-    postToModify.likedBy.forEach((i) => {
-      if (i.username === likedByObj.username) {
-        flag = 1;
-      }
-    });
-    if (flag === 0) {
-      postToModify.likedBy.push(likedByObj);
-    }
-    flag = 0;
-    // console.log(localCurrentUserDocRef);
-    setCurrentUserDoc({ ...localCurrentUserDocRef });
-    console.log("currentUserDoc completed=>", currentUserDoc);
-
-    //update likedBy in allUser Docs
-    let localAllUserDocsCopy = [...allUserDocs];
-
-    let referenceOfCurrentUserDocInAllUserDocsCopy = localAllUserDocsCopy.find(
-      (document) => document.username === currentUserDoc.username
-    );
-    const currentDocIndex = localAllUserDocsCopy.indexOf(
-      referenceOfCurrentUserDocInAllUserDocsCopy
-    );
-    // console.log("index ===>",currentDocIndex);
-    localAllUserDocsCopy[currentDocIndex] = { ...localCurrentUserDocRef };
-    // console.log("localAllUserDocsCopy => ", localAllUserDocsCopy);
-
-    setAllUserDocs([...localAllUserDocsCopy]);
-
-    console.log("all users docs completed => ", allUserDocs);
-
-    //update likedBy array in db
-    updatePostLikedByAfterLikingInFirestore({ ...currentUserDoc });
+    addPostLikedByInCurrentUserDoc({ ...likedByObj }, currentUserDoc,setCurrentUserDoc, post);
+    
   };
 
   const handleLike = () => {
