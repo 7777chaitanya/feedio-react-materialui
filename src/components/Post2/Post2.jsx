@@ -52,7 +52,8 @@ const Post2 = ({ post }) => {
     likedByObj.avatarUrl = currentUserDoc?.avatarUrl;
 
     addPostLikedByInCurrentUserDoc({ ...likedByObj }, currentUserDoc,setCurrentUserDoc, post);
-    addPostLikedByInAllUserDocs({ ...likedByObj }, allUserDocs,setAllUserDocs, post);
+    addPostLikedByInAllUserDocs({ ...likedByObj }, currentUserDoc, allUserDocs,setAllUserDocs, post);
+
     updatePostLikedByAfterLikingInFirestore({ ...currentUserDoc },currentUserDoc);
   };
 

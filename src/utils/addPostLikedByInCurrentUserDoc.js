@@ -5,6 +5,10 @@ const addPostLikedByInCurrentUserDoc = (
   post
 ) => {
   let currentUserDocCopy = { ...currentUserDoc };
+  // adding the post id to the likedPosts array of the currentUserDoc
+  if (currentUserDocCopy.likedPosts.indexOf(post.id) === -1) {
+    currentUserDocCopy.likedPosts.push(post.id);
+  }
   let postToModify = currentUserDocCopy.posts.find(
     (onePost) => onePost.id === post.id
   );
@@ -19,7 +23,7 @@ const addPostLikedByInCurrentUserDoc = (
   }
   flag = 0;
   setCurrentUserDoc(currentUserDocCopy);
-  console.log("current User Doc after state update =>",currentUserDoc)
+  console.log("current User Doc after state update =>", currentUserDoc);
 };
 
 export default addPostLikedByInCurrentUserDoc;
