@@ -3,6 +3,9 @@ import { useAuth } from "../../contexts/AuthContext";
 import Wassup from "../Wassup/Wassup";
 import NavBar from "../NavBar/NavBar";
 import NavBar2 from "../NavBar2/NavBar2";
+import AllPosts2 from "../AllPosts2/AllPosts2";
+
+
 
 import { db } from "../../firebase";
 import { doc, getDoc } from "firebase/firestore";
@@ -26,6 +29,7 @@ const Home = ({handleAllPostsUpdateDeleteOptimistically,handleDummy,allPosts}) =
       <NavBar currentUsername={currentUserDoc.username} handleAllPostsUpdateDeleteOptimistically={handleAllPostsUpdateDeleteOptimistically} />
       <NavBar2/>
       <Wassup currentUser={currentUser} handleAllPostsUpdateDeleteOptimistically={handleAllPostsUpdateDeleteOptimistically} handleDummy={handleDummy} allPosts={allPosts}/>
+      <AllPosts2/>
     </div>
   );
 };

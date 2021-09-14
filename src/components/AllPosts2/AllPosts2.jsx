@@ -10,7 +10,12 @@ const AllPosts2 = () => {
     
     let allThePosts = [];
     allUserDocs.forEach(doc => doc.posts.forEach(post => allThePosts.push(post)));
-    console.log("all the posts => ", allThePosts)
+
+    allThePosts?.sort(function(a,b){
+        
+        return b.date.toDate() - a.date.toDate();
+      });
+    
 
     return (
         <>

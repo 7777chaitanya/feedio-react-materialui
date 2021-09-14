@@ -20,9 +20,6 @@ import useStyles from "./styles";
 import { AllUserDetailsContext } from "../../contexts/AllUserDetailsContext";
 import { doc, updateDoc } from "firebase/firestore";
 import { db } from "../../firebase";
-import addPostLikedByInCurrentUserDoc from "../../utils/addPostLikedByInCurrentUserDoc";
-import updatePostLikedByAfterLikingInFirestore from "../../utils/updatePostLikedByAfterLikingInFirestore"
-import addPostLikedByInAllUserDocs from "../../utils/addPostLikedByInAllUserDocs";
 
 const Post2 = ({ post }) => {
   const [currentUserDoc, setCurrentUserDoc] = useContext(
@@ -39,29 +36,49 @@ const Post2 = ({ post }) => {
     setExpanded(!expanded);
   };
 
-  
+  const updateLikedPostsArrayInCurrentUserDoc = () => {
+    setCurrentUserDoc((prevState) => {
+      let currentUserDocCopy = { ...prevState };
+      if (currentUserDocCopy?.likedPosts?.indexOf(post.id) === -1) {
+        currentUserDocCopy.likedPosts.push(post.id);
+      }
+      return { ...currentUserDocCopy };
+    });
+    console.log("updateLikedPostsArrayInCurrentUserDoc =>", currentUserDoc);
+  };
 
- 
+  const updateLikedPostsArrayInAllUserDocs = () => {
+    setAllUserDocs((prevState) => {
+      let allUserDocsCopy = [...allUserDocs];
+      let docRef = allUserDocsCopy.find(
+        (doc) => doc.username === currentUserDoc.username
+      );
+      if (docRef?.likedPosts?.indexOf(post.id) === -1) {
+        docRef.likedPosts.push(post.id);
+      }
+      return [...allUserDocsCopy];
+    });
 
-  
-  //update in both currentUserDocs & allUserDocs
-  const updatePostLikedByAfterLiking = () => {
-    const likedByObj = {};
-    likedByObj.username = currentUserDoc.username;
-    likedByObj.email = currentUserDoc.email;
-    likedByObj.avatarUrl = currentUserDoc?.avatarUrl;
+    console.log("updateLikedPostsArrayInAllUserDocs =>", allUserDocs);
+  };
 
-    addPostLikedByInCurrentUserDoc({ ...likedByObj }, currentUserDoc,setCurrentUserDoc, post);
-    addPostLikedByInAllUserDocs({ ...likedByObj }, currentUserDoc, allUserDocs,setAllUserDocs, post);
+  const updateLikedPostsArrayInFirestore = async () => {
+    const currentUserDocRef = doc(db, "users", currentUserDoc.email);
 
-    updatePostLikedByAfterLikingInFirestore({ ...currentUserDoc },currentUserDoc);
+    await updateDoc(currentUserDocRef, {
+      likedPosts : [...currentUserDoc.likedPosts]
+    });
+  };
+
+  const updateLikedPostsArray = () => {
+    updateLikedPostsArrayInCurrentUserDoc();
+    updateLikedPostsArrayInAllUserDocs();
+    updateLikedPostsArrayInFirestore();
   };
 
   const handleLike = () => {
     setLike(true);
-    updatePostLikedByAfterLiking();
-    // updateCurrentUserLikedPosts();
-    //in all the docs and the currentUserDocs
+    updateLikedPostsArray();
   };
 
   const handleDislike = () => {
