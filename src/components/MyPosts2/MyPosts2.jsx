@@ -4,10 +4,23 @@ import Post2 from "../Post2/Post2"
 
 const MyPosts2 = () => {
     const [currentUserDoc, setCurrentUserDoc] = useContext(CurrentUserDetailsContext);
-    let myPosts = currentUserDoc?.posts?.sort(function(a,b){
+    let myPosts = currentUserDoc?.posts?.sort((a,b) => {
+        let c,d;
+        if(a.date.getMonth){
+            c = a.date
+        }
+        if(b.date.getMonth){
+            d = b.date
+        }
+        if(!a.date.getMonth){
+            c=a.date.toDate();
+        }
+        if(!b.date.getMonth){
+            d=b.date.toDate()
+        }
         
-        return b.date.toDate() - a.date.toDate();
-      });
+        return d - c;
+      })
     return (
         <div>
             MyPosts2

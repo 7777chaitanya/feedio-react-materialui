@@ -157,9 +157,9 @@ const Post2 = ({ post }) => {
         title={
           post?.username === currentUserDoc.username ? "You" : post.username
         }
-        subheader={`${post.date.toDate().getDate()}/${
-          post.date.toDate().getMonth() + 1
-        }/${post.date.toDate().getFullYear()}`}
+        // subheader={`${post.date.toDate().getDate()}/${
+        //   post.date.toDate().getMonth() + 1
+        // }/${post.date.toDate().getFullYear()}`}
       />
       <CardMedia
         className={classes.media}

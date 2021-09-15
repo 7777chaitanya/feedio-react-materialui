@@ -22,9 +22,23 @@ const LikedPosts = () => {
       }
     });
   });
-  likedPosts?.sort(function (a, b) {
-    return b.date.toDate() - a.date.toDate();
-  });
+  likedPosts?.sort((a,b) => {
+    let c,d;
+    if(a.date.getMonth){
+        c = a.date
+    }
+    if(b.date.getMonth){
+        d = b.date
+    }
+    if(!a.date.getMonth){
+        c=a.date.toDate();
+    }
+    if(!b.date.getMonth){
+        d=b.date.toDate()
+    }
+    
+    return d - c;
+  })
 
   console.log("liked Posts =>", likedPosts);
 

@@ -14,13 +14,27 @@ const AllPosts2 = () => {
     
     let allThePosts = [];
     allUserDocs?.forEach(doc => doc.posts.forEach(post => allThePosts?.push(post)));
+    console.log("all the posts => ",allThePosts)
 
     allThePosts = allThePosts?.sort((a,b) => {
+        let c,d;
+        if(a.date.getMonth){
+            c = a.date
+        }
+        if(b.date.getMonth){
+            d = b.date
+        }
+        if(!a.date.getMonth){
+            c=a.date.toDate();
+        }
+        if(!b.date.getMonth){
+            d=b.date.toDate()
+        }
         
-        return b.date.toDate() - a.date.toDate();
+        return d - c;
       })
     
-
+ 
     return (
         <>
         <h5>current User docs.likedPosts</h5>
