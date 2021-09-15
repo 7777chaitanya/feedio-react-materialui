@@ -20,6 +20,7 @@ import useStyles from "./styles";
 import { AllUserDetailsContext } from "../../contexts/AllUserDetailsContext";
 import { doc, updateDoc } from "firebase/firestore";
 import { db } from "../../firebase";
+import dateCustomizer from "../../utils/dateCustomizer";
 
 const Post2 = ({ post }) => {
   const [currentUserDoc, setCurrentUserDoc] = useContext(
@@ -160,6 +161,7 @@ const Post2 = ({ post }) => {
         // subheader={`${post.date.toDate().getDate()}/${
         //   post.date.toDate().getMonth() + 1
         // }/${post.date.toDate().getFullYear()}`}
+        subheader={dateCustomizer(post.date)}
       />
       <CardMedia
         className={classes.media}
