@@ -31,12 +31,14 @@ const App = () => {
   };
 
   useEffect(async () => {
+    
     let allPosts = [];
     const querySnapshot = await getDocs(collection(db, "users"));
     querySnapshot.forEach((doc) => {
       allPosts.push(doc.data());
     });
     setAllPosts(allPosts);
+    
   }, []);
 
   const handleLike = (e) => {

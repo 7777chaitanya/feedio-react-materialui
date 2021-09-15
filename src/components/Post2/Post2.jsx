@@ -23,6 +23,7 @@ import { db } from "../../firebase";
 import dateCustomizer from "../../utils/dateCustomizer";
 import BookmarkIcon from '@material-ui/icons/Bookmark';
 import BookmarkBorderIcon from '@material-ui/icons/BookmarkBorder';
+import {Link} from "react-router-dom"
 
 const Post2 = ({ post }) => {
   const [currentUserDoc, setCurrentUserDoc] = useContext(
@@ -270,7 +271,7 @@ const Post2 = ({ post }) => {
           </IconButton>
         }
         title={
-          post?.username === currentUserDoc.username ? "You" : post.username
+          <Typography dangerouslySetInnerHTML={{ __html: post?.username === currentUserDoc.username ? "You" : post.username }} variant="h6" component={Link} to={`/profile/${post.username}`} />
         }
         // subheader={`${post.date.toDate().getDate()}/${
         //   post.date.toDate().getMonth() + 1

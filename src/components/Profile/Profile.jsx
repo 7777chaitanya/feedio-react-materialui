@@ -7,6 +7,7 @@ import {
 } from "@material-ui/core";
 import React, { useContext, useState } from "react";
 import { CurrentUserDetailsContext } from "../../contexts/CurrentUserDetailsContext";
+import { AllUserDetailsContext } from "../../contexts/AllUserDetailsContext";
 import useStyles from "./styles.js";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import NavBar2 from "../NavBar2/NavBar2";
@@ -18,10 +19,17 @@ const Profile = ({ match }) => {
   const [currentUserDoc, setCurrentUserDoc] = useContext(
     CurrentUserDetailsContext
   );
+  const [allUserDocs, setAllUserDocs] = useContext(AllUserDetailsContext);
+
   const classes = useStyles();
   const [currentTab, setCurrentTab] = useState("posts");
   console.log("Profile comp =>", currentUserDoc);
   console.log(match.params.username);
+  let profileBelongsTo = allUserDocs.find(doc => doc.username=== match.params.username);
+  console.log("profileBelongsTo =>",profileBelongsTo)
+  console.log(currentUserDoc)
+
+
 
   const handleCurrentTabChange = (value) => {
     setCurrentTab(value);
@@ -33,10 +41,10 @@ const Profile = ({ match }) => {
       <Box className={classes.veryOuterBox}>
         <Box className={classes.profileHeaderContainer}>
           <Box className={classes.avatar}>
-            {currentUserDoc?.avatarUrl ? (
+            {profileBelongsTo?.avatarUrl ? (
               <Avatar
-                alt={currentUserDoc?.username}
-                src={currentUserDoc?.avatarUrl}
+                alt={profileBelongsTo?.username}
+                src={profileBelongsTo?.avatarUrl}
                 className={classes.avatarSize}
               />
             ) : (
@@ -46,16 +54,26 @@ const Profile = ({ match }) => {
           <Box className={classes.profileDetails}>
             <Box className={classes.usernameAndEditProfileButtonContainer}>
               <Typography variant="h4" className={classes.username}>
-                {currentUserDoc?.username}
+                {profileBelongsTo?.username}
               </Typography>
-              <Button
+              {(profileBelongsTo.username === currentUserDoc.username) ?
+              (<Button
                 variant="contained"
                 color="primary"
                 size="small"
                 className={classes.editProfileButton}
               >
                 Edit Profile
-              </Button>
+              </Button>) :
+              (<Button
+                variant="contained"
+                color="primary"
+                size="small"
+                className={classes.editProfileButton}
+              >
+                Follow
+              </Button>)
+}
             </Box>
             <Box className={classes.followerCountBox}>
               <Typography variant="body1">
@@ -72,7 +90,7 @@ const Profile = ({ match }) => {
               </Typography>
             </Box>
             <Typography variant="body1" className={classes.bio}>
-              {currentUserDoc?.bio}
+              {profileBelongsTo?.bio}
             </Typography>
           </Box>
         </Box>
@@ -121,9 +139,9 @@ const Profile = ({ match }) => {
         </Box>
 
         <Box>
-          {currentTab==="posts" && <MyPosts2/>}
-          {currentTab==="liked" && <LikedPosts/>}
-          {currentTab==="saved" && <SavedPosts/>}
+          {currentTab==="posts" && <MyPosts2 profileBelongsTo={profileBelongsTo}/>}
+          {currentTab==="liked" && <LikedPosts profileBelongsTo={profileBelongsTo}/>}
+          {currentTab==="saved" && <SavedPosts profileBelongsTo={profileBelongsTo}/>}
           
         </Box>
       </Box>

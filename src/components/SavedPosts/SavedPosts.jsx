@@ -3,7 +3,7 @@ import { AllUserDetailsContext } from "../../contexts/AllUserDetailsContext";
 import { CurrentUserDetailsContext } from "../../contexts/CurrentUserDetailsContext";
 import Post2 from "../Post2/Post2";
 
-const SavedPosts = () => {
+const SavedPosts = ({profileBelongsTo}) => {
   const [currentUserDoc, setCurrentUserDoc] = useContext(
     CurrentUserDetailsContext
   );
@@ -16,7 +16,7 @@ const SavedPosts = () => {
   });
   let savedPosts = [];
   allPosts?.forEach((post) => {
-    currentUserDoc.savedPosts?.forEach((id) => {
+    profileBelongsTo.savedPosts?.forEach((id) => {
       if (post.id === id) {
         savedPosts.push(post);
       }

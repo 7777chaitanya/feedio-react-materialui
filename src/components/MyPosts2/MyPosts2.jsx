@@ -2,9 +2,9 @@ import React,{useContext} from 'react'
 import { CurrentUserDetailsContext } from '../../contexts/CurrentUserDetailsContext';
 import Post2 from "../Post2/Post2"
 
-const MyPosts2 = () => {
+const MyPosts2 = ({profileBelongsTo}) => {
     const [currentUserDoc, setCurrentUserDoc] = useContext(CurrentUserDetailsContext);
-    let myPosts = currentUserDoc?.posts?.sort((a,b) => {
+    let myPosts = profileBelongsTo?.posts?.sort((a,b) => {
         let c,d;
         if(a.date.getMonth){
             c = a.date

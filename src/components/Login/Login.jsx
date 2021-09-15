@@ -77,6 +77,7 @@ const Login = () => {
         setError("Failed to log in");
       }
       setLoading(false);
+      window.location.reload(true)
     };
   
 

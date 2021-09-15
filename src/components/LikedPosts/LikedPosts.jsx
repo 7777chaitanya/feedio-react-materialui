@@ -3,7 +3,7 @@ import { AllUserDetailsContext } from "../../contexts/AllUserDetailsContext";
 import { CurrentUserDetailsContext } from "../../contexts/CurrentUserDetailsContext";
 import Post2 from "../Post2/Post2";
 
-const LikedPosts = () => {
+const LikedPosts = ({profileBelongsTo}) => {
   const [currentUserDoc, setCurrentUserDoc] = useContext(
     CurrentUserDetailsContext
   );
@@ -16,7 +16,7 @@ const LikedPosts = () => {
   });
   let likedPosts = [];
   allPosts?.forEach((post) => {
-    currentUserDoc.likedPosts?.forEach((id) => {
+    profileBelongsTo.likedPosts?.forEach((id) => {
       if (post.id === id) {
         likedPosts.push(post);
       }
