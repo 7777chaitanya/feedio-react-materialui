@@ -36,7 +36,7 @@ const Post2 = ({ post }) => {
     setExpanded(!expanded);
   };
 
-  const updateLikedPostsArrayInCurrentUserDoc = () => {
+  const addToLikedPostsArrayInCurrentUserDoc = () => {
     setCurrentUserDoc((prevState) => {
       let currentUserDocCopy = { ...prevState };
       if (currentUserDocCopy?.likedPosts?.indexOf(post.id) === -1) {
@@ -44,10 +44,10 @@ const Post2 = ({ post }) => {
       }
       return { ...currentUserDocCopy };
     });
-    console.log("updateLikedPostsArrayInCurrentUserDoc =>", currentUserDoc);
+    console.log("addToLikedPostsArrayInCurrentUserDoc =>", currentUserDoc);
   };
 
-  const updateLikedPostsArrayInAllUserDocs = () => {
+  const addToLikedPostsArrayInAllUserDocs = () => {
     setAllUserDocs((prevState) => {
       let allUserDocsCopy = [...allUserDocs];
       let docRef = allUserDocsCopy.find(
@@ -59,10 +59,10 @@ const Post2 = ({ post }) => {
       return [...allUserDocsCopy];
     });
 
-    console.log("updateLikedPostsArrayInAllUserDocs =>", allUserDocs);
+    console.log("addToLikedPostsArrayInAllUserDocs =>", allUserDocs);
   };
 
-  const updateLikedPostsArrayInFirestore = async () => {
+  const addToLikedPostsArrayInFirestore = async () => {
     const currentUserDocRef = doc(db, "users", currentUserDoc.email);
 
     await updateDoc(currentUserDocRef, {
@@ -70,15 +70,15 @@ const Post2 = ({ post }) => {
     });
   };
 
-  const updateLikedPostsArray = () => {
-    updateLikedPostsArrayInCurrentUserDoc();
-    updateLikedPostsArrayInAllUserDocs();
-    updateLikedPostsArrayInFirestore();
+  const addToLikedPostsArray = () => {
+    addToLikedPostsArrayInCurrentUserDoc();
+    addToLikedPostsArrayInAllUserDocs();
+    addToLikedPostsArrayInFirestore();
   };
 
   const handleLike = () => {
     setLike(true);
-    updateLikedPostsArray();
+    addToLikedPostsArray();
   };
 
   const handleDislike = () => {
