@@ -58,22 +58,62 @@ const Post2 = ({ post }) => {
       }
       return [...allUserDocsCopy];
     });
-
-    console.log("addToLikedPostsArrayInAllUserDocs =>", allUserDocs);
   };
 
   const addToLikedPostsArrayInFirestore = async () => {
     const currentUserDocRef = doc(db, "users", currentUserDoc.email);
 
     await updateDoc(currentUserDocRef, {
-      likedPosts : [...currentUserDoc.likedPosts]
+      likedPosts: [...currentUserDoc.likedPosts],
     });
   };
 
+  const removeFromLikedPostsArrayInCurrentUserDoc = () => {
+    setCurrentUserDoc((prevState) => {
+      let currentUserDocCopy = { ...prevState };
+      let modifiedLikedPosts = currentUserDocCopy.likedPosts.filter((id) => {
+        return id !== post.id;
+      });
+      currentUserDocCopy.likedPosts = [...modifiedLikedPosts];
+      return { ...currentUserDocCopy };
+    });
+
+    console.log("removeFromLikedPostsArrayInCurrentUserDoc=>", currentUserDoc);
+  };
+
+  const removeFromLikedPostsArrayInAllUserDocs = () => {
+    setAllUserDocs((prevState) => {
+      let allUserDocsCopy = [...prevState];
+      let docToModify = allUserDocsCopy.find((doc) => doc.email === post.email);
+      let modifiedLikedPosts = docToModify.likedPosts.filter((id) => {
+        return id !== post.id;
+      });
+      docToModify.likedPosts = [...modifiedLikedPosts];
+      return [...allUserDocsCopy];
+    });
+  };
+
+  const removeFromLikedPostsArrayInFirestore = async () => {
+    const currentUserDocRef = doc(db, "users", currentUserDoc.email);
+
+    await updateDoc(currentUserDocRef, {
+      likedPosts: [...currentUserDoc.likedPosts],
+    });
+  }
+
+
   const addToLikedPostsArray = () => {
+    let likedPostsArray = [...currentUserDoc.likedPosts]
     addToLikedPostsArrayInCurrentUserDoc();
     addToLikedPostsArrayInAllUserDocs();
     addToLikedPostsArrayInFirestore();
+  };
+
+  const removeFromLikedPostsArray = () => {
+    removeFromLikedPostsArrayInCurrentUserDoc();
+    removeFromLikedPostsArrayInAllUserDocs();
+    removeFromLikedPostsArrayInFirestore();
+
   };
 
   const handleLike = () => {
@@ -83,6 +123,7 @@ const Post2 = ({ post }) => {
 
   const handleDislike = () => {
     setLike(false);
+    removeFromLikedPostsArray();
   };
 
   return (
