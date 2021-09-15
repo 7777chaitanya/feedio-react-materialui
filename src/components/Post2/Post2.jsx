@@ -93,13 +93,7 @@ const Post2 = ({ post }) => {
         return id !== post.id;
       });
       docToModify.likedPosts = [...modifiedLikedPosts];
-      // let index;
-      // allUserDocsCopy.forEach(doc => {
-      //   if(doc.email === docToModify.email){
-      //     index = allUserDocsCopy.indexOf(doc);
-      //   }
-      // })
-      // allUserDocsCopy[index] = {...docToModify}
+     
 
 
       return [...allUserDocsCopy];
@@ -138,6 +132,15 @@ const Post2 = ({ post }) => {
     removeFromLikedPostsArray();
   };
 
+  const checkIfPostInLikedPosts = () =>{
+    if(currentUserDoc?.likedPosts?.includes(post.id)){
+        return (<FavoriteIcon onClick={handleDislike} />)
+    }
+    else{
+      return (<FavoriteBorderIcon onClick={handleLike} />)
+    }
+  }
+
   return (
     <Card className={classes.root}>
       <CardHeader
@@ -161,7 +164,7 @@ const Post2 = ({ post }) => {
       <CardMedia
         className={classes.media}
         image={post.imageUrl}
-        title="Paella dish"
+        title={post.username}
       />
       <CardContent>
         <Typography variant="body2" color="textSecondary" component="p">
@@ -175,11 +178,8 @@ const Post2 = ({ post }) => {
       </CardContent>
       <CardActions disableSpacing>
         <IconButton aria-label="add to favorites">
-          {like ? (
-            <FavoriteIcon onClick={handleDislike} />
-          ) : (
-            <FavoriteBorderIcon onClick={handleLike} />
-          )}
+          {checkIfPostInLikedPosts()}
+          
         </IconButton>
         <IconButton aria-label="share">
           <ShareIcon />
