@@ -27,7 +27,7 @@ const AllPosts2 = () => {
         {currentUserDoc?.likedPosts?.map(post => <h6>{post}</h6>)}
 
         <h5>All User docs.likedPosts</h5>
-        {allUserDocs[1]?.likedPosts?.map(post => <h6>{post}</h6>)}
+        {allUserDocs[0]?.likedPosts?.map(post => <h6>{post}</h6>)}
 
         
         {allThePosts?.map(post => <Post2 post={post}/>)}

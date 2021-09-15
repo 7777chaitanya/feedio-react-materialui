@@ -42,6 +42,8 @@ const Post2 = ({ post }) => {
       if (currentUserDocCopy?.likedPosts?.indexOf(post.id) === -1) {
         currentUserDocCopy.likedPosts.push(post.id);
       }
+      addToLikedPostsArrayInFirestore({...currentUserDocCopy});
+
       return { ...currentUserDocCopy };
     });
     console.log("addToLikedPostsArrayInCurrentUserDoc =>", currentUserDoc);
@@ -60,21 +62,23 @@ const Post2 = ({ post }) => {
     });
   };
 
-  const addToLikedPostsArrayInFirestore = async () => {
-    const currentUserDocRef = doc(db, "users", currentUserDoc.email);
+  const addToLikedPostsArrayInFirestore = async (currentUserDocCopy) => {
+    const currentUserDocRef = doc(db, "users", currentUserDocCopy.email);
 
     await updateDoc(currentUserDocRef, {
-      likedPosts: [...currentUserDoc.likedPosts],
+      likedPosts: [...currentUserDocCopy.likedPosts],
     });
   };
 
   const removeFromLikedPostsArrayInCurrentUserDoc = () => {
     setCurrentUserDoc((prevState) => {
       let currentUserDocCopy = { ...prevState };
-      let modifiedLikedPosts = currentUserDocCopy.likedPosts.filter((id) => {
+      let modifiedLikedPosts = currentUserDocCopy?.likedPosts.filter((id) => {
         return id !== post.id;
       });
       currentUserDocCopy.likedPosts = [...modifiedLikedPosts];
+      removeFromLikedPostsArrayInFirestore({...currentUserDocCopy});
+
       return { ...currentUserDocCopy };
     });
 
@@ -84,35 +88,43 @@ const Post2 = ({ post }) => {
   const removeFromLikedPostsArrayInAllUserDocs = () => {
     setAllUserDocs((prevState) => {
       let allUserDocsCopy = [...prevState];
-      let docToModify = allUserDocsCopy.find((doc) => doc.email === post.email);
+      let docToModify = allUserDocsCopy.find((doc) => doc.email === currentUserDoc.email);
       let modifiedLikedPosts = docToModify.likedPosts.filter((id) => {
         return id !== post.id;
       });
       docToModify.likedPosts = [...modifiedLikedPosts];
+      // let index;
+      // allUserDocsCopy.forEach(doc => {
+      //   if(doc.email === docToModify.email){
+      //     index = allUserDocsCopy.indexOf(doc);
+      //   }
+      // })
+      // allUserDocsCopy[index] = {...docToModify}
+
+
       return [...allUserDocsCopy];
     });
   };
 
-  const removeFromLikedPostsArrayInFirestore = async () => {
-    const currentUserDocRef = doc(db, "users", currentUserDoc.email);
+  const removeFromLikedPostsArrayInFirestore = async (currentUserDocCopy) => {
+    const currentUserDocRef = doc(db, "users", currentUserDocCopy.email);
 
     await updateDoc(currentUserDocRef, {
-      likedPosts: [...currentUserDoc.likedPosts],
+      likedPosts: [...currentUserDocCopy.likedPosts],
     });
   }
 
 
   const addToLikedPostsArray = () => {
-    let likedPostsArray = [...currentUserDoc.likedPosts]
+    let likedPostsArray = [...currentUserDoc?.likedPosts]
     addToLikedPostsArrayInCurrentUserDoc();
     addToLikedPostsArrayInAllUserDocs();
-    addToLikedPostsArrayInFirestore();
+    
   };
 
   const removeFromLikedPostsArray = () => {
     removeFromLikedPostsArrayInCurrentUserDoc();
     removeFromLikedPostsArrayInAllUserDocs();
-    removeFromLikedPostsArrayInFirestore();
 
   };
 
