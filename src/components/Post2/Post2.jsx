@@ -21,6 +21,8 @@ import { AllUserDetailsContext } from "../../contexts/AllUserDetailsContext";
 import { doc, updateDoc } from "firebase/firestore";
 import { db } from "../../firebase";
 import dateCustomizer from "../../utils/dateCustomizer";
+import BookmarkIcon from '@material-ui/icons/Bookmark';
+import BookmarkBorderIcon from '@material-ui/icons/BookmarkBorder';
 
 const Post2 = ({ post }) => {
   const [currentUserDoc, setCurrentUserDoc] = useContext(
@@ -31,11 +33,14 @@ const Post2 = ({ post }) => {
 
   const classes = useStyles();
   const [like, setLike] = useState(false);
+  const [save, setSave] = useState(false);
   const [expanded, setExpanded] = React.useState(false);
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
+
+  // Everything related to Like
 
   const addToLikedPostsArrayInCurrentUserDoc = () => {
     setCurrentUserDoc((prevState) => {
@@ -142,6 +147,115 @@ const Post2 = ({ post }) => {
     }
   }
 
+  // Everything related to like ends here
+
+  // Everything related to save starts here
+
+  const addToSavedPostsArrayInCurrentUserDoc = () => {
+    setCurrentUserDoc((prevState) => {
+      let currentUserDocCopy = { ...prevState };
+      if (currentUserDocCopy?.savedPosts?.indexOf(post.id) === -1) {
+        currentUserDocCopy.savedPosts.push(post.id);
+      }
+      addToSavedPostsArrayInFirestore({...currentUserDocCopy});
+
+      return { ...currentUserDocCopy };
+    });
+    console.log("addToSavedPostsArrayInCurrentUserDoc =>", currentUserDoc);
+  };
+
+  const addToSavedPostsArrayInAllUserDocs = () => {
+    setAllUserDocs((prevState) => {
+      let allUserDocsCopy = [...allUserDocs];
+      let docRef = allUserDocsCopy.find(
+        (doc) => doc.username === currentUserDoc.username
+      );
+      if (docRef?.savedPosts?.indexOf(post.id) === -1) {
+        docRef.savedPosts.push(post.id);
+      }
+      return [...allUserDocsCopy];
+    });
+  };
+
+  const addToSavedPostsArrayInFirestore = async (currentUserDocCopy) => {
+    const currentUserDocRef = doc(db, "users", currentUserDocCopy.email);
+
+    await updateDoc(currentUserDocRef, {
+      savedPosts: [...currentUserDocCopy.savedPosts],
+    });
+  };
+
+  const removeFromSavedPostsArrayInCurrentUserDoc = () => {
+    setCurrentUserDoc((prevState) => {
+      let currentUserDocCopy = { ...prevState };
+      let modifiedSavedPosts = currentUserDocCopy?.savedPosts.filter((id) => {
+        return id !== post.id;
+      });
+      currentUserDocCopy.savedPosts = [...modifiedSavedPosts];
+      removeFromSavedPostsArrayInFirestore({...currentUserDocCopy});
+
+      return { ...currentUserDocCopy };
+    });
+
+    console.log("removeFromSavedPostsArrayInCurrentUserDoc=>", currentUserDoc);
+  };
+
+  const removeFromSavedPostsArrayInAllUserDocs = () => {
+    setAllUserDocs((prevState) => {
+      let allUserDocsCopy = [...prevState];
+      let docToModify = allUserDocsCopy.find((doc) => doc.email === currentUserDoc.email);
+      let modifiedSavedPosts = docToModify.savedPosts.filter((id) => {
+        return id !== post.id;
+      });
+      docToModify.savedPosts = [...modifiedSavedPosts];
+     
+
+
+      return [...allUserDocsCopy];
+    });
+  };
+
+  const removeFromSavedPostsArrayInFirestore = async (currentUserDocCopy) => {
+    const currentUserDocRef = doc(db, "users", currentUserDocCopy.email);
+
+    await updateDoc(currentUserDocRef, {
+      savedPosts: [...currentUserDocCopy.savedPosts],
+    });
+  }
+
+  const addToSavedPostsArray = () => {
+    let SavedPostsArray = [...currentUserDoc?.likedPosts]
+    addToSavedPostsArrayInCurrentUserDoc();
+    addToSavedPostsArrayInAllUserDocs();
+    
+  };
+
+  const removeFromSavedPostsArray = () => {
+    removeFromSavedPostsArrayInCurrentUserDoc();
+    removeFromSavedPostsArrayInAllUserDocs();
+
+  };
+
+  const handleSave = () => {
+    setSave(true);
+    addToSavedPostsArray();
+  };
+
+  const handleUnsave = () => {
+    setSave(false);
+    removeFromSavedPostsArray();
+  };
+  const checkIfPostInSavedPosts = () =>{
+    if(currentUserDoc?.savedPosts?.includes(post.id)){
+      return (<BookmarkIcon onClick={handleUnsave} />)
+  }
+  else{
+    return (<BookmarkBorderIcon onClick={handleSave} />)
+  }
+  }
+
+
+
   return (
     <Card className={classes.root}>
       <CardHeader
@@ -181,6 +295,10 @@ const Post2 = ({ post }) => {
       <CardActions disableSpacing>
         <IconButton aria-label="add to favorites">
           {checkIfPostInLikedPosts()}
+          
+        </IconButton>
+        <IconButton aria-label="add to saved">
+          {checkIfPostInSavedPosts()}
           
         </IconButton>
         <IconButton aria-label="share">
