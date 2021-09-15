@@ -4,11 +4,14 @@ import Post2 from "../Post2/Post2"
 
 const MyPosts2 = () => {
     const [currentUserDoc, setCurrentUserDoc] = useContext(CurrentUserDetailsContext);
-    console.log("myposts2 =>",currentUserDoc)
+    let myPosts = currentUserDoc?.posts?.sort(function(a,b){
+        
+        return b.date.toDate() - a.date.toDate();
+      });
     return (
         <div>
             MyPosts2
-            {currentUserDoc?.posts?.map(post => 
+            {myPosts?.map(post => 
                <Post2 post={post}/> 
                 )}
         </div>

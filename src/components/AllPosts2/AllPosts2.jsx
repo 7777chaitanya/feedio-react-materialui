@@ -13,12 +13,12 @@ const AllPosts2 = () => {
       );
     
     let allThePosts = [];
-    allUserDocs.forEach(doc => doc.posts.forEach(post => allThePosts.push(post)));
+    allUserDocs?.forEach(doc => doc.posts.forEach(post => allThePosts?.push(post)));
 
-    allThePosts?.sort(function(a,b){
+    allThePosts = allThePosts?.sort((a,b) => {
         
         return b.date.toDate() - a.date.toDate();
-      });
+      })
     
 
     return (
