@@ -1,11 +1,12 @@
 import React from "react";
-import { CardHeader } from '@material-ui/core/CardHeader';
-import { Card } from '@material-ui/core/Card';
+import { CardHeader, Avatar, IconButton } from '@material-ui/core';
+import { Card } from '@material-ui/core';
 import useStyles from './styles.js'
 
 
-const UserCard = () => {
+const UserCard = ({item}) => {
     const classes = useStyles();
+    
   return (
     <Card className={classes.root}>
       <CardHeader
@@ -14,13 +15,13 @@ const UserCard = () => {
             R
           </Avatar>
         }
-        action={
-          <IconButton aria-label="settings">
-            <MoreVertIcon />
-          </IconButton>
-        }
-        title="Shrimp and Chorizo Paella"
-        subheader="September 14, 2016"
+        // action={
+        //   <IconButton aria-label="settings">
+        //     <MoreVertIcon />
+        //   </IconButton>
+        // }
+        title={item}
+        // subheader="September 14, 2016"
       />
     </Card>
   );

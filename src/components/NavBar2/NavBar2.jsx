@@ -22,8 +22,13 @@ import { Avatar, Popover } from "@material-ui/core";
 import { useHistory, Link } from 'react-router-dom';
 import { auth } from "../../firebase.js";
 import { useAuth } from "../../contexts/AuthContext";
+import PopUp from '../PopUp/PopUp';
 
 export default function NavBar2() {
+  const [displayPopUp, setDisplayPopUp] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("")
+
+
   const [currentUserDoc, setCurrentUserDoc] = useContext(
     CurrentUserDetailsContext
   );
@@ -124,6 +129,17 @@ export default function NavBar2() {
     </Menu>
   );
 
+  const handleDisplayPopUp = (e) =>{
+    setDisplayPopUp(true);
+    setSearchTerm(e.target.value)
+  }
+  const handleKeyPress = (e) => {
+    if(e.key === "Escape") {
+      setDisplayPopUp(false);
+      setSearchTerm("");
+  }
+  }
+
   return (
     <div className={classes.grow}>
       <AppBar position="static">
@@ -156,6 +172,9 @@ export default function NavBar2() {
                 input: classes.inputInput,
               }}
               inputProps={{ "aria-label": "search" }}
+              onChange={handleDisplayPopUp}
+              onKeyDown={handleKeyPress}
+              value={searchTerm}
             />
           </div>
           <div className={classes.grow} />
@@ -212,6 +231,8 @@ export default function NavBar2() {
       </AppBar>
       {renderMobileMenu}
       {renderMenu}
+      {displayPopUp && 
+      <PopUp searchTerm={searchTerm}/>}
     </div>
   );
 }

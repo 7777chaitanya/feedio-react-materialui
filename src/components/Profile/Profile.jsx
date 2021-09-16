@@ -56,7 +56,7 @@ const Profile = ({ match }) => {
               <Typography variant="h4" className={classes.username}>
                 {profileBelongsTo?.username}
               </Typography>
-              {(profileBelongsTo.username === currentUserDoc.username) ?
+              {(profileBelongsTo?.username === currentUserDoc?.username) ?
               (<Button
                 variant="contained"
                 color="primary"

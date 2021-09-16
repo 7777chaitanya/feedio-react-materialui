@@ -68,6 +68,9 @@ const useStyles = makeStyles((theme) => ({
     editProfileButton : {
         width : "13rem",
         
+    },
+    username:{
+      
     }
   },
   [theme.breakpoints.up("sm")]: {
