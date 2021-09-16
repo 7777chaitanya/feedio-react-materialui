@@ -56,7 +56,7 @@ const Profile = ({ match }) => {
               <Typography variant="h4" className={classes.username}>
                 {profileBelongsTo?.username}
               </Typography>
-              {(profileBelongsTo?.username === currentUserDoc?.username) ?
+              {(profileBelongsTo?.username === currentUserDoc.username) ?
               (<Button
                 variant="contained"
                 color="primary"
@@ -77,7 +77,7 @@ const Profile = ({ match }) => {
             </Box>
             <Box className={classes.followerCountBox}>
               <Typography variant="body1">
-                <span className={classes.followerCountBoxNumbers}>45</span>{" "}
+                <span className={classes.followerCountBoxNumbers}>{profileBelongsTo?.posts?.length}</span>{" "}
                 posts
               </Typography>
               <Typography variant="body1">
@@ -101,7 +101,7 @@ const Profile = ({ match }) => {
               variant="body1"
               className={classes.followerCountBoxNumbers}
             >
-              45
+              {profileBelongsTo?.posts?.length}
             </Typography>
             <Typography variant="body2">posts</Typography>
           </Box>

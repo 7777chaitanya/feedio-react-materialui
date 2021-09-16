@@ -262,7 +262,7 @@ const Post2 = ({ post }) => {
       <CardHeader
         avatar={
           <Avatar aria-label="recipe" className={classes.avatar}>
-            R
+            {post?.username[0].toUpperCase()}
           </Avatar>
         }
         action={
