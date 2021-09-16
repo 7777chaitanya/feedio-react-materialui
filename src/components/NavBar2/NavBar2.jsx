@@ -26,7 +26,7 @@ import PopUp from '../PopUp/PopUp';
 
 export default function NavBar2() {
   const [displayPopUp, setDisplayPopUp] = useState(false);
-  const [searchTerm, setSearchTerm] = useState("")
+  const [searchTerm, setSearchTerm] = useState("");
 
 
   const [currentUserDoc, setCurrentUserDoc] = useContext(
