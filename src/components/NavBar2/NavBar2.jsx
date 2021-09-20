@@ -23,10 +23,12 @@ import { useHistory, Link } from 'react-router-dom';
 import { auth } from "../../firebase.js";
 import { useAuth } from "../../contexts/AuthContext";
 import PopUp from '../PopUp/PopUp';
+import NotificationPopUp from "../NotificationPopUp/NotificationPopUp"
 
 export default function NavBar2() {
   const [displayPopUp, setDisplayPopUp] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
+  const [displayNotificationPopUp, setDisplayNotificationPopUp] = useState(false)
 
 
   const [currentUserDoc, setCurrentUserDoc] = useContext(
@@ -146,6 +148,10 @@ export default function NavBar2() {
   }
   }
 
+  const handleNotificationPopUp = () => {
+    setDisplayNotificationPopUp(prevState => !prevState);
+  }
+
   return (
     <div className={classes.grow}>
       <AppBar position="static">
@@ -204,8 +210,8 @@ export default function NavBar2() {
                 <MailIcon />
               </Badge>
             </IconButton>
-            <IconButton aria-label="show 17 new notifications" color="inherit">
-              <Badge badgeContent={17} color="secondary">
+            <IconButton aria-label="show 17 new notifications" color="inherit" onClick={handleNotificationPopUp}>
+              <Badge badgeContent={currentUserDoc?.notifications?.length} color="secondary">
                 <NotificationsIcon />
               </Badge>
             </IconButton>
@@ -239,6 +245,8 @@ export default function NavBar2() {
       {renderMenu}
       {displayPopUp && 
       <PopUp searchTerm={searchTerm} closeDisplayPopUp={closeDisplayPopUp} />}
+      
+      {displayNotificationPopUp && <NotificationPopUp handleNotificationPopUp={handleNotificationPopUp} />}
     </div>
   );
 }
