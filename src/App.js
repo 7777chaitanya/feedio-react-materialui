@@ -19,12 +19,26 @@ import { collection, getDocs } from "firebase/firestore";
 import PrivateRoute from "./components/PrivateRoute";
 import { CurrentUserDetailsProvider } from "./contexts/CurrentUserDetailsContext";
 import { AllUserDetailsProvider } from "./contexts/AllUserDetailsContext";
+import { ThemeProvider, createTheme } from "@material-ui/core";
 
 const App = () => {
   const [docs, setDocs] = useState([]);
   const [like, setLike] = useState(false);
   const [allPosts, setAllPosts] = useState([]);
   const [dummy, setDummy] = useState(true);
+
+  const theme = createTheme({
+    palette: {
+      secondary: {
+        main: "rgb(140,233,23)",
+        dark: "#1db954",
+      },
+      primary : {
+        main : "#808000",
+        dark : "rgb(135,23,43)"
+      }
+    },
+  });
 
   const handleDummy = () => {
     setDummy((prevState) => !prevState);
@@ -74,6 +88,7 @@ const App = () => {
           draggable
           pauseOnHover
         />
+        <ThemeProvider theme={theme}>
         <AuthProvider>
           <CurrentUserDetailsProvider>
             <AllUserDetailsProvider>
@@ -131,6 +146,7 @@ const App = () => {
             </AllUserDetailsProvider>
           </CurrentUserDetailsProvider>
         </AuthProvider>
+        </ThemeProvider>
       </Router>
     </>
   );
