@@ -3,7 +3,8 @@ import {
   Box,
   Button,
   ButtonGroup,
-  Typography,
+  Modal,
+  Typography
 } from "@material-ui/core";
 import React, { useContext, useState } from "react";
 import { CurrentUserDetailsContext } from "../../contexts/CurrentUserDetailsContext";
@@ -16,6 +17,10 @@ import LikedPosts from "../LikedPosts/LikedPosts";
 import SavedPosts from "../SavedPosts/SavedPosts";
 import { doc, updateDoc, arrayUnion, arrayRemove } from "firebase/firestore";
 import { db } from "../../firebase";
+import EditProfileModal from "../EditProfileModal/EditProfileModal"
+
+
+
 
 const Profile = ({ match }) => {
   const [currentUserDoc, setCurrentUserDoc] = useContext(
@@ -48,21 +53,21 @@ const Profile = ({ match }) => {
   const AddToFollowingArrayInCurrentUserDoc = () => {
     setCurrentUserDoc((prevState) => {
       const currentUserDocCopy = { ...prevState };
-      if (currentUserDocCopy.following.indexOf(profileBelongsTo.email) === -1) {
+      if (currentUserDocCopy?.following?.indexOf(profileBelongsTo?.email) === -1) {
         addToFollowingArrayInFireStore();
-        currentUserDocCopy.following.push(profileBelongsTo.email);
+        currentUserDocCopy?.following?.push(profileBelongsTo?.email);
       }
       return { ...currentUserDocCopy };
     });
   };
 
   const addToFollowersArrayInFireStore = async (notificationObject) => {
-    console.log("notificationObject => ", notificationObject)
-    const profileBelongsToDocRef = doc(db, "users", profileBelongsTo.email);
+    console.log("notificationObject => ", notificationObject);
+    const profileBelongsToDocRef = doc(db, "users", profileBelongsTo?.email);
 
     await updateDoc(profileBelongsToDocRef, {
-      followers: arrayUnion(currentUserDoc.email),
-      notifications : arrayUnion({...notificationObject})
+      followers: arrayUnion(currentUserDoc?.email),
+      notifications: arrayUnion({ ...notificationObject }),
     });
   };
 
@@ -75,16 +80,14 @@ const Profile = ({ match }) => {
       if (
         profileOwnerReference?.followers?.indexOf(currentUserDoc.email) === -1
       ) {
-       const notificationObject = {
-        username: currentUserDoc.username,
-        email : currentUserDoc.email,
-        date : new Date()
-      }
-        profileOwnerReference?.notifications?.push(notificationObject)
-        addToFollowersArrayInFireStore({...notificationObject});
+        const notificationObject = {
+          username: currentUserDoc.username,
+          email: currentUserDoc.email,
+          date: new Date(),
+        };
+        profileOwnerReference?.notifications?.push(notificationObject);
+        addToFollowersArrayInFireStore({ ...notificationObject });
         profileOwnerReference?.followers?.push(currentUserDoc.email);
-
-        
       }
       return [...allUserDocsCopy];
     });
@@ -95,37 +98,38 @@ const Profile = ({ match }) => {
     AddToFollowersArrayInProfileBelongsTo();
   };
 
-  const removeFromFollowingArrayInFirestore = async () =>{
+  const removeFromFollowingArrayInFirestore = async () => {
     const currentUserDocRef = doc(db, "users", currentUserDoc.email);
 
     await updateDoc(currentUserDocRef, {
       following: arrayRemove(profileBelongsTo.email),
     });
-  }
+  };
 
-  const removeFromFollowersArrayInFirestore = async (notificationObjectToRemove) =>{
+  const removeFromFollowersArrayInFirestore = async (
+    notificationObjectToRemove
+  ) => {
     const profileBelongsToDocRef = doc(db, "users", profileBelongsTo.email);
-    console.log("removeFromFollowersArrayInFirestorev=>",notificationObjectToRemove)
+    console.log(
+      "removeFromFollowersArrayInFirestorev=>",
+      notificationObjectToRemove
+    );
     await updateDoc(profileBelongsToDocRef, {
       followers: arrayRemove(currentUserDoc.email),
-      notifications : arrayRemove(notificationObjectToRemove)
+      notifications: arrayRemove(notificationObjectToRemove),
     });
-  }
-
-
+  };
 
   const RemoveFromFollowingArrayInCurrentUserDoc = () => {
-      
-
-      setCurrentUserDoc(prevState => {
-        const currentUserDocCopy = {...prevState};
-        let index = currentUserDocCopy.following.indexOf(profileBelongsTo.email);
-        if (index > -1) {
-          currentUserDocCopy?.following?.splice(index, 1);
-        }
-        removeFromFollowingArrayInFirestore();
-        return {...currentUserDocCopy}
-      })
+    setCurrentUserDoc((prevState) => {
+      const currentUserDocCopy = { ...prevState };
+      let index = currentUserDocCopy.following.indexOf(profileBelongsTo.email);
+      if (index > -1) {
+        currentUserDocCopy?.following?.splice(index, 1);
+      }
+      removeFromFollowingArrayInFirestore();
+      return { ...currentUserDocCopy };
+    });
   };
   const RemoveFromFollowersArrayInProfileBelongsTo = () => {
     setAllUserDocs((prevState) => {
@@ -133,19 +137,27 @@ const Profile = ({ match }) => {
       const profileOwnerReference = allUserDocsCopy?.find(
         (doc) => doc?.email === profileBelongsTo?.email
       );
-      let index = profileOwnerReference?.followers?.indexOf(currentUserDoc.email);
-        if (index > -1) {
-          profileOwnerReference?.followers?.splice(index, 1);
-        }
-      
-      let notificationObjectToRemove = profileOwnerReference?.notifications?.find(obj => obj.email === currentUserDoc.email);
-      let notificationObjectIndex = profileOwnerReference?.notifications?.indexOf(notificationObjectToRemove);
-      console.log("notification => ", notificationObjectIndex)
+      let index = profileOwnerReference?.followers?.indexOf(
+        currentUserDoc.email
+      );
+      if (index > -1) {
+        profileOwnerReference?.followers?.splice(index, 1);
+      }
+
+      let notificationObjectToRemove =
+        profileOwnerReference?.notifications?.find(
+          (obj) => obj.email === currentUserDoc.email
+        );
+      let notificationObjectIndex =
+        profileOwnerReference?.notifications?.indexOf(
+          notificationObjectToRemove
+        );
+      console.log("notification => ", notificationObjectIndex);
 
       if (notificationObjectIndex > -1) {
         profileOwnerReference?.notifications?.splice(index, 1);
       }
-        removeFromFollowersArrayInFirestore({...notificationObjectToRemove});
+      removeFromFollowersArrayInFirestore({ ...notificationObjectToRemove });
       return [...allUserDocsCopy];
     });
   };
@@ -183,9 +195,21 @@ const Profile = ({ match }) => {
     }
   };
 
+  const [open, setOpen] = React.useState(false);
+
+  const handleOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  
+
   return (
     <>
-     {/* {profileBelongsTo?.notifications?.map(notification => (<h5>{notification.username} {notification.email}</h5>))} */}
+      {/* {profileBelongsTo?.notifications?.map(notification => (<h5>{notification.username} {notification.email}</h5>))} */}
 
       <NavBar2 />
       <Box className={classes.veryOuterBox}>
@@ -212,6 +236,7 @@ const Profile = ({ match }) => {
                   color="primary"
                   size="small"
                   className={classes.editProfileButton}
+                  onClick={handleOpen}
                 >
                   Edit Profile
                 </Button>
@@ -235,11 +260,15 @@ const Profile = ({ match }) => {
                 posts
               </Typography>
               <Typography variant="body1">
-                <span className={classes.followerCountBoxNumbers}>{profileBelongsTo?.followers?.length}</span>{" "}
+                <span className={classes.followerCountBoxNumbers}>
+                  {profileBelongsTo?.followers?.length}
+                </span>{" "}
                 followers
               </Typography>
               <Typography variant="body1">
-                <span className={classes.followerCountBoxNumbers}>{profileBelongsTo?.following?.length}</span>{" "}
+                <span className={classes.followerCountBoxNumbers}>
+                  {profileBelongsTo?.following?.length}
+                </span>{" "}
                 following
               </Typography>
             </Box>
@@ -319,6 +348,8 @@ const Profile = ({ match }) => {
           )}
         </Box>
       </Box>
+      <EditProfileModal open={open} handleOpen={handleOpen} handleClose={handleClose} />
+     
     </>
   );
 };
