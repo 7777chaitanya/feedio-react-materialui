@@ -83,7 +83,8 @@ const Signup = () => {
           followers : [], 
           likedPosts : [],
           savedPosts : [],
-          bio: ""
+          bio: "",
+          notifications : []
         });
         
         console.log("Document written with ID: ", docRef);

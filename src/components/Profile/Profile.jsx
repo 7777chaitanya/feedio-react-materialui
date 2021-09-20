@@ -56,11 +56,13 @@ const Profile = ({ match }) => {
     });
   };
 
-  const addToFollowersArrayInFireStore = async () => {
+  const addToFollowersArrayInFireStore = async (notificationObject) => {
+    console.log("notificationObject => ", notificationObject)
     const profileBelongsToDocRef = doc(db, "users", profileBelongsTo.email);
 
     await updateDoc(profileBelongsToDocRef, {
       followers: arrayUnion(currentUserDoc.email),
+      notifications : arrayUnion({...notificationObject})
     });
   };
 
@@ -70,12 +72,19 @@ const Profile = ({ match }) => {
       const profileOwnerReference = allUserDocsCopy?.find(
         (doc) => doc?.email === profileBelongsTo?.email
       );
-      // console.log("profileOwnerReference =>", profileOwnerReference);
       if (
         profileOwnerReference?.followers?.indexOf(currentUserDoc.email) === -1
       ) {
-        addToFollowersArrayInFireStore();
+       const notificationObject = {
+        username: currentUserDoc.username,
+        email : currentUserDoc.email,
+        date : new Date()
+      }
+        profileOwnerReference?.notifications?.push(notificationObject)
+        addToFollowersArrayInFireStore({...notificationObject});
         profileOwnerReference?.followers?.push(currentUserDoc.email);
+
+        
       }
       return [...allUserDocsCopy];
     });
@@ -94,11 +103,12 @@ const Profile = ({ match }) => {
     });
   }
 
-  const removeFromFollowersArrayInFirestore = async () =>{
+  const removeFromFollowersArrayInFirestore = async (notificationObjectToRemove) =>{
     const profileBelongsToDocRef = doc(db, "users", profileBelongsTo.email);
-
+    console.log("removeFromFollowersArrayInFirestorev=>",notificationObjectToRemove)
     await updateDoc(profileBelongsToDocRef, {
       followers: arrayRemove(currentUserDoc.email),
+      notifications : arrayRemove(notificationObjectToRemove)
     });
   }
 
@@ -127,7 +137,15 @@ const Profile = ({ match }) => {
         if (index > -1) {
           profileOwnerReference?.followers?.splice(index, 1);
         }
-        removeFromFollowersArrayInFirestore();
+      
+      let notificationObjectToRemove = profileOwnerReference?.notifications?.find(obj => obj.email === currentUserDoc.email);
+      let notificationObjectIndex = profileOwnerReference?.notifications?.indexOf(notificationObjectToRemove);
+      console.log("notification => ", notificationObjectIndex)
+
+      if (notificationObjectIndex > -1) {
+        profileOwnerReference?.notifications?.splice(index, 1);
+      }
+        removeFromFollowersArrayInFirestore({...notificationObjectToRemove});
       return [...allUserDocsCopy];
     });
   };
@@ -167,7 +185,7 @@ const Profile = ({ match }) => {
 
   return (
     <>
-     
+     {profileBelongsTo?.notifications?.map(notification => (<h5>{notification.username} {notification.email}</h5>))}
 
       <NavBar2 />
       <Box className={classes.veryOuterBox}>

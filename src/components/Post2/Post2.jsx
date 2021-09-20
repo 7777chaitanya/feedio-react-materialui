@@ -283,6 +283,7 @@ const Post2 = ({ post }) => {
         image={post.imageUrl}
         title={post.username}
       />
+      
       <CardContent>
         <Typography variant="body2" color="textSecondary" component="p">
           {post.text}
