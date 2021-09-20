@@ -167,14 +167,7 @@ const Profile = ({ match }) => {
 
   return (
     <>
-      <h3>curretnUserdocFollowing</h3>
-      {currentUserDoc?.following?.map((item) => (
-        <h6>{item}</h6>
-      ))}
-      <h3>profile belogns to followres</h3>
-      {currentUserDoc?.followers?.map((item) => (
-        <h6>{item}</h6>
-      ))}
+     
 
       <NavBar2 />
       <Box className={classes.veryOuterBox}>
@@ -224,11 +217,11 @@ const Profile = ({ match }) => {
                 posts
               </Typography>
               <Typography variant="body1">
-                <span className={classes.followerCountBoxNumbers}>704</span>{" "}
+                <span className={classes.followerCountBoxNumbers}>{profileBelongsTo?.followers?.length}</span>{" "}
                 followers
               </Typography>
               <Typography variant="body1">
-                <span className={classes.followerCountBoxNumbers}>678</span>{" "}
+                <span className={classes.followerCountBoxNumbers}>{profileBelongsTo?.following?.length}</span>{" "}
                 following
               </Typography>
             </Box>
@@ -253,7 +246,7 @@ const Profile = ({ match }) => {
               variant="body1"
               className={classes.followerCountBoxNumbers}
             >
-              704
+              {profileBelongsTo?.followers?.length}
             </Typography>
             <Typography variant="body2">followers</Typography>
           </Box>
@@ -262,7 +255,7 @@ const Profile = ({ match }) => {
               variant="body1"
               className={classes.followerCountBoxNumbers}
             >
-              678
+              {profileBelongsTo?.following?.length}
             </Typography>
             <Typography variant="body2">following</Typography>
           </Box>
