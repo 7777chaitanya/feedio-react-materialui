@@ -109,6 +109,9 @@ postButton:{
     alignItems : "center",
     marginTop : "1rem"
 },
+imageBox:{
+  display: "none"
+}
 }));
 
 export default useStyles;

@@ -209,8 +209,8 @@ const Profile = ({ match }) => {
 
   return (
     <>
-      {/* {profileBelongsTo?.notifications?.map(notification => (<h5>{notification.username} {notification.email}</h5>))} */}
-
+{currentUserDoc.username}
+{currentUserDoc.bio}
       <NavBar2 />
       <Box className={classes.veryOuterBox}>
         <Box className={classes.profileHeaderContainer}>

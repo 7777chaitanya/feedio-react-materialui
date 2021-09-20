@@ -31,12 +31,12 @@ const Wassup = ({
     CurrentUserDetailsContext
   );
 
-  const checkIfImageOrTextBoxIsEmpty= () =>{
-    if(wassupText==="" && wassupImage===null){
-      return true
+  const checkIfImageOrTextBoxIsEmpty = () => {
+    if (wassupText === "" && wassupImage === null) {
+      return true;
     }
-    return false
-  }
+    return false;
+  };
   const theme = createTheme({
     palette: {
       secondary: {
@@ -160,7 +160,6 @@ const Wassup = ({
       postObj.id = `${currentUserDoc.email}${postObj.date.toString()}`;
       postObj.avatarUrl = currentUserDoc.avatarUrl;
 
-
       console.log("postObbj else =>", postObj);
 
       setCurrentUserDoc((prevState) => {
@@ -222,7 +221,22 @@ const Wassup = ({
           <Box>
             <Box className={classes.wassuptextbox}>
               <ThemeProvider theme={theme}>
-                <input type="file" onChange={handleWassupImageChange} />
+                <input
+                  type="file"
+                  id="icon-button-file"
+                  className={classes.imageBox}
+                  onChange={handleWassupImageChange}
+                />
+                <label htmlFor="icon-button-file">
+                  <IconButton
+                    color="primary"
+                    aria-label="upload picture"
+                    component="span"
+                  >
+                    <PhotoCamera />
+                  </IconButton> 
+                  {wassupImage?.name}
+                </label>
                 <TextField
                   id="outlined-secondary"
                   // label="Wassup?"
@@ -243,7 +257,11 @@ const Wassup = ({
               className={classes.postButton}
             >
               <ThemeProvider theme={theme}>
-                <Button variant="contained" color="secondary" disabled={checkIfImageOrTextBoxIsEmpty()}>
+                <Button
+                  variant="contained"
+                  color="secondary"
+                  disabled={checkIfImageOrTextBoxIsEmpty()}
+                >
                   POST
                 </Button>
               </ThemeProvider>

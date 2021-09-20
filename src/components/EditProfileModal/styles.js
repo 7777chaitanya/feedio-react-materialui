@@ -19,6 +19,9 @@ const useStyles = makeStyles((theme) => ({
     padding : "1rem", 
     justifyContent : "space-evenly"
   },
+  input:{
+      display : "none"
+  }
 }));
 
 export default useStyles;
