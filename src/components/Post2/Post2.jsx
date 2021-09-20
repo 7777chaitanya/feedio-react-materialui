@@ -271,7 +271,7 @@ const Post2 = ({ post }) => {
           </IconButton>
         }
         title={
-          <Typography dangerouslySetInnerHTML={{ __html: post?.username === currentUserDoc.username ? "You" : post.username }} variant="h6" component={Link} to={`/profile/${post.username}`} />
+          <Typography dangerouslySetInnerHTML={{ __html: post?.username === currentUserDoc.username ? "You" : post.username }} variant="h6" component={Link} to={`/profile/${post.username}`} className={classes.postUsername} />
         }
         // subheader={`${post.date.toDate().getDate()}/${
         //   post.date.toDate().getMonth() + 1

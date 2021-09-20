@@ -36,6 +36,12 @@ const useStyles = makeStyles((theme) => ({
       // backgroundColor: red[500],
       backgroundColor : "#8ce917"
     },
+
+    postUsername:{
+      textDecoration : "none",
+      color : "black",
+      fontWeight : 500
+    }
   }));
 
 export default useStyles;
