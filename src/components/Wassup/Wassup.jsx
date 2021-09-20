@@ -31,6 +31,12 @@ const Wassup = ({
     CurrentUserDetailsContext
   );
 
+  const checkIfImageOrTextBoxIsEmpty= () =>{
+    if(wassupText==="" && wassupImage===null){
+      return true
+    }
+    return false
+  }
   const theme = createTheme({
     palette: {
       secondary: {
@@ -237,7 +243,7 @@ const Wassup = ({
               className={classes.postButton}
             >
               <ThemeProvider theme={theme}>
-                <Button variant="contained" color="secondary">
+                <Button variant="contained" color="secondary" disabled={checkIfImageOrTextBoxIsEmpty()}>
                   POST
                 </Button>
               </ThemeProvider>

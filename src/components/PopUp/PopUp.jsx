@@ -5,7 +5,7 @@ import { Card } from "@material-ui/core";
 import { AllUserDetailsContext } from "../../contexts/AllUserDetailsContext";
 
 
-const PopUp = ({ searchTerm }) => {
+const PopUp = ({ searchTerm, closeDisplayPopUp }) => {
   const [allUserDocs, setAllUserDocs] = useContext(AllUserDetailsContext);
 
   const classes = useStyles();
@@ -29,7 +29,7 @@ const PopUp = ({ searchTerm }) => {
   return (
     <Card className={classes.root}>
       {filteredArray.map((item) => (
-        <UserCard item={item} searchTerm={searchTerm}></UserCard>
+        <UserCard item={item} searchTerm={searchTerm} closeDisplayPopUp={closeDisplayPopUp}></UserCard>
       ))}
     </Card>
   );

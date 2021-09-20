@@ -133,6 +133,12 @@ export default function NavBar2() {
     setDisplayPopUp(true);
     setSearchTerm(e.target.value)
   }
+
+  const closeDisplayPopUp = (e) =>{
+    setDisplayPopUp(false);
+    setSearchTerm("");
+  }
+
   const handleKeyPress = (e) => {
     if(e.key === "Escape") {
       setDisplayPopUp(false);
@@ -232,7 +238,7 @@ export default function NavBar2() {
       {renderMobileMenu}
       {renderMenu}
       {displayPopUp && 
-      <PopUp searchTerm={searchTerm}/>}
+      <PopUp searchTerm={searchTerm} closeDisplayPopUp={closeDisplayPopUp} />}
     </div>
   );
 }

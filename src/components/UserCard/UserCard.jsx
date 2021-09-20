@@ -5,14 +5,16 @@ import useStyles from './styles.js';
 import {Link} from "react-router-dom";
 
 
-const UserCard = ({item, searchTerm}) => {
+const UserCard = ({item, searchTerm, closeDisplayPopUp}) => {
     const classes = useStyles();
     
   return (
     <Card className={classes.root}>
       <CardHeader
+        className={classes.usercard}
         component={Link}
         to={`/profile/${item.username}`}
+        onClick={closeDisplayPopUp}
         avatar={
           (item?.avatarUrl!==null) &&
           (
