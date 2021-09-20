@@ -83,7 +83,7 @@ export default function NavBar2() {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem component={Link} to={`/profile/${currentUserDoc?.username}`}>Profile</MenuItem>
+      <MenuItem component={Link} to={`/profile/${currentUserDoc?.username}`} onClick={handleMenuClose}>Profile</MenuItem>
       <MenuItem onClick={handleMenuClose} onClick={handleLogout}>Log out</MenuItem>
     </Menu>
   );
@@ -99,7 +99,7 @@ export default function NavBar2() {
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
-      <MenuItem>
+      <MenuItem onClick={handleMenuClose}>
         <IconButton aria-label="show 4 new mails" color="inherit">
           <Badge badgeContent={4} color="secondary">
             <MailIcon />
@@ -107,7 +107,7 @@ export default function NavBar2() {
         </IconButton>
         <p>Messages</p>
       </MenuItem>
-      <MenuItem>
+      <MenuItem onClick={handleMenuClose}>
         <IconButton aria-label="show 11 new notifications" color="inherit">
           <Badge badgeContent={11} color="secondary">
             <NotificationsIcon />
