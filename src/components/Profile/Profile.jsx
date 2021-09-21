@@ -209,8 +209,8 @@ const Profile = ({ match }) => {
 
   return (
     <>
-{/* {currentUserDoc.username}
-{currentUserDoc.bio} */}
+
+
       <NavBar2 />
       <Box className={classes.veryOuterBox}>
         <Box className={classes.profileHeaderContainer}>
