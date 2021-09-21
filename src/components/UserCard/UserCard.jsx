@@ -3,13 +3,24 @@ import { CardHeader, Avatar, IconButton } from '@material-ui/core';
 import { Card } from '@material-ui/core';
 import useStyles from './styles.js';
 import {Link} from "react-router-dom";
+import { Typography } from '@material-ui/core';
 
 
 const UserCard = ({item, searchTerm, closeDisplayPopUp}) => {
     const classes = useStyles();
     
   return (
-    <Card className={classes.root}>
+    (item.username === "No results found!" || item.username ==="Enter a word to Search!") 
+    
+    ?
+
+    (<Card className={classes.typographyRoot}>
+
+    <Typography className={classes.typography} variant="body1">{item.username}</Typography>
+</Card>)
+:
+    (<Card className={classes.root}>
+      
       <CardHeader
         className={classes.usercard}
         component={Link}
@@ -40,8 +51,9 @@ const UserCard = ({item, searchTerm, closeDisplayPopUp}) => {
         title={item.username}
         // subheader="September 14, 2016"
       />
-    </Card>
-  );
-};
+    </Card>)
+      
+)
+    }
 
 export default UserCard;

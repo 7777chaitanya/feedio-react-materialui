@@ -12,6 +12,14 @@ const useStyles = makeStyles({
       usercard : {
         textDecoration : "none",
         color : "black"
+      },
+      typographyRoot : {
+        maxWidth: 345,
+        marginTop : "0.5rem",
+      },
+      typography: {
+          margin : "1rem 2rem",
+
       }
 })
 
