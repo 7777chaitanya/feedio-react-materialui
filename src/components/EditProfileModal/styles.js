@@ -17,10 +17,23 @@ const useStyles = makeStyles((theme) => ({
     display : "flex",
     flexDirection : "column",
     padding : "1rem", 
-    justifyContent : "space-evenly"
+    // overflowX : "hidden",
+    justifyContent : "space-evenly",
+    [theme.breakpoints.down('sm')]: {
+      width : "80vw",
+      left : "5vw"
+    },
+    [theme.breakpoints.up('md')]: {
+      // backgroundColor: theme.palette.primary.main,
+    },
   },
   input:{
       display : "none"
+  },
+  avatarUrlChange:{
+    display : "flex",
+    justifyContent : 'flex-start',
+    alignItems : "center"
   }
 }));
 

@@ -1,10 +1,14 @@
 import { makeStyles } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
+  profileCover:{
+    overflowX : "hidden"
+  },
   veryOuterBox: {
     marginLeft: "10vw",
     marginRight: "10vw",
     paddingTop: "3vh",
+    overflowX: "hidden"
   },
   bio :{
     paddingTop : "3vh"

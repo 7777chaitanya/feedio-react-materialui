@@ -194,7 +194,6 @@ const Profile = ({ match }) => {
       );
     }
   };
-
   const [open, setOpen] = React.useState(false);
 
   const handleOpen = () => {
@@ -208,7 +207,7 @@ const Profile = ({ match }) => {
   
 
   return (
-    <>
+    <Box className={classes.profileCover}>
 
 
       <NavBar2 />
@@ -350,7 +349,7 @@ const Profile = ({ match }) => {
       </Box>
       <EditProfileModal open={open} handleOpen={handleOpen} handleClose={handleClose} />
      
-    </>
+    </Box>
   );
 };
 

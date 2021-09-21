@@ -23,7 +23,6 @@ const MyPosts2 = ({profileBelongsTo}) => {
       })
     return (
         <div>
-            MyPosts2
             {myPosts?.map(post => 
                <Post2 post={post}/> 
                 )}

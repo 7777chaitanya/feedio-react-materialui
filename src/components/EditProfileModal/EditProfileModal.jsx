@@ -2,7 +2,7 @@ import React, { useContext, useState, useRef } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Modal from "@material-ui/core/Modal";
 import useStyles from "./styles";
-import { Card, Button, IconButton } from "@material-ui/core";
+import { Card, Button, IconButton, Avatar } from "@material-ui/core";
 import { TextField } from "@material-ui/core";
 import { CurrentUserDetailsContext } from "../../contexts/CurrentUserDetailsContext";
 import { AllUserDetailsContext } from "../../contexts/AllUserDetailsContext";
@@ -196,7 +196,8 @@ export default function EditProfileModal({ open, handleOpen, handleClose }) {
         type="file"
         onChange={handleAvatarImageChange}
       />
-      <label htmlFor="icon-button-file">
+      <label htmlFor="icon-button-file" className={classes.avatarUrlChange}>
+      <Avatar src={currentUserDoc.avatarUrl}/>
         <IconButton
           color="primary"
           aria-label="upload picture"
@@ -206,6 +207,11 @@ export default function EditProfileModal({ open, handleOpen, handleClose }) {
         </IconButton>
         {avatarImage?.name}
       </label>
+
+
+      
+
+      {/* <Avatar src={currentUserDoc.avatarUrl}/> */}
 
       <TextField
         id="outlined-helperText"
@@ -242,14 +248,24 @@ export default function EditProfileModal({ open, handleOpen, handleClose }) {
       >
         Save And Close
       </Button>
+      <Button
+        variant="contained"
+        color="primary"
+        size="small"
+        // component={Link}
+        // to={`/profile/${usernameRef?.current?.value}`}
+        onClick={handleClose}
+      >
+        Cancel
+      </Button>
     </Card>
   );
 
   return (
     <div>
-      <button type="button" onClick={handleOpen}>
+      {/* <button type="button" onClick={handleOpen}>
         Open Modal
-      </button>
+      </button> */}
       <Modal
         open={open}
         onClose={handleClose}
@@ -258,7 +274,7 @@ export default function EditProfileModal({ open, handleOpen, handleClose }) {
       >
         {body}
       </Modal>
-      <img src={currentUserDoc.avatarUrl} alt="" />
+      {/* <img src={currentUserDoc.avatarUrl} alt="" /> */}
     </div>
   );
 }
