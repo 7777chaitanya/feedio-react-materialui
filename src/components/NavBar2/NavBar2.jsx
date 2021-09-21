@@ -19,17 +19,21 @@ import { CurrentUserDetailsContext } from "../../contexts/CurrentUserDetailsCont
 import HouseIcon from "@material-ui/icons/House";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
 import { Avatar, Popover } from "@material-ui/core";
-import { useHistory, Link } from 'react-router-dom';
+import { useHistory, Link } from "react-router-dom";
 import { auth } from "../../firebase.js";
 import { useAuth } from "../../contexts/AuthContext";
-import PopUp from '../PopUp/PopUp';
-import NotificationPopUp from "../NotificationPopUp/NotificationPopUp"
+import PopUp from "../PopUp/PopUp";
+import NotificationPopUp from "../NotificationPopUp/NotificationPopUp";
+import MessagesPopUp from "../MessagesPopUp/MessagesPopUp";
 
 export default function NavBar2() {
   const [displayPopUp, setDisplayPopUp] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
-  const [displayNotificationPopUp, setDisplayNotificationPopUp] = useState(false)
+  const [displayNotificationPopUp, setDisplayNotificationPopUp] =
+    useState(false);
 
+    const [displayMessagesPopUp, setDisplayMessagesPopUp] =
+    useState(false);
 
   const [currentUserDoc, setCurrentUserDoc] = useContext(
     CurrentUserDetailsContext
@@ -37,12 +41,14 @@ export default function NavBar2() {
   const classes = useStyles();
   const [error, setError] = useState("");
   const history = useHistory();
-  const {logout } = useAuth();
+  const { logout } = useAuth();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+
+ 
 
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -61,16 +67,28 @@ export default function NavBar2() {
     setMobileMoreAnchorEl(event.currentTarget);
   };
 
+  const handleNotificationPopUp = () => {
+    setDisplayNotificationPopUp((prevState) => !prevState);
+    setDisplayMessagesPopUp(false);
+    handleMenuClose();
+  };
+
+  const handleMessagesPopUp = () => {
+    setDisplayMessagesPopUp((prevState) => !prevState);
+    setDisplayNotificationPopUp(false);
+    handleMenuClose();
+
+  }
+
   const handleLogout = async () => {
     setError("");
     try {
-        await logout(auth);
-        history.push('/login');
-      }
-    catch(error){
-        setError("Log out Failed!");
+      await logout(auth);
+      history.push("/login");
+    } catch (error) {
+      setError("Log out Failed!");
     }
-};
+  };
 
   const menuId = "primary-search-account-menu";
   const renderMenu = (
@@ -83,8 +101,16 @@ export default function NavBar2() {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem component={Link} to={`/profile/${currentUserDoc?.username}`} onClick={handleMenuClose}>Profile</MenuItem>
-      <MenuItem onClick={handleMenuClose} onClick={handleLogout}>Log out</MenuItem>
+      <MenuItem
+        component={Link}
+        to={`/profile/${currentUserDoc?.username}`}
+        onClick={handleMenuClose}
+      >
+        Profile
+      </MenuItem>
+      <MenuItem onClick={handleMenuClose} onClick={handleLogout}>
+        Log out
+      </MenuItem>
     </Menu>
   );
 
@@ -99,7 +125,15 @@ export default function NavBar2() {
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>
+      <MenuItem component={Link} to="/" onClick={handleMobileMenuClose}>
+        <IconButton aria-label="show 4 new mails" color="inherit">
+          <Badge  color="secondary">
+          <HouseIcon />
+          </Badge>
+        </IconButton>
+        <p>Home</p>
+      </MenuItem>
+      <MenuItem onClick={handleMessagesPopUp}>
         <IconButton aria-label="show 4 new mails" color="inherit">
           <Badge badgeContent={4} color="secondary">
             <MailIcon />
@@ -107,8 +141,8 @@ export default function NavBar2() {
         </IconButton>
         <p>Messages</p>
       </MenuItem>
-      <MenuItem onClick={handleMenuClose}>
-        <IconButton aria-label="show 11 new notifications" color="inherit">
+      <MenuItem onClick={handleNotificationPopUp}>
+        <IconButton aria-label="show 11 new notifications" color="inherit" >
           <Badge badgeContent={11} color="secondary">
             <NotificationsIcon />
           </Badge>
@@ -122,35 +156,38 @@ export default function NavBar2() {
           aria-haspopup="true"
           color="inherit"
         >
-          {currentUserDoc?.avatarUrl ?
-                <Avatar alt={currentUserDoc.username} src={currentUserDoc?.avatarUrl} /> :
-              <AccountCircle />}
+          {currentUserDoc?.avatarUrl ? (
+            <Avatar
+              alt={currentUserDoc.username}
+              src={currentUserDoc?.avatarUrl}
+            />
+          ) : (
+            <AccountCircle />
+          )}
         </IconButton>
         <p>Profile</p>
       </MenuItem>
     </Menu>
   );
 
-  const handleDisplayPopUp = (e) =>{
+  const handleDisplayPopUp = (e) => {
     setDisplayPopUp(true);
-    setSearchTerm(e.target.value)
-  }
+    setSearchTerm(e.target.value);
+  };
 
-  const closeDisplayPopUp = (e) =>{
+  const closeDisplayPopUp = (e) => {
     setDisplayPopUp(false);
     setSearchTerm("");
-  }
+  };
 
   const handleKeyPress = (e) => {
-    if(e.key === "Escape") {
+    if (e.key === "Escape") {
       setDisplayPopUp(false);
       setSearchTerm("");
-  }
-  }
+    }
+  };
 
-  const handleNotificationPopUp = () => {
-    setDisplayNotificationPopUp(prevState => !prevState);
-  }
+  
 
   return (
     <div className={classes.grow}>
@@ -164,11 +201,13 @@ export default function NavBar2() {
           >
             <MenuIcon />
           </IconButton>
-          <img
-            className={classes.logo}
-            src={feediowhitebackground}
-            alt="logo"
-          />
+          <Link to="/">
+            <img
+              className={classes.logo}
+              src={feediowhitebackground}
+              alt="logo"
+            />
+          </Link>
 
           <Typography className={classes.title} variant="h6" noWrap>
             FEEDIO
@@ -191,11 +230,15 @@ export default function NavBar2() {
           </div>
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
-            <IconButton aria-label="show 4 new mails" color="inherit">
+            <IconButton
+              aria-label="show 4 new mails"
+              color="inherit"
+              component={Link}
+              to="/"
+            >
               <Badge
-                badgeContent={4}
+                // badgeContent={4}
                 color="secondary"
-                
               >
                 <HouseIcon />
               </Badge>
@@ -205,13 +248,20 @@ export default function NavBar2() {
                 <AddCircleIcon />
               </Badge>
             </IconButton>
-            <IconButton aria-label="show 4 new mails" color="inherit">
+            <IconButton aria-label="show 4 new mails" color="inherit" onClick={handleMessagesPopUp}>
               <Badge badgeContent={4} color="secondary">
                 <MailIcon />
               </Badge>
             </IconButton>
-            <IconButton aria-label="show 17 new notifications" color="inherit" onClick={handleNotificationPopUp}>
-              <Badge badgeContent={currentUserDoc?.notifications?.length} color="secondary">
+            <IconButton
+              aria-label="show 17 new notifications"
+              color="inherit"
+              onClick={handleNotificationPopUp}
+            >
+              <Badge
+                badgeContent={currentUserDoc?.notifications?.length}
+                color="secondary"
+              >
                 <NotificationsIcon />
               </Badge>
             </IconButton>
@@ -223,9 +273,14 @@ export default function NavBar2() {
               onClick={handleProfileMenuOpen}
               color="inherit"
             >
-                {currentUserDoc?.avatarUrl ?
-                <Avatar alt={currentUserDoc.username} src={currentUserDoc?.avatarUrl} /> :
-              <AccountCircle />}
+              {currentUserDoc?.avatarUrl ? (
+                <Avatar
+                  alt={currentUserDoc.username}
+                  src={currentUserDoc?.avatarUrl}
+                />
+              ) : (
+                <AccountCircle />
+              )}
             </IconButton>
           </div>
           <div className={classes.sectionMobile}>
@@ -243,10 +298,17 @@ export default function NavBar2() {
       </AppBar>
       {renderMobileMenu}
       {renderMenu}
-      {displayPopUp && 
-      <PopUp searchTerm={searchTerm} closeDisplayPopUp={closeDisplayPopUp} />}
-      
-      {displayNotificationPopUp && <NotificationPopUp handleNotificationPopUp={handleNotificationPopUp} />}
+      {displayPopUp && (
+        <PopUp searchTerm={searchTerm} closeDisplayPopUp={closeDisplayPopUp} />
+      )}
+
+      {displayNotificationPopUp && (
+        <NotificationPopUp handleNotificationPopUp={handleNotificationPopUp} />
+      )}
+
+{displayMessagesPopUp && (
+        <MessagesPopUp handleMessagesPopUp={handleMessagesPopUp} />
+      )}
     </div>
   );
 }
