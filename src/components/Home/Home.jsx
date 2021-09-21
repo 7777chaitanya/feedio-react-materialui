@@ -26,7 +26,7 @@ const Home = ({handleAllPostsUpdateDeleteOptimistically,handleDummy,allPosts}) =
 
   return (
     <div>
-      <NavBar currentUsername={currentUserDoc.username} handleAllPostsUpdateDeleteOptimistically={handleAllPostsUpdateDeleteOptimistically} />
+      {/* <NavBar currentUsername={currentUserDoc.username} handleAllPostsUpdateDeleteOptimistically={handleAllPostsUpdateDeleteOptimistically} /> */}
       <NavBar2/>
       <Wassup currentUser={currentUser} handleAllPostsUpdateDeleteOptimistically={handleAllPostsUpdateDeleteOptimistically} handleDummy={handleDummy} allPosts={allPosts}/>
       <AllPosts2/>

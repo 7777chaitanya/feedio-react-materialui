@@ -1,52 +1,45 @@
-import React , {useContext} from 'react';
-import { AllUserDetailsContext } from '../../contexts/AllUserDetailsContext';
-import { CurrentUserDetailsContext } from '../../contexts/CurrentUserDetailsContext';
-import Post2 from '../Post2/Post2';
-
-
-
+import React, { useContext } from "react";
+import { AllUserDetailsContext } from "../../contexts/AllUserDetailsContext";
+import { CurrentUserDetailsContext } from "../../contexts/CurrentUserDetailsContext";
+import Post2 from "../Post2/Post2";
 
 const AllPosts2 = () => {
-    const [allUserDocs, setAllUserDocs] = useContext(AllUserDetailsContext);
-    const [currentUserDoc, setCurrentUserDoc] = useContext(
-        CurrentUserDetailsContext
-      );
-    
-    let allThePosts = [];
-    allUserDocs?.forEach(doc => doc.posts.forEach(post => allThePosts?.push(post)));
-    console.log("all the posts => ",allThePosts)
+  const [allUserDocs, setAllUserDocs] = useContext(AllUserDetailsContext);
+  const [currentUserDoc, setCurrentUserDoc] = useContext(
+    CurrentUserDetailsContext
+  );
 
-    allThePosts = allThePosts?.sort((a,b) => {
-        let c,d;
-        if(a.date.getMonth){
-            c = a.date
-        }
-        if(b.date.getMonth){
-            d = b.date
-        }
-        if(!a.date.getMonth){
-            c=a.date.toDate();
-        }
-        if(!b.date.getMonth){
-            d=b.date.toDate()
-        }
-        
-        return d - c;
-      })
-    
- 
-    return (
-        <>
-        <h5>current User docs.likedPosts</h5>
-        {currentUserDoc?.likedPosts?.map(post => <h6>{post}</h6>)}
+  let allThePosts = [];
+  allUserDocs?.forEach((doc) =>
+    doc.posts.forEach((post) => allThePosts?.push(post))
+  );
+  console.log("all the posts => ", allThePosts);
 
-        <h5>All User docs.likedPosts</h5>
-        {allUserDocs[0]?.likedPosts?.map(post => <h6>{post}</h6>)}
+  allThePosts = allThePosts?.sort((a, b) => {
+    let c, d;
+    if (a.date.getMonth) {
+      c = a.date;
+    }
+    if (b.date.getMonth) {
+      d = b.date;
+    }
+    if (!a.date.getMonth) {
+      c = a.date.toDate();
+    }
+    if (!b.date.getMonth) {
+      d = b.date.toDate();
+    }
 
-        
-        {allThePosts?.map(post => <Post2 post={post}/>)}
-        </>
-    )
-}
+    return d - c;
+  });
 
-export default AllPosts2
+  return (
+    <>
+      {allThePosts?.map((post) => (
+        <Post2 post={post} />
+      ))}
+    </>
+  );
+};
+
+export default AllPosts2;
