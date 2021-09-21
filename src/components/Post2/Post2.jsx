@@ -18,12 +18,14 @@ import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import useStyles from "./styles";
 import { AllUserDetailsContext } from "../../contexts/AllUserDetailsContext";
-import { doc, updateDoc } from "firebase/firestore";
+import { doc, updateDoc, arrayUnion, arrayRemove } from "firebase/firestore";
 import { db } from "../../firebase";
 import dateCustomizer from "../../utils/dateCustomizer";
-import BookmarkIcon from '@material-ui/icons/Bookmark';
-import BookmarkBorderIcon from '@material-ui/icons/BookmarkBorder';
-import {Link} from "react-router-dom"
+import BookmarkIcon from "@material-ui/icons/Bookmark";
+import BookmarkBorderIcon from "@material-ui/icons/BookmarkBorder";
+import { Link } from "react-router-dom";
+import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
+
 
 const Post2 = ({ post }) => {
   const [currentUserDoc, setCurrentUserDoc] = useContext(
@@ -49,7 +51,7 @@ const Post2 = ({ post }) => {
       if (currentUserDocCopy?.likedPosts?.indexOf(post.id) === -1) {
         currentUserDocCopy.likedPosts.push(post.id);
       }
-      addToLikedPostsArrayInFirestore({...currentUserDocCopy});
+      addToLikedPostsArrayInFirestore({ ...currentUserDocCopy });
 
       return { ...currentUserDocCopy };
     });
@@ -84,7 +86,7 @@ const Post2 = ({ post }) => {
         return id !== post.id;
       });
       currentUserDocCopy.likedPosts = [...modifiedLikedPosts];
-      removeFromLikedPostsArrayInFirestore({...currentUserDocCopy});
+      removeFromLikedPostsArrayInFirestore({ ...currentUserDocCopy });
 
       return { ...currentUserDocCopy };
     });
@@ -95,13 +97,13 @@ const Post2 = ({ post }) => {
   const removeFromLikedPostsArrayInAllUserDocs = () => {
     setAllUserDocs((prevState) => {
       let allUserDocsCopy = [...prevState];
-      let docToModify = allUserDocsCopy.find((doc) => doc.email === currentUserDoc.email);
+      let docToModify = allUserDocsCopy.find(
+        (doc) => doc.email === currentUserDoc.email
+      );
       let modifiedLikedPosts = docToModify.likedPosts.filter((id) => {
         return id !== post.id;
       });
       docToModify.likedPosts = [...modifiedLikedPosts];
-     
-
 
       return [...allUserDocsCopy];
     });
@@ -113,20 +115,17 @@ const Post2 = ({ post }) => {
     await updateDoc(currentUserDocRef, {
       likedPosts: [...currentUserDocCopy.likedPosts],
     });
-  }
-
+  };
 
   const addToLikedPostsArray = () => {
-    let likedPostsArray = [...currentUserDoc?.likedPosts]
+    let likedPostsArray = [...currentUserDoc?.likedPosts];
     addToLikedPostsArrayInCurrentUserDoc();
     addToLikedPostsArrayInAllUserDocs();
-    
   };
 
   const removeFromLikedPostsArray = () => {
     removeFromLikedPostsArrayInCurrentUserDoc();
     removeFromLikedPostsArrayInAllUserDocs();
-
   };
 
   const handleLike = () => {
@@ -139,14 +138,13 @@ const Post2 = ({ post }) => {
     removeFromLikedPostsArray();
   };
 
-  const checkIfPostInLikedPosts = () =>{
-    if(currentUserDoc?.likedPosts?.includes(post.id)){
-        return (<FavoriteIcon onClick={handleDislike} />)
+  const checkIfPostInLikedPosts = () => {
+    if (currentUserDoc?.likedPosts?.includes(post.id)) {
+      return <FavoriteIcon onClick={handleDislike} />;
+    } else {
+      return <FavoriteBorderIcon onClick={handleLike} />;
     }
-    else{
-      return (<FavoriteBorderIcon onClick={handleLike} />)
-    }
-  }
+  };
 
   // Everything related to like ends here
 
@@ -158,7 +156,7 @@ const Post2 = ({ post }) => {
       if (currentUserDocCopy?.savedPosts?.indexOf(post.id) === -1) {
         currentUserDocCopy.savedPosts.push(post.id);
       }
-      addToSavedPostsArrayInFirestore({...currentUserDocCopy});
+      addToSavedPostsArrayInFirestore({ ...currentUserDocCopy });
 
       return { ...currentUserDocCopy };
     });
@@ -193,7 +191,7 @@ const Post2 = ({ post }) => {
         return id !== post.id;
       });
       currentUserDocCopy.savedPosts = [...modifiedSavedPosts];
-      removeFromSavedPostsArrayInFirestore({...currentUserDocCopy});
+      removeFromSavedPostsArrayInFirestore({ ...currentUserDocCopy });
 
       return { ...currentUserDocCopy };
     });
@@ -204,13 +202,13 @@ const Post2 = ({ post }) => {
   const removeFromSavedPostsArrayInAllUserDocs = () => {
     setAllUserDocs((prevState) => {
       let allUserDocsCopy = [...prevState];
-      let docToModify = allUserDocsCopy.find((doc) => doc.email === currentUserDoc.email);
+      let docToModify = allUserDocsCopy.find(
+        (doc) => doc.email === currentUserDoc.email
+      );
       let modifiedSavedPosts = docToModify.savedPosts.filter((id) => {
         return id !== post.id;
       });
       docToModify.savedPosts = [...modifiedSavedPosts];
-     
-
 
       return [...allUserDocsCopy];
     });
@@ -222,19 +220,17 @@ const Post2 = ({ post }) => {
     await updateDoc(currentUserDocRef, {
       savedPosts: [...currentUserDocCopy.savedPosts],
     });
-  }
+  };
 
   const addToSavedPostsArray = () => {
-    let SavedPostsArray = [...currentUserDoc?.likedPosts]
+    let SavedPostsArray = [...currentUserDoc?.likedPosts];
     addToSavedPostsArrayInCurrentUserDoc();
     addToSavedPostsArrayInAllUserDocs();
-    
   };
 
   const removeFromSavedPostsArray = () => {
     removeFromSavedPostsArrayInCurrentUserDoc();
     removeFromSavedPostsArrayInAllUserDocs();
-
   };
 
   const handleSave = () => {
@@ -247,42 +243,103 @@ const Post2 = ({ post }) => {
     removeFromSavedPostsArray();
   };
 
-  const checkIfPostInSavedPosts = () =>{
-    if(currentUserDoc?.savedPosts?.includes(post.id)){
-      return (<BookmarkIcon onClick={handleUnsave} />)
-  }
-  else{
-    return (<BookmarkBorderIcon onClick={handleSave} />)
-  }
-  }
+  const checkIfPostInSavedPosts = () => {
+    if (currentUserDoc?.savedPosts?.includes(post.id)) {
+      return <BookmarkIcon onClick={handleUnsave} />;
+    } else {
+      return <BookmarkBorderIcon onClick={handleSave} />;
+    }
+  };
 
   const checkIfUserHasAvatar = () => {
-    const docOfThePostOwner = allUserDocs?.find(doc => doc?.email === post?.email);
-    if(docOfThePostOwner?.avatarUrl){
+    const docOfThePostOwner = allUserDocs?.find(
+      (doc) => doc?.email === post?.email
+    );
+    if (docOfThePostOwner?.avatarUrl) {
       return (
-        <Avatar className={classes.avatar} src={docOfThePostOwner.avatarUrl}/>
-      )
+        <Avatar className={classes.avatar} src={docOfThePostOwner.avatarUrl} />
+      );
+    } else {
+      return (
+        <Avatar aria-label="recipe" className={classes.avatar}>
+          {post?.username[0].toUpperCase()}
+        </Avatar>
+      );
     }
-    else{
-      return (<Avatar aria-label="recipe" className={classes.avatar}>
-      {post?.username[0].toUpperCase()}
-    </Avatar>)
-    }
-  }
+  };
 
+  const removePostFromCurrentUserDocs = () => {
+    console.log(currentUserDoc?.posts?.length);
+   
+    setCurrentUserDoc(prevState => {
+      const currentUserDocsCopy = {...prevState};
+      const postToDelete = currentUserDocsCopy?.posts?.find(eachPost => eachPost.id === post.id);
+      const indexOfPostToDelete = currentUserDocsCopy.posts.indexOf(postToDelete);
+      if(indexOfPostToDelete !== -1){
+        currentUserDocsCopy.posts.splice(indexOfPostToDelete,1);
+      }
+      return {...currentUserDocsCopy};
+    });
+    console.log(currentUserDoc?.posts?.length);
+    
+  };
+  const removePostFromAllUserDocs = () => {
+    
 
+    setAllUserDocs(prevState => {
+      const allUserDocsCopy = [...allUserDocs];
+      const docToModify = allUserDocsCopy.find(doc => doc.username === currentUserDoc.username);
+      const postToDelete = docToModify.posts.find(eachPost => eachPost.id === post.id);
+      const indexOfPostToDelete = docToModify.posts.indexOf(postToDelete);
+      if(indexOfPostToDelete !== -1){
+        docToModify.posts.splice(indexOfPostToDelete,1);
+      }
+      return [...allUserDocs];
+    })
+  };
+  const removePostFromFirestore = async () => {
+    const currentUserDocRef = doc(db, "users", currentUserDoc.email);
+
+    await updateDoc(currentUserDocRef, {
+      posts: arrayRemove(post)
+    });
+  };
+
+  const handlePostDelete = () => {
+    removePostFromCurrentUserDocs();
+    removePostFromAllUserDocs();
+    removePostFromFirestore();
+  };
 
   return (
     <Card className={classes.root}>
       <CardHeader
-        avatar={ checkIfUserHasAvatar() }
+        avatar={checkIfUserHasAvatar()}
         action={
-          <IconButton aria-label="settings">
-            <MoreVertIcon />
-          </IconButton>
+          <>
+            {post.email === currentUserDoc.email && (
+              <IconButton onClick={handlePostDelete}>
+                <DeleteForeverIcon />
+              </IconButton>
+            )}
+            <IconButton aria-label="settings">
+              <MoreVertIcon />
+            </IconButton>
+          </>
         }
         title={
-          <Typography dangerouslySetInnerHTML={{ __html: post?.username === currentUserDoc.username ? "You" : post.username }} variant="h6" component={Link} to={`/profile/${post.username}`} className={classes.postUsername} />
+          <Typography
+            dangerouslySetInnerHTML={{
+              __html:
+                post?.username === currentUserDoc.username
+                  ? "You"
+                  : post.username,
+            }}
+            variant="h6"
+            component={Link}
+            to={`/profile/${post.username}`}
+            className={classes.postUsername}
+          />
         }
         // subheader={`${post.date.toDate().getDate()}/${
         //   post.date.toDate().getMonth() + 1
@@ -294,7 +351,7 @@ const Post2 = ({ post }) => {
         image={post.imageUrl}
         title={post.username}
       />
-      
+
       <CardContent>
         <Typography variant="body2" color="textSecondary" component="p">
           {post.text}
@@ -308,11 +365,9 @@ const Post2 = ({ post }) => {
       <CardActions disableSpacing>
         <IconButton aria-label="add to favorites">
           {checkIfPostInLikedPosts()}
-          
         </IconButton>
         <IconButton aria-label="add to saved">
           {checkIfPostInSavedPosts()}
-          
         </IconButton>
         <IconButton aria-label="share">
           <ShareIcon />
@@ -338,13 +393,3 @@ const Post2 = ({ post }) => {
 };
 
 export default Post2;
-
-// referenceOfCurrentUserDocInAllUserDocsCopy = {...localCurrentUserDocRef}
-// console.log("referenceOfCurrentUserDocInAllUserDocsCopy=>",referenceOfCurrentUserDocInAllUserDocsCopy);
-
-// let currentUserDocRefInAllUserDocsCopy = localAllUserDocsCopy.find(doc => doc.username === currentUserDoc.username);
-// currentUserDocRefInAllUserDocsCopy = {...localCurrentUserDocRef};
-// console.log("heyo bruh=>", currentUserDocRefInAllUserDocsCopy);
-// console.log("heyyyo bro=>",localAllUserDocsCopy)
-// setAllUserDocs([...localAllUserDocsCopy]);
-// console.log("alllll user docs => ", allUserDocs)

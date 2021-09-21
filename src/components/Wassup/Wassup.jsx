@@ -180,7 +180,10 @@ const Wassup = ({
       });
       console.log("allUserDocs after state update  => ", allUserDocs);
       handlePostToFireStore({ ...postObj });
+     
     }
+    setWassupText("");
+    setWassupImage(null);
 
     // posting description, imageUrl, postDate to firestore---------------------------
   };
