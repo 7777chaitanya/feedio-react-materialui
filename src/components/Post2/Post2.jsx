@@ -25,6 +25,8 @@ import BookmarkIcon from "@material-ui/icons/Bookmark";
 import BookmarkBorderIcon from "@material-ui/icons/BookmarkBorder";
 import { Link } from "react-router-dom";
 import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
+import Snackbar from '@material-ui/core/Snackbar';
+import Alert from '@material-ui/lab/Alert';
 
 
 const Post2 = ({ post }) => {
@@ -38,6 +40,20 @@ const Post2 = ({ post }) => {
   const [like, setLike] = useState(false);
   const [save, setSave] = useState(false);
   const [expanded, setExpanded] = React.useState(false);
+  const [openUrlCopiedSnackBar, setOpenUrlCopiedSnackBar] = React.useState(false);
+
+  const handleShareButtonSnackBarOpen = () => {
+    setOpenUrlCopiedSnackBar(true);
+  };
+
+  const handleShareButtonSnackBarClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpenUrlCopiedSnackBar(false);
+  };
+
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
@@ -311,7 +327,13 @@ const Post2 = ({ post }) => {
     removePostFromFirestore();
   };
 
+  const handleCopyImageUrl = () => {
+    navigator.clipboard.writeText(post.imageUrl);
+    handleShareButtonSnackBarOpen();
+  }
+
   return (
+    <>
     <Card className={classes.root}>
       <CardHeader
         avatar={checkIfUserHasAvatar()}
@@ -346,11 +368,13 @@ const Post2 = ({ post }) => {
         // }/${post.date.toDate().getFullYear()}`}
         subheader={dateCustomizer(post.date)}
       />
+      {post.imageUrl && 
       <CardMedia
         className={classes.media}
         image={post.imageUrl}
         title={post.username}
       />
+}
 
       <CardContent>
         <Typography variant="body2" color="textSecondary" component="p">
@@ -369,9 +393,10 @@ const Post2 = ({ post }) => {
         <IconButton aria-label="add to saved">
           {checkIfPostInSavedPosts()}
         </IconButton>
-        <IconButton aria-label="share">
+        {post.imageUrl && 
+        (<IconButton aria-label="share" onClick={handleCopyImageUrl}>
           <ShareIcon />
-        </IconButton>
+        </IconButton>)}
         <IconButton
           className={clsx(classes.expand, {
             [classes.expandOpen]: expanded,
@@ -389,6 +414,12 @@ const Post2 = ({ post }) => {
         </CardContent>
       </Collapse>
     </Card>
+    <Snackbar open={openUrlCopiedSnackBar} autoHideDuration={1000} onClose={handleShareButtonSnackBarClose}>
+    <Alert onClose={handleShareButtonSnackBarClose} severity="success">
+      Image URL copied!
+    </Alert>
+  </Snackbar>
+  </>
   );
 };
 
