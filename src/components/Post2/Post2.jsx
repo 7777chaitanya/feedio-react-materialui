@@ -246,6 +246,7 @@ const Post2 = ({ post }) => {
     setSave(false);
     removeFromSavedPostsArray();
   };
+
   const checkIfPostInSavedPosts = () =>{
     if(currentUserDoc?.savedPosts?.includes(post.id)){
       return (<BookmarkIcon onClick={handleUnsave} />)
@@ -255,16 +256,26 @@ const Post2 = ({ post }) => {
   }
   }
 
+  const checkIfUserHasAvatar = () => {
+    const docOfThePostOwner = allUserDocs?.find(doc => doc?.email === post?.email);
+    if(docOfThePostOwner?.avatarUrl){
+      return (
+        <Avatar className={classes.avatar} src={docOfThePostOwner.avatarUrl}/>
+      )
+    }
+    else{
+      return (<Avatar aria-label="recipe" className={classes.avatar}>
+      {post?.username[0].toUpperCase()}
+    </Avatar>)
+    }
+  }
+
 
 
   return (
     <Card className={classes.root}>
       <CardHeader
-        avatar={
-          <Avatar aria-label="recipe" className={classes.avatar}>
-            {post?.username[0].toUpperCase()}
-          </Avatar>
-        }
+        avatar={ checkIfUserHasAvatar() }
         action={
           <IconButton aria-label="settings">
             <MoreVertIcon />
