@@ -8,6 +8,8 @@ import CardContent from "@material-ui/core/CardContent";
 import CardActions from "@material-ui/core/CardActions";
 import Collapse from "@material-ui/core/Collapse";
 import Avatar from "@material-ui/core/Avatar";
+import AvatarGroup from '@material-ui/lab/AvatarGroup';
+
 import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
 import { red } from "@material-ui/core/colors";
@@ -27,6 +29,7 @@ import { Link } from "react-router-dom";
 import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
 import Snackbar from "@material-ui/core/Snackbar";
 import Alert from "@material-ui/lab/Alert";
+import LikesPopUp from '../LikesPopUp/LikesPopUp';
 
 const Post2 = ({ post }) => {
   console.log(post.text,post.likedBy)
@@ -440,6 +443,32 @@ removeFromLikedByArrayInFireStore({...docToModify})
     handleShareButtonSnackBarOpen();
   };
 
+  const findAvatarUrl = (item) => {
+      const docOfTheLikedUser = allUserDocs.find(doc => doc.email === item);
+      return docOfTheLikedUser?.avatarUrl;
+  }
+
+  const findAlt = (item) =>{
+    const docOfTheLikedUser = allUserDocs.find(doc => doc.email === item);
+      return docOfTheLikedUser?.username;
+  }
+
+  // const [likesPopUp, setLikesPopUp] = useState(false)
+
+  const [openLikesPopUp, setOpenLikesPopUp] = React.useState(false);
+
+  const handleOpenLikesPopUp = () => {
+    setOpenLikesPopUp(true);
+  };
+
+  const handleCloseLikesPopUp = () => {
+    setOpenLikesPopUp(false);
+  };
+  
+  const handleLikesPopUp = () => {
+    setOpenLikesPopUp(prevState => !prevState);
+  }
+
   return (
     <>
       <Card className={classes.root}>
@@ -491,9 +520,14 @@ removeFromLikedByArrayInFireStore({...docToModify})
         </CardContent>
 
         <CardContent>
-          <Typography variant="body2" color="textSecondary" component="p">
-            {post.likedBy.length} likes
-          </Typography>
+        <AvatarGroup max={4} onClick={handleOpenLikesPopUp}>
+          <Typography variant="body2" className={classes.likesText}>Liked By </Typography>{"   "}
+          {post.likedBy.map(item => 
+              <Avatar alt={findAlt(item)} src={findAvatarUrl(item)} className={classes.smallAvatar} />
+
+            )}
+
+</AvatarGroup>
         </CardContent>
 
         <CardActions disableSpacing>
@@ -525,6 +559,7 @@ removeFromLikedByArrayInFireStore({...docToModify})
           </CardContent>
         </Collapse>
       </Card>
+{openLikesPopUp && <LikesPopUp handleCloseLikesPopUp={handleCloseLikesPopUp} likedBy={post?.likedBy} handleOpenLikesPopUp={handleOpenLikesPopUp} openLikesPopUp={openLikesPopUp}/>}
       <Snackbar
         open={openUrlCopiedSnackBar}
         autoHideDuration={1000}

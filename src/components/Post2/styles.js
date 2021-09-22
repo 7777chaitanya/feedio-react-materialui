@@ -41,6 +41,13 @@ const useStyles = makeStyles((theme) => ({
       textDecoration : "none",
       color : "black",
       fontWeight : 500
+    },
+    smallAvatar: {
+      width: theme.spacing(3),
+      height: theme.spacing(3),
+    },
+    likesText:{
+      marginRight : "0.7rem"
     }
   }));
 
