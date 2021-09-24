@@ -111,6 +111,13 @@ postButton:{
 },
 imageBox:{
   display: "none"
+},
+progressBar:{
+  width : "60vw",
+  marginTop : "2rem",
+marginLeft : "auto",
+marginRight : 'auto', 
+marginBottom : "4rem"
 }
 }));
 

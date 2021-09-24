@@ -15,6 +15,24 @@ import {
 } from "firebase/storage";
 import { AllUserDetailsContext } from "../../contexts/AllUserDetailsContext";
 import { CurrentUserDetailsContext } from "../../contexts/CurrentUserDetailsContext";
+import PropTypes from 'prop-types';
+import LinearProgress from '@material-ui/core/LinearProgress';
+import Typography from '@material-ui/core/Typography';
+
+function LinearProgressWithLabel(props) {
+  return (
+    <Box display="flex" alignItems="center">
+      <Box width="100%" mr={1}>
+        <LinearProgress variant="determinate" {...props} />
+      </Box>
+      <Box minWidth={35}>
+        <Typography variant="body2" color="textSecondary">{`${Math.round(
+          props.value,
+        )}%`}</Typography>
+      </Box>
+    </Box>
+  );
+        }
 
 const Wassup = ({
   currentUser,
@@ -30,6 +48,8 @@ const Wassup = ({
   const [currentUserDoc, setCurrentUserDoc] = useContext(
     CurrentUserDetailsContext
   );
+  const [progressBar, setProgressBar] = useState(null);
+  const [showProgressBar, setshowProgressBar] = useState(false)
 
   const checkIfImageOrTextBoxIsEmpty = () => {
     if (wassupText === "" && wassupImage === null) {
@@ -79,6 +99,7 @@ const Wassup = ({
     if (wassupImage) {
       const storageRef = ref(storage, "images/" + file.name);
       const uploadTask = uploadBytesResumable(storageRef, file);
+      setshowProgressBar(true);
 
       // Listen for state changes, errors, and completion of the upload.
       uploadTask.on(
@@ -87,6 +108,8 @@ const Wassup = ({
           // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
           const progress =
             (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+            
+            setProgressBar(progress)
           console.log("Upload is " + progress + "% done");
           switch (snapshot.state) {
             case "paused":
@@ -117,6 +140,8 @@ const Wassup = ({
         () => {
           // Upload completed successfully, now we can get the download URL
           getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+            setshowProgressBar(false);
+
             console.log("File available at", downloadURL);
             postObj.imageUrl = downloadURL;
             postObj.likes = 0;
@@ -268,10 +293,19 @@ const Wassup = ({
                   POST
                 </Button>
               </ThemeProvider>
+              
+
+
             </Box>
           </Box>
+        
         </Box>
       </Box>
+      {showProgressBar &&
+             ( <Box className={classes.progressBar}>
+              <LinearProgressWithLabel value={progressBar} />
+              </Box>)
+}
     </>
   );
 };
