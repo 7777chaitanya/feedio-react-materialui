@@ -104,86 +104,6 @@ export default function NavBar2() {
     }
   };
 
-  const menuId = "primary-search-account-menu";
-  const renderMenu = (
-    <Menu
-      anchorEl={anchorEl}
-      anchorOrigin={{ vertical: "top", horizontal: "right" }}
-      id={menuId}
-      keepMounted
-      transformOrigin={{ vertical: "top", horizontal: "right" }}
-      open={isMenuOpen}
-      onClose={handleMenuClose}
-    >
-      <MenuItem
-        component={Link}
-        to={`/profile/${currentUserDoc?.username}`}
-        onClick={handleMenuClose}
-      >
-        Profile
-      </MenuItem>
-      <MenuItem onClick={handleMenuClose} onClick={handleLogout}>
-        Log out
-      </MenuItem>
-    </Menu>
-  );
-
-  const mobileMenuId = "primary-search-account-menu-mobile";
-  const renderMobileMenu = (
-    <Menu
-      anchorEl={mobileMoreAnchorEl}
-      anchorOrigin={{ vertical: "top", horizontal: "right" }}
-      id={mobileMenuId}
-      keepMounted
-      transformOrigin={{ vertical: "top", horizontal: "right" }}
-      open={isMobileMenuOpen}
-      onClose={handleMobileMenuClose}
-    >
-      <MenuItem component={Link} to="/" onClick={handleMobileMenuClose}>
-        <IconButton aria-label="show 4 new mails" color="inherit">
-          <Badge color="secondary">
-            <HouseIcon />
-          </Badge>
-        </IconButton>
-        <p>Home</p>
-      </MenuItem>
-      <MenuItem onClick={handleMessagesPopUp}>
-        <IconButton aria-label="show 4 new mails" color="inherit">
-          <Badge badgeContent={0} color="secondary">
-            <MailIcon />
-          </Badge>
-        </IconButton>
-        <p>Messages</p>
-      </MenuItem>
-      <MenuItem onClick={handleNotificationPopUp}>
-        <IconButton aria-label="show 11 new notifications" color="inherit">
-          <Badge badgeContent={currentUserDoc?.notifications?.length} color="secondary">
-            <NotificationsIcon />
-          </Badge>
-        </IconButton>
-        <p>Notifications</p>
-      </MenuItem>
-      <MenuItem onClick={handleProfileMenuOpen}>
-        <IconButton
-          aria-label="account of current user"
-          aria-controls="primary-search-account-menu"
-          aria-haspopup="true"
-          color="inherit"
-        >
-          {currentUserDoc?.avatarUrl ? (
-            <Avatar
-              alt={currentUserDoc.username}
-              src={currentUserDoc?.avatarUrl}
-            />
-          ) : (
-            <AccountCircle />
-          )}
-        </IconButton>
-        <p>Profile</p>
-      </MenuItem>
-    </Menu>
-  );
-
   const handleDisplayPopUp = (e) => {
     setDisplayPopUp(true);
     setSearchTerm(e.target.value);
@@ -234,6 +154,88 @@ const handleMessagesModalOpen = () => {
 const handleMessagesModalClose = () => {
   setOpenMessagesModal(false);
 };
+
+  const menuId = "primary-search-account-menu";
+  const renderMenu = (
+    <Menu
+      anchorEl={anchorEl}
+      anchorOrigin={{ vertical: "top", horizontal: "right" }}
+      id={menuId}
+      keepMounted
+      transformOrigin={{ vertical: "top", horizontal: "right" }}
+      open={isMenuOpen}
+      onClose={handleMenuClose}
+    >
+      <MenuItem
+        component={Link}
+        to={`/profile/${currentUserDoc?.username}`}
+        onClick={handleMenuClose}
+      >
+        Profile
+      </MenuItem>
+      <MenuItem onClick={handleMenuClose} onClick={handleLogout}>
+        Log out
+      </MenuItem>
+    </Menu>
+  );
+
+  const mobileMenuId = "primary-search-account-menu-mobile";
+  const renderMobileMenu = (
+    <Menu
+      anchorEl={mobileMoreAnchorEl}
+      anchorOrigin={{ vertical: "top", horizontal: "right" }}
+      id={mobileMenuId}
+      keepMounted
+      transformOrigin={{ vertical: "top", horizontal: "right" }}
+      open={isMobileMenuOpen}
+      onClose={handleMobileMenuClose}
+    >
+      <MenuItem component={Link} to="/" onClick={handleMobileMenuClose}>
+        <IconButton aria-label="show 4 new mails" color="inherit">
+          <Badge color="secondary">
+            <HouseIcon />
+          </Badge>
+        </IconButton>
+        <p>Home</p>
+      </MenuItem>
+      <MenuItem onClick={handleMessagesModalOpen}>
+        <IconButton aria-label="show 4 new mails" color="inherit">
+          <Badge badgeContent={0} color="secondary">
+            <MailIcon />
+          </Badge>
+        </IconButton>
+        <p>Messages</p>
+      </MenuItem>
+      <MenuItem onClick={handleNotificationsModalOpen}>
+        <IconButton aria-label="show 11 new notifications" color="inherit">
+          <Badge badgeContent={currentUserDoc?.notifications?.length} color="secondary">
+            <NotificationsIcon />
+          </Badge>
+        </IconButton>
+        <p>Notifications</p>
+      </MenuItem>
+      <MenuItem onClick={handleProfileMenuOpen}>
+        <IconButton
+          aria-label="account of current user"
+          aria-controls="primary-search-account-menu"
+          aria-haspopup="true"
+          color="inherit"
+        >
+          {currentUserDoc?.avatarUrl ? (
+            <Avatar
+              alt={currentUserDoc.username}
+              src={currentUserDoc?.avatarUrl}
+            />
+          ) : (
+            <AccountCircle />
+          )}
+        </IconButton>
+        <p>Profile</p>
+      </MenuItem>
+    </Menu>
+  );
+
+  
 
   return (
     <div className={classes.grow}>
