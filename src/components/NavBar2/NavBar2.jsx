@@ -21,7 +21,7 @@ import WassupModal from "../WassupModal/WassupModal";
 import { CurrentUserDetailsContext } from "../../contexts/CurrentUserDetailsContext.jsx";
 import HouseIcon from "@material-ui/icons/House";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
-import { Avatar, Box, Popover } from "@material-ui/core";
+import { Avatar, Box, Popover, Tooltip } from "@material-ui/core";
 import { useHistory, Link, useLocation } from "react-router-dom";
 import { auth } from "../../firebase.js";
 import { useAuth } from "../../contexts/AuthContext";
@@ -281,70 +281,80 @@ export default function NavBar2() {
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
             {location.pathname !== "/" && (
-              <IconButton
-                aria-label="show 4 new mails"
-                color="inherit"
-                component={Link}
-                to="/"
-              >
-                <Badge
-                  // badgeContent={4}
-                  color="secondary"
+              <Tooltip title="Home">
+                <IconButton
+                  aria-label="show 4 new mails"
+                  color="inherit"
+                  component={Link}
+                  to="/"
                 >
-                  <HouseIcon />
-                </Badge>
-              </IconButton>
+                  <Badge
+                    // badgeContent={4}
+                    color="secondary"
+                  >
+                    <HouseIcon />
+                  </Badge>
+                </IconButton>
+              </Tooltip>
             )}
             {(location.pathname !== "/" && location.pathname === `/profile/${currentUserDoc.username}`)&& (
+              <Tooltip title="Add post">
+                <IconButton
+                  aria-label="show 4 new mails"
+                  color="inherit"
+                  onClick={handleWassupOpen}
+                >
+                  <Badge color="secondary">
+                    <AddCircleIcon />
+                  </Badge>
+                </IconButton>
+              </Tooltip>
+            )}
+            <Tooltip title="Messages">
               <IconButton
                 aria-label="show 4 new mails"
                 color="inherit"
-                onClick={handleWassupOpen}
+                onClick={handleMessagesModalOpen}
               >
-                <Badge color="secondary">
-                  <AddCircleIcon />
+                <Badge badgeContent={0} color="secondary">
+                  <MailIcon />
                 </Badge>
               </IconButton>
-            )}
-            <IconButton
-              aria-label="show 4 new mails"
-              color="inherit"
-              onClick={handleMessagesModalOpen}
-            >
-              <Badge badgeContent={0} color="secondary">
-                <MailIcon />
-              </Badge>
-            </IconButton>
-            <IconButton
-              aria-label="show 17 new notifications"
-              color="inherit"
-              // onClick={handleNotificationPopUp}
-              onClick={handleNotificationsModalOpen}
-            >
-              <Badge
-                badgeContent={currentUserDoc?.notifications?.length}
-                color="secondary"
+            </Tooltip>
+            <Tooltip title="Notifications">
+              <IconButton
+                aria-label="show 17 new notifications"
+                color="inherit"
+                // onClick={handleNotificationPopUp}
+                onClick={handleNotificationsModalOpen}
               >
-                <NotificationsIcon />
-              </Badge>
-            </IconButton>
-            <IconButton
-              edge="end"
-              aria-label="account of current user"
-              aria-controls={menuId}
-              aria-haspopup="true"
-              onClick={handleProfileMenuOpen}
-              color="inherit"
-            >
-              {currentUserDoc?.avatarUrl ? (
-                <Avatar
-                  alt={currentUserDoc.username}
-                  src={currentUserDoc?.avatarUrl}
-                />
-              ) : (
-                <AccountCircle />
-              )}
-            </IconButton>
+                <Badge
+                  badgeContent={currentUserDoc?.notifications?.length}
+                  color="secondary"
+                >
+                  <NotificationsIcon />
+                </Badge>
+              </IconButton>
+            </Tooltip>
+            <Tooltip title="Account">
+              <IconButton
+                edge="end"
+                aria-label="account of current user"
+                aria-controls={menuId}
+                aria-haspopup="true"
+                onClick={handleProfileMenuOpen}
+                color="inherit"
+              >
+                {currentUserDoc?.avatarUrl ? (
+                  <Avatar
+                    alt={currentUserDoc.username}
+                    src={currentUserDoc?.avatarUrl}
+                  />
+                ) : (
+                  <AccountCircle />
+                )}
+              </IconButton>
+            </Tooltip>
           </div>
           <div className={classes.sectionMobile}>
             <IconButton
