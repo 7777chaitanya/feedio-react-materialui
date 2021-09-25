@@ -16,12 +16,13 @@ import MoreIcon from "@material-ui/icons/MoreVert";
 import useStyles from "./styles.js";
 import feediowhitebackground from "../../assets/feediowhitebackground.png";
 import feedioolive from "../../assets/feedioolive.png";
+import WassupModal from "../WassupModal/WassupModal"
 
 import { CurrentUserDetailsContext } from "../../contexts/CurrentUserDetailsContext.jsx";
 import HouseIcon from "@material-ui/icons/House";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
 import { Avatar, Popover } from "@material-ui/core";
-import { useHistory, Link } from "react-router-dom";
+import { useHistory, Link, useLocation } from "react-router-dom";
 import { auth } from "../../firebase.js";
 import { useAuth } from "../../contexts/AuthContext";
 import PopUp from "../PopUp/PopUp";
@@ -43,6 +44,7 @@ export default function NavBar2() {
   const classes = useStyles();
   const [error, setError] = useState("");
   const history = useHistory();
+  const location = useLocation();
   const { logout } = useAuth();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
@@ -189,6 +191,16 @@ export default function NavBar2() {
     }
   };
 
+  const [wassupOpen, setWassupOpen] = React.useState(false);
+
+  const handleWassupOpen = () => {
+    setWassupOpen(true);
+  };
+
+  const handleWassupClose = () => {
+    setWassupOpen(false);
+  };
+
   
 
   return (
@@ -245,11 +257,12 @@ export default function NavBar2() {
                 <HouseIcon />
               </Badge>
             </IconButton>
-            <IconButton aria-label="show 4 new mails" color="inherit">
+            {location.pathname!=="/" &&
+            <IconButton aria-label="show 4 new mails" color="inherit" onClick={handleWassupOpen}>
               <Badge color="secondary">
                 <AddCircleIcon />
               </Badge>
-            </IconButton>
+            </IconButton>}
             <IconButton aria-label="show 4 new mails" color="inherit" onClick={handleMessagesPopUp}>
               <Badge badgeContent={4} color="secondary">
                 <MailIcon />
@@ -311,6 +324,11 @@ export default function NavBar2() {
 {displayMessagesPopUp && (
         <MessagesPopUp handleMessagesPopUp={handleMessagesPopUp} />
       )}
+
+      {wassupOpen && (
+        <WassupModal wassupOpen={wassupOpen} handleWassupOpen={handleWassupOpen} handleWassupClose={handleWassupClose}/>
+      )}
+
     </div>
   );
 }
