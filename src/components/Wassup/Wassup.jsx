@@ -18,6 +18,7 @@ import { CurrentUserDetailsContext } from "../../contexts/CurrentUserDetailsCont
 import PropTypes from 'prop-types';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import Typography from '@material-ui/core/Typography';
+import { ClickContext } from "../../contexts/ClickContext";
 
 function LinearProgressWithLabel(props) {
   return (
@@ -49,7 +50,8 @@ const Wassup = ({
     CurrentUserDetailsContext
   );
   const [progressBar, setProgressBar] = useState(null);
-  const [showProgressBar, setshowProgressBar] = useState(false)
+  const [showProgressBar, setshowProgressBar] = useState(false);
+  const {closeDisplayPopUp} =  useContext(ClickContext)
 
   const checkIfImageOrTextBoxIsEmpty = () => {
     if (wassupText === "" && wassupImage === null) {
@@ -210,41 +212,13 @@ const Wassup = ({
     setWassupText("");
     setWassupImage(null);
 
-    // posting description, imageUrl, postDate to firestore---------------------------
   };
 
-  // const handlePostToFirestore = async () => {
-  //   const usersDocRef = doc(db, "users", currentUser.email);
-
-  //   try {
-  //     let localRef = allPosts.find((post) => currentUser.email === post.email);
-  //     let localRefSpread = [...localRef.posts];
-
-  //     localRefSpread.push({
-  //       text: wassupText,
-  //       likes: 0,
-  //       date: new Date(),
-  //     });
-  //     console.log("lala lala=>", localRefSpread);
-  //     handleAllPostsUpdateDeleteOptimistically(
-  //       localRefSpread,
-  //       currentUser.email
-  //     );
-  //     await updateDoc(usersDocRef, {
-  //       posts: arrayUnion({ text: wassupText, likes: 0, date: new Date() }),
-  //     });
-  //     setWassupText("");
-  //     // handleReloadAfterWassupUpload();e
-
-  //     toast.success("Posted successfully");
-  //   } catch (e) {
-  //     toast.warn("Couldn't post at the moment. Please retry after sometime!");
-  //   }
-  // };
+ 
 
   return (
-    <>
-      <Box className={classes.mainOuterBox}>
+    <Box onClick={closeDisplayPopUp}>
+      <Box className={classes.mainOuterBox} >
         <Box className={classes.outerBox}>
           <Box>
             <Box className={classes.wassuptextbox}>
@@ -307,7 +281,7 @@ const Wassup = ({
               <LinearProgressWithLabel value={progressBar} />
               </Box>)
 }
-    </>
+    </Box>
   );
 };
 
