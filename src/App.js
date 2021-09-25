@@ -22,6 +22,7 @@ import { CurrentUserDetailsProvider } from "./contexts/CurrentUserDetailsContext
 import { AllUserDetailsProvider } from "./contexts/AllUserDetailsContext";
 import { ThemeProvider, createTheme } from "@material-ui/core";
 import {useLocation} from "react-router-dom";
+import "./App.css";
 
 const App = () => {
   const [docs, setDocs] = useState([]);
@@ -89,7 +90,7 @@ const App = () => {
   };
 
   return (
-    <>
+    <div className="mainBox">
       <Router>
         <ToastContainer
           position="top-right"
@@ -163,7 +164,7 @@ const App = () => {
         </AuthProvider>
         </ThemeProvider>
       </Router>
-    </>
+    </div>
   );
 };
 

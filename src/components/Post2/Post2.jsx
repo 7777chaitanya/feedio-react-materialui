@@ -263,9 +263,9 @@ removeFromLikedByArrayInFireStore({...docToModify})
 
   const checkIfPostInLikedPosts = () => {
     if (currentUserDoc?.likedPosts?.includes(post.id)) {
-      return <FavoriteIcon onClick={handleDislike} />;
+      return <FavoriteIcon onClick={handleDislike} color="primary"/>;
     } else {
-      return <FavoriteBorderIcon onClick={handleLike} />;
+      return <FavoriteBorderIcon onClick={handleLike} color="primary" />;
     }
   };
 
@@ -368,9 +368,9 @@ removeFromLikedByArrayInFireStore({...docToModify})
 
   const checkIfPostInSavedPosts = () => {
     if (currentUserDoc?.savedPosts?.includes(post.id)) {
-      return <BookmarkIcon onClick={handleUnsave} />;
+      return <BookmarkIcon onClick={handleUnsave} color="primary"/>;
     } else {
-      return <BookmarkBorderIcon onClick={handleSave} />;
+      return <BookmarkBorderIcon onClick={handleSave} color="primary" />;
     }
   };
 
@@ -482,7 +482,7 @@ removeFromLikedByArrayInFireStore({...docToModify})
                 </IconButton>
               )}
               <IconButton aria-label="settings">
-                <MoreVertIcon />
+                <MoreVertIcon color="primary"/>
               </IconButton>
             </>
           }
@@ -539,10 +539,10 @@ removeFromLikedByArrayInFireStore({...docToModify})
           </IconButton>
           {post.imageUrl && (
             <IconButton aria-label="share" onClick={handleCopyImageUrl}>
-              <ShareIcon />
+              <ShareIcon color="primary"/>
             </IconButton>
           )}
-          <IconButton
+          {/* <IconButton
             className={clsx(classes.expand, {
               [classes.expandOpen]: expanded,
             })}
@@ -551,7 +551,7 @@ removeFromLikedByArrayInFireStore({...docToModify})
             aria-label="show more"
           >
             <ExpandMoreIcon />
-          </IconButton>
+          </IconButton> */}
         </CardActions>
         <Collapse in={expanded} timeout="auto" unmountOnExit>
           <CardContent>
