@@ -44,7 +44,7 @@ const Login = () => {
 
 
     const handleSubmit = async (e) => {
-      e.preventDefault();
+      e && e.preventDefault();
       console.log("sign up method =>", auth);
   
       
@@ -80,6 +80,12 @@ const Login = () => {
       window.location.reload(true)
     };
   
+
+    const handleAutoLogin = () => {
+      emailRef.current.value = "tata@gmail.com";
+      passwordRef.current.value = "asdfgh";
+      handleSubmit();
+    }
 
   return (
     <Box className={classes.mainBackground}>
@@ -136,6 +142,9 @@ const Login = () => {
         
 
       </form>
+      <Box className={classes.box1}>
+          <ThemeProvider theme={theme}><Button type="submit" variant="contained" color="secondary" disable={!loading} onClick={handleAutoLogin}>LOG IN as test user</Button></ThemeProvider>
+        </Box>
       <Box className={classes.box1}>
         <Divider className={classes.divider} />
       </Box>
