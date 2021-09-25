@@ -143,17 +143,16 @@ export default function NavBar2() {
     setOpenNotificationsModal(false);
   };
 
-  const [openMessagesModal, setOpenMessagesModal] =
-  React.useState(false);
+  const [openMessagesModal, setOpenMessagesModal] = React.useState(false);
 
-const handleMessagesModalOpen = () => {
-  setOpenMessagesModal(true);
-  closeDisplayPopUp();
-};
+  const handleMessagesModalOpen = () => {
+    setOpenMessagesModal(true);
+    closeDisplayPopUp();
+  };
 
-const handleMessagesModalClose = () => {
-  setOpenMessagesModal(false);
-};
+  const handleMessagesModalClose = () => {
+    setOpenMessagesModal(false);
+  };
 
   const menuId = "primary-search-account-menu";
   const renderMenu = (
@@ -208,7 +207,10 @@ const handleMessagesModalClose = () => {
       </MenuItem>
       <MenuItem onClick={handleNotificationsModalOpen}>
         <IconButton aria-label="show 11 new notifications" color="inherit">
-          <Badge badgeContent={currentUserDoc?.notifications?.length} color="secondary">
+          <Badge
+            badgeContent={currentUserDoc?.notifications?.length}
+            color="secondary"
+          >
             <NotificationsIcon />
           </Badge>
         </IconButton>
@@ -234,8 +236,6 @@ const handleMessagesModalClose = () => {
       </MenuItem>
     </Menu>
   );
-
-  
 
   return (
     <div className={classes.grow}>
@@ -271,25 +271,30 @@ const handleMessagesModalClose = () => {
               onKeyDown={handleKeyPress}
               value={searchTerm}
             />
-            <IconButton onClick={closeDisplayPopUp} className={classes.cancelButton}>
+            <IconButton
+              onClick={closeDisplayPopUp}
+              className={classes.cancelButton}
+            >
               <CloseIcon />
             </IconButton>
           </div>
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
-            <IconButton
-              aria-label="show 4 new mails"
-              color="inherit"
-              component={Link}
-              to="/"
-            >
-              <Badge
-                // badgeContent={4}
-                color="secondary"
+            {location.pathname !== "/" && (
+              <IconButton
+                aria-label="show 4 new mails"
+                color="inherit"
+                component={Link}
+                to="/"
               >
-                <HouseIcon />
-              </Badge>
-            </IconButton>
+                <Badge
+                  // badgeContent={4}
+                  color="secondary"
+                >
+                  <HouseIcon />
+                </Badge>
+              </IconButton>
+            )}
             {location.pathname !== "/" && (
               <IconButton
                 aria-label="show 4 new mails"
@@ -384,7 +389,7 @@ const handleMessagesModalClose = () => {
         />
       )}
 
-{openMessagesModal && (
+      {openMessagesModal && (
         <MessagesModal
           openMessagesModal={openMessagesModal}
           handleMessagesModalOpen={handleMessagesModalOpen}
