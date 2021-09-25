@@ -1,5 +1,6 @@
 import React,{useContext} from 'react'
 import { CurrentUserDetailsContext } from '../../contexts/CurrentUserDetailsContext';
+import NoPostsCard from '../NoPostsCard/NoPostsCard';
 import Post2 from "../Post2/Post2"
 
 const MyPosts2 = ({profileBelongsTo}) => {
@@ -23,7 +24,9 @@ const MyPosts2 = ({profileBelongsTo}) => {
       })
     return (
         <div>
-            {myPosts?.map(post => 
+                  {(myPosts?.length === 0) && <NoPostsCard text="There are no posts to show!" /> }
+
+            {myPosts?.length !==0 && myPosts?.map(post => 
                <Post2 post={post}/> 
                 )}
         </div>
