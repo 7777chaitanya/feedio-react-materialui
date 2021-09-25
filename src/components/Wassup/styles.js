@@ -96,6 +96,7 @@ const useStyles = makeStyles((theme) => ({
   },
   mainOuterBox: {
     border: "0.2 rem solid lightgray",
+    marginBottom : "2rem"
   },
   // input: {
   //   display: "none",
