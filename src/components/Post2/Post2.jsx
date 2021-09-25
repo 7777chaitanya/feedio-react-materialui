@@ -8,7 +8,7 @@ import CardContent from "@material-ui/core/CardContent";
 import CardActions from "@material-ui/core/CardActions";
 import Collapse from "@material-ui/core/Collapse";
 import Avatar from "@material-ui/core/Avatar";
-import AvatarGroup from '@material-ui/lab/AvatarGroup';
+import AvatarGroup from "@material-ui/lab/AvatarGroup";
 
 import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
@@ -29,13 +29,13 @@ import { Link } from "react-router-dom";
 import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
 import Snackbar from "@material-ui/core/Snackbar";
 import Alert from "@material-ui/lab/Alert";
-import LikesPopUp from '../LikesPopUp/LikesPopUp';
+import LikesPopUp from "../LikesPopUp/LikesPopUp";
 import { Box } from "@material-ui/core";
 import { ClickContext } from "../../contexts/ClickContext";
 
-const Post2 = ({ post}) => {
-  console.log(post?.text,post?.likedBy);
-  const {closeDisplayPopUp} = useContext(ClickContext)
+const Post2 = ({ post }) => {
+  console.log(post?.text, post?.likedBy);
+  const { closeDisplayPopUp } = useContext(ClickContext);
   const [currentUserDoc, setCurrentUserDoc] = useContext(
     CurrentUserDetailsContext
   );
@@ -139,16 +139,16 @@ const Post2 = ({ post}) => {
     });
   };
 
-  const addToLikedByArrayInFireStore = async (docToModify) =>{
-  console.log("docToModify.email",docToModify.email)
-  console.log("docToModify.email",docToModify.posts)
+  const addToLikedByArrayInFireStore = async (docToModify) => {
+    console.log("docToModify.email", docToModify.email);
+    console.log("docToModify.email", docToModify.posts);
 
     const currentUserDocRef = doc(db, "users", docToModify.email);
 
     await updateDoc(currentUserDocRef, {
       posts: [...docToModify.posts],
     });
-  }
+  };
 
   const addToLikedByArrayInCurrentUserDoc = () => {
     setCurrentUserDoc((prevState) => {
@@ -175,9 +175,8 @@ const Post2 = ({ post}) => {
       );
       if (postToModify.likedBy.indexOf(currentUserDoc.email) === -1) {
         postToModify.likedBy.push(currentUserDoc?.email);
-        addToLikedByArrayInFireStore({...docToModify});
+        addToLikedByArrayInFireStore({ ...docToModify });
         // postToModify.likedBy.push("hello sir");
-
       }
       return [...allUserDocsCopy];
     });
@@ -195,33 +194,34 @@ const Post2 = ({ post}) => {
   };
 
   const removeFromLikedByArrayInFireStore = async (docToModify) => {
-    console.log("docToModify.email",docToModify.email)
-  console.log("docToModify.email",docToModify.posts)
+    console.log("docToModify.email", docToModify.email);
+    console.log("docToModify.email", docToModify.posts);
 
     const currentUserDocRef = doc(db, "users", docToModify.email);
 
     await updateDoc(currentUserDocRef, {
       posts: [...docToModify.posts],
     });
-  }
+  };
 
-  const removeFromLikedByArrayInCurrentUserDoc = () =>{
+  const removeFromLikedByArrayInCurrentUserDoc = () => {
     setCurrentUserDoc((prevState) => {
       const currentUserDocCopy = { ...prevState };
       const postToUpdate = currentUserDocCopy.posts.find(
         (eachPost) => eachPost.id === post.id
       );
-      const indexOfUserEmail = postToUpdate.likedBy.indexOf(currentUserDoc.email);
-      if(indexOfUserEmail !== -1){
-        postToUpdate.likedBy.splice(indexOfUserEmail,1);
+      const indexOfUserEmail = postToUpdate.likedBy.indexOf(
+        currentUserDoc.email
+      );
+      if (indexOfUserEmail !== -1) {
+        postToUpdate.likedBy.splice(indexOfUserEmail, 1);
       }
-     
 
       return { ...currentUserDocCopy };
     });
-  }
+  };
 
-  const removeFromLikedByArrayInAllUserDocs = () =>{
+  const removeFromLikedByArrayInAllUserDocs = () => {
     setAllUserDocs((prevState) => {
       const allUserDocsCopy = [...prevState];
       const docToModify = allUserDocsCopy.find(
@@ -236,14 +236,16 @@ const Post2 = ({ post}) => {
       //   // postToModify.likedBy.push("hello sir");
 
       // }
-      const indexOfCurrentUserEmail = postToModify?.likedBy?.indexOf(currentUserDoc.email);
-      if(indexOfCurrentUserEmail !== -1){
-postToModify.likedBy.splice(indexOfCurrentUserEmail,1);
-removeFromLikedByArrayInFireStore({...docToModify})
+      const indexOfCurrentUserEmail = postToModify?.likedBy?.indexOf(
+        currentUserDoc.email
+      );
+      if (indexOfCurrentUserEmail !== -1) {
+        postToModify.likedBy.splice(indexOfCurrentUserEmail, 1);
+        removeFromLikedByArrayInFireStore({ ...docToModify });
       }
       return [...allUserDocsCopy];
     });
-  }
+  };
 
   const removeFromLikedPostsArray = () => {
     removeFromLikedPostsArrayInCurrentUserDoc();
@@ -255,7 +257,9 @@ removeFromLikedByArrayInFireStore({...docToModify})
   };
 
   const handleLike = () => {
+
     setLike(true);
+    handlePostLikedSnackbar();
     addToLikedPostsArray();
   };
 
@@ -266,7 +270,7 @@ removeFromLikedByArrayInFireStore({...docToModify})
 
   const checkIfPostInLikedPosts = () => {
     if (currentUserDoc?.likedPosts?.includes(post?.id)) {
-      return <FavoriteIcon onClick={handleDislike} color="primary"/>;
+      return <FavoriteIcon onClick={handleDislike} color="primary" />;
     } else {
       return <FavoriteBorderIcon onClick={handleLike} color="primary" />;
     }
@@ -371,7 +375,7 @@ removeFromLikedByArrayInFireStore({...docToModify})
 
   const checkIfPostInSavedPosts = () => {
     if (currentUserDoc?.savedPosts?.includes(post?.id)) {
-      return <BookmarkIcon onClick={handleUnsave} color="primary"/>;
+      return <BookmarkIcon onClick={handleUnsave} color="primary" />;
     } else {
       return <BookmarkBorderIcon onClick={handleSave} color="primary" />;
     }
@@ -447,14 +451,14 @@ removeFromLikedByArrayInFireStore({...docToModify})
   };
 
   const findAvatarUrl = (item) => {
-      const docOfTheLikedUser = allUserDocs.find(doc => doc.email === item);
-      return docOfTheLikedUser?.avatarUrl;
-  }
+    const docOfTheLikedUser = allUserDocs.find((doc) => doc.email === item);
+    return docOfTheLikedUser?.avatarUrl;
+  };
 
-  const findAlt = (item) =>{
-    const docOfTheLikedUser = allUserDocs.find(doc => doc.email === item);
-      return docOfTheLikedUser?.username;
-  }
+  const findAlt = (item) => {
+    const docOfTheLikedUser = allUserDocs.find((doc) => doc.email === item);
+    return docOfTheLikedUser?.username;
+  };
 
   // const [likesPopUp, setLikesPopUp] = useState(false)
 
@@ -467,13 +471,19 @@ removeFromLikedByArrayInFireStore({...docToModify})
   const handleCloseLikesPopUp = () => {
     setOpenLikesPopUp(false);
   };
-  
+
   const handleLikesPopUp = () => {
-    setOpenLikesPopUp(prevState => !prevState);
+    setOpenLikesPopUp((prevState) => !prevState);
+  };
+
+  const [postLikedSnackbar, setPostLikedSnackbar] = useState(false)
+  
+  const handlePostLikedSnackbar = () => {
+    setPostLikedSnackbar(prevState => !prevState)
   }
 
   return (
-    <Box className={classes.postField} onClick={(e) =>closeDisplayPopUp(e)}>
+    <Box className={classes.postField} onClick={(e) => closeDisplayPopUp(e)}>
       <Card className={classes.root}>
         <CardHeader
           avatar={checkIfUserHasAvatar()}
@@ -485,7 +495,7 @@ removeFromLikedByArrayInFireStore({...docToModify})
                 </IconButton>
               )}
               <IconButton aria-label="settings">
-                <MoreVertIcon color="primary"/>
+                <MoreVertIcon color="primary" />
               </IconButton>
             </>
           }
@@ -523,17 +533,25 @@ removeFromLikedByArrayInFireStore({...docToModify})
         </CardContent>
 
         <CardContent>
-          {post?.likedBy.length === 0 ? 
-          (<Typography variant="body2" className={classes.likesText}>Be the first one to like this post! </Typography> ) :
-
-        (<AvatarGroup max={4} onClick={handleOpenLikesPopUp}>
-          <Typography variant="body2" className={classes.likesText}>Liked By </Typography>{"   "}
-          {post?.likedBy.map(item => 
-              <Avatar alt={findAlt(item)} src={findAvatarUrl(item)} className={classes.smallAvatar} />
-
-            )}
-
-</AvatarGroup>)}
+          {post?.likedBy.length === 0 ? (
+            <Typography variant="body2" className={classes.likesText}>
+              Be the first one to like this post!{" "}
+            </Typography>
+          ) : (
+            <AvatarGroup max={4} onClick={handleOpenLikesPopUp}>
+              <Typography variant="body2" className={classes.likesText}>
+                Liked By{" "}
+              </Typography>
+              {"   "}
+              {post?.likedBy.map((item) => (
+                <Avatar
+                  alt={findAlt(item)}
+                  src={findAvatarUrl(item)}
+                  className={classes.smallAvatar}
+                />
+              ))}
+            </AvatarGroup>
+          )}
         </CardContent>
 
         <CardActions disableSpacing>
@@ -545,7 +563,7 @@ removeFromLikedByArrayInFireStore({...docToModify})
           </IconButton>
           {post?.imageUrl && (
             <IconButton aria-label="share" onClick={handleCopyImageUrl}>
-              <ShareIcon color="primary"/>
+              <ShareIcon color="primary" />
             </IconButton>
           )}
           {/* <IconButton
@@ -565,7 +583,14 @@ removeFromLikedByArrayInFireStore({...docToModify})
           </CardContent>
         </Collapse>
       </Card>
-{openLikesPopUp && <LikesPopUp handleCloseLikesPopUp={handleCloseLikesPopUp} likedBy={post?.likedBy} handleOpenLikesPopUp={handleOpenLikesPopUp} openLikesPopUp={openLikesPopUp}/>}
+      {openLikesPopUp && (
+        <LikesPopUp
+          handleCloseLikesPopUp={handleCloseLikesPopUp}
+          likedBy={post?.likedBy}
+          handleOpenLikesPopUp={handleOpenLikesPopUp}
+          openLikesPopUp={openLikesPopUp}
+        />
+      )}
       <Snackbar
         open={openUrlCopiedSnackBar}
         autoHideDuration={1000}
@@ -573,6 +598,12 @@ removeFromLikedByArrayInFireStore({...docToModify})
       >
         <Alert onClose={handleShareButtonSnackBarClose} severity="success">
           Image URL copied!
+        </Alert>
+      </Snackbar>
+
+      <Snackbar open={postLikedSnackbar} autoHideDuration={1000} onClose={handlePostLikedSnackbar}>
+        <Alert onClose={handlePostLikedSnackbar} severity="success">
+          Post Liked
         </Alert>
       </Snackbar>
     </Box>
