@@ -295,7 +295,7 @@ export default function NavBar2() {
                 </Badge>
               </IconButton>
             )}
-            {location.pathname !== "/" && (
+            {(location.pathname !== "/" && location.pathname === `/profile/${currentUserDoc.username}`)&& (
               <IconButton
                 aria-label="show 4 new mails"
                 color="inherit"
