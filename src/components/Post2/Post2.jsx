@@ -265,6 +265,7 @@ const Post2 = ({ post }) => {
 
   const handleDislike = () => {
     setLike(false);
+    setPostDislikedSnackbar(prevState => !prevState)
     removeFromLikedPostsArray();
   };
 
@@ -365,11 +366,13 @@ const Post2 = ({ post }) => {
 
   const handleSave = () => {
     setSave(true);
+    handlePostSavedSnackBar()
     addToSavedPostsArray();
   };
 
   const handleUnsave = () => {
     setSave(false);
+    handlePostUnsavedSnackBar();
     removeFromSavedPostsArray();
   };
 
@@ -480,6 +483,20 @@ const Post2 = ({ post }) => {
   
   const handlePostLikedSnackbar = () => {
     setPostLikedSnackbar(prevState => !prevState)
+  }
+
+  const [postDislikedSnackbar, setPostDislikedSnackbar] = useState(false);
+  
+  const [postSavedSnackbar, setPostSavedSnackbar] = useState(false);
+
+  const handlePostSavedSnackBar = () => {
+    setPostSavedSnackbar(p => !p);
+  }
+
+  const [postUnsavedSnackbar, setPostUnsavedSnackbar] = useState(false);
+
+  const handlePostUnsavedSnackBar = () =>{
+    setPostUnsavedSnackbar(p => !p)
   }
 
   return (
@@ -604,6 +621,24 @@ const Post2 = ({ post }) => {
       <Snackbar open={postLikedSnackbar} autoHideDuration={1000} onClose={handlePostLikedSnackbar}>
         <Alert onClose={handlePostLikedSnackbar} severity="success">
           Post Liked
+        </Alert>
+      </Snackbar>
+
+      <Snackbar open={postDislikedSnackbar} autoHideDuration={1000} onClose={() => setPostDislikedSnackbar(prevState => !prevState)}>
+        <Alert onClose={() => setPostDislikedSnackbar(prevState => !prevState)} severity="error">
+          Post Disliked
+        </Alert>
+      </Snackbar>
+
+      <Snackbar open={postSavedSnackbar} autoHideDuration={1000} onClose={handlePostSavedSnackBar}>
+        <Alert onClose={handlePostSavedSnackBar} severity="success">
+          Post Saved
+        </Alert>
+      </Snackbar>
+
+      <Snackbar open={postUnsavedSnackbar} autoHideDuration={1000} onClose={handlePostUnsavedSnackBar}>
+        <Alert onClose={handlePostUnsavedSnackBar} severity="error">
+          Post Unsaved
         </Alert>
       </Snackbar>
     </Box>
