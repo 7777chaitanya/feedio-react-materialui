@@ -18,6 +18,7 @@ import SavedPosts from "../SavedPosts/SavedPosts";
 import { doc, updateDoc, arrayUnion, arrayRemove } from "firebase/firestore";
 import { db } from "../../firebase";
 import EditProfileModal from "../EditProfileModal/EditProfileModal"
+import LinearIndeterminate from "../LinearIndeterminate/LinearIndeterminate";
 
 
 
@@ -203,6 +204,13 @@ const Profile = ({ match }) => {
   const handleClose = () => {
     setOpen(false);
   };
+  
+
+  
+  const [showLinearIndeterminate, setShowLinearIndeterminate] = useState(false)
+  const handleLinearIndeterminate = () => {
+    setShowLinearIndeterminate(prevState => !prevState)
+  }
 
   
 
@@ -211,6 +219,7 @@ const Profile = ({ match }) => {
 
 
       <NavBar2 />
+      {showLinearIndeterminate && <LinearIndeterminate/>}
       <Box className={classes.veryOuterBox}>
         <Box className={classes.profileHeaderContainer}>
           <Box className={classes.avatar}>
@@ -347,7 +356,7 @@ const Profile = ({ match }) => {
           )}
         </Box>
       </Box>
-      <EditProfileModal open={open} handleOpen={handleOpen} handleClose={handleClose} />
+      <EditProfileModal open={open} handleOpen={handleOpen} handleClose={handleClose} handleLinearIndeterminate={handleLinearIndeterminate}/>
      
     </Box>
   );

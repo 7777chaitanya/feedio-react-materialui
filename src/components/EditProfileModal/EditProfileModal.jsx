@@ -12,6 +12,7 @@ import { useHistory } from "react-router-dom";
 import { doc, updateDoc, arrayUnion, arrayRemove } from "firebase/firestore";
 import { db, storage } from "../../firebase";
 import { PhotoCamera } from "@material-ui/icons";
+import LinearIndeterminate from "../LinearIndeterminate/LinearIndeterminate";
 import {
   getStorage,
   ref,
@@ -30,7 +31,7 @@ function getModalStyle() {
   };
 }
 
-export default function EditProfileModal({ open, handleOpen, handleClose }) {
+export default function EditProfileModal({ open, handleOpen, handleClose,handleLinearIndeterminate }) {
   let history = useHistory();
   const classes = useStyles();
   const [modalStyle] = React.useState(getModalStyle);
@@ -134,6 +135,7 @@ export default function EditProfileModal({ open, handleOpen, handleClose }) {
       const uploadTask = uploadBytesResumable(storageRef, file);
 
       // Listen for state changes, errors, and completion of the upload.
+      handleLinearIndeterminate();
       uploadTask.on(
         "state_changed",
         (snapshot) => {
@@ -169,6 +171,8 @@ export default function EditProfileModal({ open, handleOpen, handleClose }) {
             addAvatarUrlInCurrentUserDoc(downloadURL);
             addAvatarUrlInAllUserDocs(downloadURL);
             addAvatarUrlToFirestore(downloadURL);
+            handleLinearIndeterminate();
+
           });
         }
       );
