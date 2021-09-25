@@ -30,9 +30,12 @@ import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
 import Snackbar from "@material-ui/core/Snackbar";
 import Alert from "@material-ui/lab/Alert";
 import LikesPopUp from '../LikesPopUp/LikesPopUp';
+import { Box } from "@material-ui/core";
+import { ClickContext } from "../../contexts/ClickContext";
 
-const Post2 = ({ post }) => {
-  console.log(post.text,post.likedBy)
+const Post2 = ({ post}) => {
+  console.log(post?.text,post?.likedBy);
+  const {closeDisplayPopUp} = useContext(ClickContext)
   const [currentUserDoc, setCurrentUserDoc] = useContext(
     CurrentUserDetailsContext
   );
@@ -262,7 +265,7 @@ removeFromLikedByArrayInFireStore({...docToModify})
   };
 
   const checkIfPostInLikedPosts = () => {
-    if (currentUserDoc?.likedPosts?.includes(post.id)) {
+    if (currentUserDoc?.likedPosts?.includes(post?.id)) {
       return <FavoriteIcon onClick={handleDislike} color="primary"/>;
     } else {
       return <FavoriteBorderIcon onClick={handleLike} color="primary" />;
@@ -367,7 +370,7 @@ removeFromLikedByArrayInFireStore({...docToModify})
   };
 
   const checkIfPostInSavedPosts = () => {
-    if (currentUserDoc?.savedPosts?.includes(post.id)) {
+    if (currentUserDoc?.savedPosts?.includes(post?.id)) {
       return <BookmarkIcon onClick={handleUnsave} color="primary"/>;
     } else {
       return <BookmarkBorderIcon onClick={handleSave} color="primary" />;
@@ -470,13 +473,13 @@ removeFromLikedByArrayInFireStore({...docToModify})
   }
 
   return (
-    <>
+    <Box className={classes.postField} onClick={(e) =>closeDisplayPopUp(e)}>
       <Card className={classes.root}>
         <CardHeader
           avatar={checkIfUserHasAvatar()}
           action={
             <>
-              {post.email === currentUserDoc.email && (
+              {post?.email === currentUserDoc.email && (
                 <IconButton onClick={handlePostDelete}>
                   <DeleteForeverIcon />
                 </IconButton>
@@ -492,37 +495,37 @@ removeFromLikedByArrayInFireStore({...docToModify})
                 __html:
                   post?.username === currentUserDoc.username
                     ? "You"
-                    : post.username,
+                    : post?.username,
               }}
               variant="h6"
               component={Link}
-              to={`/profile/${post.username}`}
+              to={`/profile/${post?.username}`}
               className={classes.postUsername}
             />
           }
           // subheader={`${post.date.toDate().getDate()}/${
           //   post.date.toDate().getMonth() + 1
           // }/${post.date.toDate().getFullYear()}`}
-          subheader={dateCustomizer(post.date)}
+          subheader={dateCustomizer(post?.date)}
         />
-        {post.imageUrl && (
+        {post?.imageUrl && (
           <CardMedia
             className={classes.media}
-            image={post.imageUrl}
-            title={post.username}
+            image={post?.imageUrl}
+            title={post?.username}
           />
         )}
 
         <CardContent>
           <Typography variant="body2" color="textSecondary" component="p">
-            {post.text}
+            {post?.text}
           </Typography>
         </CardContent>
 
         <CardContent>
         <AvatarGroup max={4} onClick={handleOpenLikesPopUp}>
           <Typography variant="body2" className={classes.likesText}>Liked By </Typography>{"   "}
-          {post.likedBy.map(item => 
+          {post?.likedBy.map(item => 
               <Avatar alt={findAlt(item)} src={findAvatarUrl(item)} className={classes.smallAvatar} />
 
             )}
@@ -537,7 +540,7 @@ removeFromLikedByArrayInFireStore({...docToModify})
           <IconButton aria-label="add to saved">
             {checkIfPostInSavedPosts()}
           </IconButton>
-          {post.imageUrl && (
+          {post?.imageUrl && (
             <IconButton aria-label="share" onClick={handleCopyImageUrl}>
               <ShareIcon color="primary"/>
             </IconButton>
@@ -555,7 +558,7 @@ removeFromLikedByArrayInFireStore({...docToModify})
         </CardActions>
         <Collapse in={expanded} timeout="auto" unmountOnExit>
           <CardContent>
-            <Typography variant="body2">{post.text}</Typography>
+            <Typography variant="body2">{post?.text}</Typography>
           </CardContent>
         </Collapse>
       </Card>
@@ -569,7 +572,7 @@ removeFromLikedByArrayInFireStore({...docToModify})
           Image URL copied!
         </Alert>
       </Snackbar>
-    </>
+    </Box>
   );
 };
 

@@ -70,6 +70,9 @@ const useStyles = makeStyles((theme) => ({
     width: theme.spacing(3),
     height: theme.spacing(3),
   },
+  hide:{
+    display : "none"
+  }
 }));
 
 export default useStyles;

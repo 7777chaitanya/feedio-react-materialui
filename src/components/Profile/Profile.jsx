@@ -6,7 +6,7 @@ import {
   createTheme,
   Modal,
   Typography,
-  ThemeProvider
+  ThemeProvider,
 } from "@material-ui/core";
 import React, { useContext, useState } from "react";
 import { CurrentUserDetailsContext } from "../../contexts/CurrentUserDetailsContext";
@@ -19,9 +19,9 @@ import LikedPosts from "../LikedPosts/LikedPosts";
 import SavedPosts from "../SavedPosts/SavedPosts";
 import { doc, updateDoc, arrayUnion, arrayRemove } from "firebase/firestore";
 import { db } from "../../firebase";
-import EditProfileModal from "../EditProfileModal/EditProfileModal"
+import EditProfileModal from "../EditProfileModal/EditProfileModal";
 import LinearIndeterminate from "../LinearIndeterminate/LinearIndeterminate";
-
+import { ClickContext } from "../../contexts/ClickContext";
 
 const theme = createTheme({
   palette: {
@@ -32,9 +32,9 @@ const theme = createTheme({
   },
 });
 
-
-
 const Profile = ({ match }) => {
+  const { closeDisplayPopUp } = useContext(ClickContext);
+
   const [currentUserDoc, setCurrentUserDoc] = useContext(
     CurrentUserDetailsContext
   );
@@ -65,7 +65,9 @@ const Profile = ({ match }) => {
   const AddToFollowingArrayInCurrentUserDoc = () => {
     setCurrentUserDoc((prevState) => {
       const currentUserDocCopy = { ...prevState };
-      if (currentUserDocCopy?.following?.indexOf(profileBelongsTo?.email) === -1) {
+      if (
+        currentUserDocCopy?.following?.indexOf(profileBelongsTo?.email) === -1
+      ) {
         addToFollowingArrayInFireStore();
         currentUserDocCopy?.following?.push(profileBelongsTo?.email);
       }
@@ -182,7 +184,6 @@ const Profile = ({ match }) => {
   const checkIfUserIsFollowed = () => {
     if (currentUserDoc?.following?.includes(profileBelongsTo?.email)) {
       return (
-
         <Button
           variant="contained"
           color="secondary"
@@ -216,23 +217,17 @@ const Profile = ({ match }) => {
   const handleClose = () => {
     setOpen(false);
   };
-  
 
-  
-  const [showLinearIndeterminate, setShowLinearIndeterminate] = useState(false)
+  const [showLinearIndeterminate, setShowLinearIndeterminate] = useState(false);
   const handleLinearIndeterminate = () => {
-    setShowLinearIndeterminate(prevState => !prevState)
-  }
-
-  
+    setShowLinearIndeterminate((prevState) => !prevState);
+  };
 
   return (
-    <Box className={classes.profileCover}>
-
-
+    <Box className={classes.profileCover} onClick={closeDisplayPopUp}>
       <NavBar2 />
-      {showLinearIndeterminate && <LinearIndeterminate/>}
-      <Box className={classes.veryOuterBox}>
+      {showLinearIndeterminate && <LinearIndeterminate />}
+      <Box className={classes.veryOuterBox} onClick={closeDisplayPopUp}>
         <Box className={classes.profileHeaderContainer}>
           <Box className={classes.avatar}>
             {profileBelongsTo?.avatarUrl ? (
@@ -251,27 +246,27 @@ const Profile = ({ match }) => {
                 {profileBelongsTo?.username}
               </Typography>
               <ThemeProvider theme={theme}>
-              {profileBelongsTo?.username === currentUserDoc.username ? (
-                <Button
-                  variant="contained"
-                  color="secondary"
-                  size="small"
-                  className={classes.editProfileButton}
-                  onClick={handleOpen}
-                >
-                  Edit Profile
-                </Button>
-              ) : (
-                // <Button
-                //   variant="contained"
-                //   color="primary"
-                //   size="small"
-                //   className={classes.editProfileButton}
-                // >
-                //   Follow
-                // </Button>
-                checkIfUserIsFollowed()
-              )}
+                {profileBelongsTo?.username === currentUserDoc.username ? (
+                  <Button
+                    variant="contained"
+                    color="secondary"
+                    size="small"
+                    className={classes.editProfileButton}
+                    onClick={handleOpen}
+                  >
+                    Edit Profile
+                  </Button>
+                ) : (
+                  // <Button
+                  //   variant="contained"
+                  //   color="primary"
+                  //   size="small"
+                  //   className={classes.editProfileButton}
+                  // >
+                  //   Follow
+                  // </Button>
+                  checkIfUserIsFollowed()
+                )}
               </ThemeProvider>
             </Box>
             <Box className={classes.followerCountBox}>
@@ -370,8 +365,12 @@ const Profile = ({ match }) => {
           )}
         </Box>
       </Box>
-      <EditProfileModal open={open} handleOpen={handleOpen} handleClose={handleClose} handleLinearIndeterminate={handleLinearIndeterminate}/>
-     
+      <EditProfileModal
+        open={open}
+        handleOpen={handleOpen}
+        handleClose={handleClose}
+        handleLinearIndeterminate={handleLinearIndeterminate}
+      />
     </Box>
   );
 };

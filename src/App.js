@@ -23,6 +23,7 @@ import { AllUserDetailsProvider } from "./contexts/AllUserDetailsContext";
 import { ThemeProvider, createTheme } from "@material-ui/core";
 import {useLocation} from "react-router-dom";
 import "./App.css";
+import { ClickProvider } from "./contexts/ClickContext";
 
 const App = () => {
   const [docs, setDocs] = useState([]);
@@ -107,6 +108,7 @@ const App = () => {
         <AuthProvider>
           <CurrentUserDetailsProvider>
             <AllUserDetailsProvider>
+              <ClickProvider>
               <Switch>
                 <Route path="/login">
                   <Login />
@@ -159,6 +161,7 @@ const App = () => {
                 />
               </Switch>
               <Footer />
+              </ClickProvider>
             </AllUserDetailsProvider>
           </CurrentUserDetailsProvider>
         </AuthProvider>

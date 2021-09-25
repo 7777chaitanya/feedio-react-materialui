@@ -16,12 +16,12 @@ import MoreIcon from "@material-ui/icons/MoreVert";
 import useStyles from "./styles.js";
 import feediowhitebackground from "../../assets/feediowhitebackground.png";
 import feedioolive from "../../assets/feedioolive.png";
-import WassupModal from "../WassupModal/WassupModal"
+import WassupModal from "../WassupModal/WassupModal";
 
 import { CurrentUserDetailsContext } from "../../contexts/CurrentUserDetailsContext.jsx";
 import HouseIcon from "@material-ui/icons/House";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
-import { Avatar, Popover } from "@material-ui/core";
+import { Avatar, Box, Popover } from "@material-ui/core";
 import { useHistory, Link, useLocation } from "react-router-dom";
 import { auth } from "../../firebase.js";
 import { useAuth } from "../../contexts/AuthContext";
@@ -29,15 +29,24 @@ import PopUp from "../PopUp/PopUp";
 import NotificationPopUp from "../NotificationPopUp/NotificationPopUp";
 import MessagesPopUp from "../MessagesPopUp/MessagesPopUp";
 import NotificationsModal from "../NotificationsModal/NotificationsModal";
+import CloseIcon from "@material-ui/icons/Close";
+import Post2 from "../Post2/Post2";
+import { ClickContext } from "../../contexts/ClickContext.jsx";
 
 export default function NavBar2() {
-  const [displayPopUp, setDisplayPopUp] = useState(false);
-  const [searchTerm, setSearchTerm] = useState("");
+  const {
+    displayPopUp,
+    setDisplayPopUp,
+    searchTerm,
+    setSearchTerm,
+    closeDisplayPopUp,
+  } = useContext(ClickContext);
+  // const [displayPopUp, setDisplayPopUp] = useState(false);
+  // const [searchTerm, setSearchTerm] = useState("");
   const [displayNotificationPopUp, setDisplayNotificationPopUp] =
     useState(false);
 
-    const [displayMessagesPopUp, setDisplayMessagesPopUp] =
-    useState(false);
+  const [displayMessagesPopUp, setDisplayMessagesPopUp] = useState(false);
 
   const [currentUserDoc, setCurrentUserDoc] = useContext(
     CurrentUserDetailsContext
@@ -50,10 +59,10 @@ export default function NavBar2() {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
+  const [dummyState, setDummyState] = useState(false);
+
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
-
- 
 
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -82,8 +91,7 @@ export default function NavBar2() {
     setDisplayMessagesPopUp((prevState) => !prevState);
     setDisplayNotificationPopUp(false);
     handleMenuClose();
-
-  }
+  };
 
   const handleLogout = async () => {
     setError("");
@@ -132,8 +140,8 @@ export default function NavBar2() {
     >
       <MenuItem component={Link} to="/" onClick={handleMobileMenuClose}>
         <IconButton aria-label="show 4 new mails" color="inherit">
-          <Badge  color="secondary">
-          <HouseIcon />
+          <Badge color="secondary">
+            <HouseIcon />
           </Badge>
         </IconButton>
         <p>Home</p>
@@ -147,7 +155,7 @@ export default function NavBar2() {
         <p>Messages</p>
       </MenuItem>
       <MenuItem onClick={handleNotificationPopUp}>
-        <IconButton aria-label="show 11 new notifications" color="inherit" >
+        <IconButton aria-label="show 11 new notifications" color="inherit">
           <Badge badgeContent={11} color="secondary">
             <NotificationsIcon />
           </Badge>
@@ -180,10 +188,10 @@ export default function NavBar2() {
     setSearchTerm(e.target.value);
   };
 
-  const closeDisplayPopUp = (e) => {
-    setDisplayPopUp(false);
-    setSearchTerm("");
-  };
+  // const closeDisplayPopUp = (e) => {
+  //   setDisplayPopUp(false);
+  //   setSearchTerm("");
+  // };
 
   const handleKeyPress = (e) => {
     if (e.key === "Escape") {
@@ -202,17 +210,17 @@ export default function NavBar2() {
     setWassupOpen(false);
   };
 
-  const [openNotificationsModal, setOpenNotificationsModal] = React.useState(false);
+  const [openNotificationsModal, setOpenNotificationsModal] =
+    React.useState(false);
 
   const handleNotificationsModalOpen = () => {
     setOpenNotificationsModal(true);
+    closeDisplayPopUp();
   };
 
   const handleNotificationsModalClose = () => {
     setOpenNotificationsModal(false);
   };
-
-  
 
   return (
     <div className={classes.grow}>
@@ -227,11 +235,7 @@ export default function NavBar2() {
             <MenuIcon />
           </IconButton> */}
           <Link to="/">
-            <img
-              className={classes.logo}
-              src={feedioolive}
-              alt="logo"
-            />
+            <img className={classes.logo} src={feedioolive} alt="logo" />
           </Link>
 
           <Typography className={classes.title} variant="h6" noWrap>
@@ -252,6 +256,9 @@ export default function NavBar2() {
               onKeyDown={handleKeyPress}
               value={searchTerm}
             />
+            <IconButton onClick={closeDisplayPopUp}>
+              <CloseIcon />
+            </IconButton>
           </div>
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
@@ -268,13 +275,22 @@ export default function NavBar2() {
                 <HouseIcon />
               </Badge>
             </IconButton>
-            {location.pathname!=="/" &&
-            <IconButton aria-label="show 4 new mails" color="inherit" onClick={handleWassupOpen}>
-              <Badge color="secondary">
-                <AddCircleIcon />
-              </Badge>
-            </IconButton>}
-            <IconButton aria-label="show 4 new mails" color="inherit" onClick={handleMessagesPopUp}>
+            {location.pathname !== "/" && (
+              <IconButton
+                aria-label="show 4 new mails"
+                color="inherit"
+                onClick={handleWassupOpen}
+              >
+                <Badge color="secondary">
+                  <AddCircleIcon />
+                </Badge>
+              </IconButton>
+            )}
+            <IconButton
+              aria-label="show 4 new mails"
+              color="inherit"
+              onClick={handleMessagesPopUp}
+            >
               <Badge badgeContent={4} color="secondary">
                 <MailIcon />
               </Badge>
@@ -284,7 +300,6 @@ export default function NavBar2() {
               color="inherit"
               // onClick={handleNotificationPopUp}
               onClick={handleNotificationsModalOpen}
-
             >
               <Badge
                 badgeContent={currentUserDoc?.notifications?.length}
@@ -334,18 +349,28 @@ export default function NavBar2() {
         <NotificationPopUp handleNotificationPopUp={handleNotificationPopUp} />
       )}
 
-{displayMessagesPopUp && (
+      {displayMessagesPopUp && (
         <MessagesPopUp handleMessagesPopUp={handleMessagesPopUp} />
       )}
 
       {wassupOpen && (
-        <WassupModal wassupOpen={wassupOpen} handleWassupOpen={handleWassupOpen} handleWassupClose={handleWassupClose}/>
+        <WassupModal
+          wassupOpen={wassupOpen}
+          handleWassupOpen={handleWassupOpen}
+          handleWassupClose={handleWassupClose}
+        />
       )}
 
       {openNotificationsModal && (
-        <NotificationsModal openNotificationsModal={openNotificationsModal} handleNotificationsModalOpen={handleNotificationsModalOpen} handleNotificationsModalClose={handleNotificationsModalClose} />
+        <NotificationsModal
+          openNotificationsModal={openNotificationsModal}
+          handleNotificationsModalOpen={handleNotificationsModalOpen}
+          handleNotificationsModalClose={handleNotificationsModalClose}
+        />
       )}
-
+      <Box className={classes.hide}>
+        <Post2 closeDisplayPopUp={closeDisplayPopUp} />
+      </Box>
     </div>
   );
 }

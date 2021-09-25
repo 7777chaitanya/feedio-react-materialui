@@ -2,11 +2,11 @@ import moment from "moment";
 
 const dateCustomizer = (dateObj) => {
         let date;
-        if(dateObj.getMonth){
+        if(dateObj?.getMonth){
             date = dateObj
         }
         else{
-            date = dateObj.toDate()
+            date = dateObj?.toDate()
         }
         return moment(date).format('MMM Do YYYY, h:mm:ss a');
 }
