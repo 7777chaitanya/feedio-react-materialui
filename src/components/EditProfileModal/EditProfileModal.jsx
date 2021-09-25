@@ -2,7 +2,7 @@ import React, { useContext, useState, useRef } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Modal from "@material-ui/core/Modal";
 import useStyles from "./styles";
-import { Card, Button, IconButton, Avatar } from "@material-ui/core";
+import { Card, Button, IconButton, Avatar, createTheme, ThemeProvider } from "@material-ui/core";
 import { TextField } from "@material-ui/core";
 import { CurrentUserDetailsContext } from "../../contexts/CurrentUserDetailsContext";
 import { AllUserDetailsContext } from "../../contexts/AllUserDetailsContext";
@@ -30,6 +30,16 @@ function getModalStyle() {
     transform: `translate(-${top}%, -${left}%)`,
   };
 }
+
+const theme = createTheme({
+  palette: {
+    secondary: {
+      main: "rgb(107,187,117)",
+      dark: "rgb(0, 171, 107)",
+    },
+  },
+});
+
 
 export default function EditProfileModal({ open, handleOpen, handleClose,handleLinearIndeterminate }) {
   let history = useHistory();
@@ -193,6 +203,7 @@ export default function EditProfileModal({ open, handleOpen, handleClose,handleL
   };
 
   const body = (
+    <ThemeProvider theme={theme}>
     <Card className={classes.card}>
       <input
         className={classes.input}
@@ -201,15 +212,18 @@ export default function EditProfileModal({ open, handleOpen, handleClose,handleL
         onChange={handleAvatarImageChange}
       />
       <label htmlFor="icon-button-file" className={classes.avatarUrlChange}>
+      <ThemeProvider theme={theme}>
+
       <Avatar src={currentUserDoc.avatarUrl}/>
         <IconButton
-          color="primary"
+          color="secondary"
           aria-label="upload picture"
           component="span"
         >
           <PhotoCamera />
         </IconButton>
         {avatarImage?.name}
+        </ThemeProvider>
       </label>
 
 
@@ -228,6 +242,7 @@ export default function EditProfileModal({ open, handleOpen, handleClose,handleL
         InputProps={{
           readOnly: true,
         }}
+        color="secondary"
       />
 
       <TextField
@@ -240,6 +255,8 @@ export default function EditProfileModal({ open, handleOpen, handleClose,handleL
         //   onChange={handleChange}
         variant="outlined"
         inputRef={bioRef}
+        color="secondary"
+
       />
       <Button
         variant="contained"
@@ -263,6 +280,7 @@ export default function EditProfileModal({ open, handleOpen, handleClose,handleL
         Cancel
       </Button>
     </Card>
+    </ThemeProvider>
   );
 
   return (

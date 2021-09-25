@@ -15,6 +15,8 @@ import NotificationsIcon from "@material-ui/icons/Notifications";
 import MoreIcon from "@material-ui/icons/MoreVert";
 import useStyles from "./styles.js";
 import feediowhitebackground from "../../assets/feediowhitebackground.png";
+import feedioolive from "../../assets/feedioolive.png";
+
 import { CurrentUserDetailsContext } from "../../contexts/CurrentUserDetailsContext.jsx";
 import HouseIcon from "@material-ui/icons/House";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
@@ -193,18 +195,18 @@ export default function NavBar2() {
     <div className={classes.grow}>
       <AppBar position="static">
         <Toolbar>
-          <IconButton
+          {/* <IconButton
             edge="start"
             className={classes.menuButton}
             color="inherit"
             aria-label="open drawer"
           >
             <MenuIcon />
-          </IconButton>
+          </IconButton> */}
           <Link to="/">
             <img
               className={classes.logo}
-              src={feediowhitebackground}
+              src={feedioolive}
               alt="logo"
             />
           </Link>

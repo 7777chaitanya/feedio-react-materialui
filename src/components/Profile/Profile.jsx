@@ -3,8 +3,10 @@ import {
   Box,
   Button,
   ButtonGroup,
+  createTheme,
   Modal,
-  Typography
+  Typography,
+  ThemeProvider
 } from "@material-ui/core";
 import React, { useContext, useState } from "react";
 import { CurrentUserDetailsContext } from "../../contexts/CurrentUserDetailsContext";
@@ -20,6 +22,15 @@ import { db } from "../../firebase";
 import EditProfileModal from "../EditProfileModal/EditProfileModal"
 import LinearIndeterminate from "../LinearIndeterminate/LinearIndeterminate";
 
+
+const theme = createTheme({
+  palette: {
+    secondary: {
+      main: "rgb(107,187,117)",
+      dark: "rgb(0, 171, 107)",
+    },
+  },
+});
 
 
 
@@ -171,9 +182,10 @@ const Profile = ({ match }) => {
   const checkIfUserIsFollowed = () => {
     if (currentUserDoc?.following?.includes(profileBelongsTo?.email)) {
       return (
+
         <Button
           variant="contained"
-          color="primary"
+          color="secondary"
           size="small"
           className={classes.editProfileButton}
           onClick={handleUnfollow}
@@ -185,7 +197,7 @@ const Profile = ({ match }) => {
       return (
         <Button
           variant="contained"
-          color="primary"
+          color="secondary"
           size="small"
           className={classes.editProfileButton}
           onClick={handleFollow}
@@ -238,6 +250,7 @@ const Profile = ({ match }) => {
               <Typography variant="h4" className={classes.username}>
                 {profileBelongsTo?.username}
               </Typography>
+              <ThemeProvider theme={theme}>
               {profileBelongsTo?.username === currentUserDoc.username ? (
                 <Button
                   variant="contained"
@@ -259,6 +272,7 @@ const Profile = ({ match }) => {
                 // </Button>
                 checkIfUserIsFollowed()
               )}
+              </ThemeProvider>
             </Box>
             <Box className={classes.followerCountBox}>
               <Typography variant="body1">

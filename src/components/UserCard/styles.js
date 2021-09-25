@@ -5,7 +5,7 @@ const useStyles = makeStyles({
         maxWidth: 345,
         marginTop : "0.5rem",
         "&:hover": {
-          backgroundColor: "rgba(140,233,23,0.5)"
+          backgroundColor: "rgb(235,235,235)"
         }
 
       },

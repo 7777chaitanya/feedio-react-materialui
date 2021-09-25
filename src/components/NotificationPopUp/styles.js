@@ -4,7 +4,7 @@ const useStyles = makeStyles({
         minWidth : 275,
         position : "absolute",
         right : "5vw",
-        backgroundColor : "darkgray",
+        backgroundColor : "rgb(235,235,235)",
         zIndex:100,
     },
     closeIcon:{

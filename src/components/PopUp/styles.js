@@ -4,7 +4,8 @@ const useStyles = makeStyles({
     root : {
         position : "absolute",
         left : "30vw",
-        zIndex : 100
+        zIndex : 100,
+        backgroundColor : "rgb(235,235,235)"
     }
 
 })
