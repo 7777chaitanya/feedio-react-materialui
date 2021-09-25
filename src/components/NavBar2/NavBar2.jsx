@@ -149,7 +149,7 @@ export default function NavBar2() {
       </MenuItem>
       <MenuItem onClick={handleMessagesPopUp}>
         <IconButton aria-label="show 4 new mails" color="inherit">
-          <Badge badgeContent={4} color="secondary">
+          <Badge badgeContent={0} color="secondary">
             <MailIcon />
           </Badge>
         </IconButton>
@@ -157,7 +157,7 @@ export default function NavBar2() {
       </MenuItem>
       <MenuItem onClick={handleNotificationPopUp}>
         <IconButton aria-label="show 11 new notifications" color="inherit">
-          <Badge badgeContent={11} color="secondary">
+          <Badge badgeContent={currentUserDoc?.notifications?.length} color="secondary">
             <NotificationsIcon />
           </Badge>
         </IconButton>
@@ -269,7 +269,7 @@ const handleMessagesModalClose = () => {
               onKeyDown={handleKeyPress}
               value={searchTerm}
             />
-            <IconButton onClick={closeDisplayPopUp}>
+            <IconButton onClick={closeDisplayPopUp} className={classes.cancelButton}>
               <CloseIcon />
             </IconButton>
           </div>
@@ -304,7 +304,7 @@ const handleMessagesModalClose = () => {
               color="inherit"
               onClick={handleMessagesModalOpen}
             >
-              <Badge badgeContent={4} color="secondary">
+              <Badge badgeContent={0} color="secondary">
                 <MailIcon />
               </Badge>
             </IconButton>

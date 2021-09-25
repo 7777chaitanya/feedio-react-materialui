@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
       backgroundColor: alpha(theme.palette.common.white, 0.25),
     },
     marginRight: theme.spacing(2),
-    marginLeft: 0,
+    marginLeft: "1rem",
     width: "100%",
     [theme.breakpoints.up("sm")]: {
       marginLeft: theme.spacing(3),
@@ -72,6 +72,17 @@ const useStyles = makeStyles((theme) => ({
   },
   hide:{
     display : "none"
+  },
+  cancelButton : {
+    [theme.breakpoints.down("sm")]: {
+      // display: "none",
+      position : "absolute",
+      zIndex : 100,
+      right : 3,
+      top : "-0.4rem",
+      // bottom : 'auto'
+
+    },
   }
 }));
 
