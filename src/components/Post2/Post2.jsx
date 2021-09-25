@@ -523,14 +523,17 @@ removeFromLikedByArrayInFireStore({...docToModify})
         </CardContent>
 
         <CardContent>
-        <AvatarGroup max={4} onClick={handleOpenLikesPopUp}>
+          {post?.likedBy.length === 0 ? 
+          (<Typography variant="body2" className={classes.likesText}>Be the first one to like this post! </Typography> ) :
+
+        (<AvatarGroup max={4} onClick={handleOpenLikesPopUp}>
           <Typography variant="body2" className={classes.likesText}>Liked By </Typography>{"   "}
           {post?.likedBy.map(item => 
               <Avatar alt={findAlt(item)} src={findAvatarUrl(item)} className={classes.smallAvatar} />
 
             )}
 
-</AvatarGroup>
+</AvatarGroup>)}
         </CardContent>
 
         <CardActions disableSpacing>
