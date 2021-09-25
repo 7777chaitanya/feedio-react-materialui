@@ -511,9 +511,9 @@ const Post2 = ({ post }) => {
                   <DeleteForeverIcon />
                 </IconButton>
               )}
-              <IconButton aria-label="settings">
+              {/* <IconButton aria-label="settings">
                 <MoreVertIcon color="primary" />
-              </IconButton>
+              </IconButton> */}
             </>
           }
           title={
