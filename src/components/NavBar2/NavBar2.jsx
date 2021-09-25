@@ -29,6 +29,7 @@ import PopUp from "../PopUp/PopUp";
 import NotificationPopUp from "../NotificationPopUp/NotificationPopUp";
 import MessagesPopUp from "../MessagesPopUp/MessagesPopUp";
 import NotificationsModal from "../NotificationsModal/NotificationsModal";
+import MessagesModal from "../MessagesModal/MessagesModal.jsx";
 import CloseIcon from "@material-ui/icons/Close";
 import Post2 from "../Post2/Post2";
 import { ClickContext } from "../../contexts/ClickContext.jsx";
@@ -222,6 +223,18 @@ export default function NavBar2() {
     setOpenNotificationsModal(false);
   };
 
+  const [openMessagesModal, setOpenMessagesModal] =
+  React.useState(false);
+
+const handleMessagesModalOpen = () => {
+  setOpenMessagesModal(true);
+  closeDisplayPopUp();
+};
+
+const handleMessagesModalClose = () => {
+  setOpenMessagesModal(false);
+};
+
   return (
     <div className={classes.grow}>
       <AppBar position="static">
@@ -289,7 +302,7 @@ export default function NavBar2() {
             <IconButton
               aria-label="show 4 new mails"
               color="inherit"
-              onClick={handleMessagesPopUp}
+              onClick={handleMessagesModalOpen}
             >
               <Badge badgeContent={4} color="secondary">
                 <MailIcon />
@@ -368,9 +381,18 @@ export default function NavBar2() {
           handleNotificationsModalClose={handleNotificationsModalClose}
         />
       )}
-      <Box className={classes.hide}>
+
+{openMessagesModal && (
+        <MessagesModal
+          openMessagesModal={openMessagesModal}
+          handleMessagesModalOpen={handleMessagesModalOpen}
+          handleMessagesModalClose={handleMessagesModalClose}
+        />
+      )}
+
+      {/* <Box className={classes.hide}>
         <Post2 closeDisplayPopUp={closeDisplayPopUp} />
-      </Box>
+      </Box> */}
     </div>
   );
 }

@@ -15,11 +15,11 @@ const NotificationPopUp = ({ handleMessagesPopUp }) => {
   const classes = useStyles();
   return (
     <Card className={classes.root}>
-        <Box className={classes.closeIcon}>
+        {/* <Box className={classes.closeIcon}>
       <IconButton size="small" onClick={handleMessagesPopUp} >
         <HighlightOffIcon />
       </IconButton>
-      </Box>
+      </Box> */}
      
         <Typography variant="body1" align="center">
           You don't have any messages
