@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import { AllUserDetailsContext } from "../../contexts/AllUserDetailsContext";
 import { CurrentUserDetailsContext } from "../../contexts/CurrentUserDetailsContext";
+import NoPostsCard from "../NoPostsCard/NoPostsCard";
 import Post2 from "../Post2/Post2";
 
 const LikedPosts = ({profileBelongsTo}) => {
@@ -43,12 +44,17 @@ const LikedPosts = ({profileBelongsTo}) => {
   console.log("liked Posts =>", likedPosts);
 
   return (
-    <div>
-      LikedPosts
-      {likedPosts?.map((post) => (
+    <>
+      {(likedPosts.length === 0) && <NoPostsCard text="There are no Liked Posts!" /> }
+
+     
+      { likedPosts.length !== 0 && likedPosts?.map((post) => (
         <Post2 post={post} />
       ))}
-    </div>
+
+
+      
+    </>
   );
 };
 

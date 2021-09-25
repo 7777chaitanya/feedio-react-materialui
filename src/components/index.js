@@ -11,6 +11,6 @@ export {default as Profile} from './Profile/Profile';
 export {default as MyPosts2} from './MyPosts2/MyPosts2';
 export {default as LikedPosts} from './LikedPosts/LikedPosts';
 export {default as SavedPosts} from './SavedPosts/SavedPosts';
-
+export {default as Footer} from "./Footer/Footer";
 
 

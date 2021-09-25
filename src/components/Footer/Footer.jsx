@@ -11,7 +11,7 @@ const Footer = () => {
   const classes = useStyles();
   const location = useLocation();
   return (
-    ((location.pathname!=="/signup") && (location.pathname!=="/login") && (location.pathname!=="/forgot-password"))  ?
+    ((location.pathname!=="/signup") && (location.pathname!=="/login") && (location.pathname!=="/forgot-password") && (location.pathname==="/"))  ?
     (<Box className={classes.footerBackground}>
       <Typography align="center" display="block" variant="body1">
         Made with{" "}

@@ -6,7 +6,8 @@ import {
   ForgotPassword,
   MyPosts,
   AllPosts,
-  Profile
+  Profile,
+  Footer
 } from "./components";
 import "./index.css";
 import { HashRouter as Router, Switch, Route, Link } from "react-router-dom";
@@ -20,6 +21,7 @@ import PrivateRoute from "./components/PrivateRoute";
 import { CurrentUserDetailsProvider } from "./contexts/CurrentUserDetailsContext";
 import { AllUserDetailsProvider } from "./contexts/AllUserDetailsContext";
 import { ThemeProvider, createTheme } from "@material-ui/core";
+import {useLocation} from "react-router-dom";
 
 const App = () => {
   const [docs, setDocs] = useState([]);
@@ -29,13 +31,23 @@ const App = () => {
 
   const theme = createTheme({
     palette: {
-      secondary: {
-        main: "rgb(140,233,23)",
-        dark: "#1db954",
+      // primary: {
+      //   main: "rgb(140,233,23,0.2)",
+      //   dark: "#1db954",
+      // },
+      // secondary : {
+      //   // main : "#808000",
+      //   main: "#1db954",
+      //   dark : "rgb(135,23,43)"
+      // }
+      primary: {
+        main: "rgb(107,187,117)",
+        dark: "rgb(18,16,14)",
       },
-      primary : {
-        main : "#808000",
-        dark : "rgb(135,23,43)"
+      secondary : {
+        // main : "#808000",
+        main: "rgb(232, 243, 236)",
+        dark : "rgb(0, 171, 107)"
       }
     },
   });
@@ -143,6 +155,7 @@ const App = () => {
                   exact
                 />
               </Switch>
+              <Footer />
             </AllUserDetailsProvider>
           </CurrentUserDetailsProvider>
         </AuthProvider>
