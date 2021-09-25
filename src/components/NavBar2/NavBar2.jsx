@@ -271,12 +271,14 @@ export default function NavBar2() {
               onKeyDown={handleKeyPress}
               value={searchTerm}
             />
-            <IconButton
+            {displayPopUp &&
+            (<IconButton
               onClick={closeDisplayPopUp}
               className={classes.cancelButton}
             >
               <CloseIcon />
-            </IconButton>
+            </IconButton>)
+}
           </div>
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
