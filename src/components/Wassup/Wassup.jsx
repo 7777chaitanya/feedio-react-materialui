@@ -40,6 +40,7 @@ const Wassup = ({
   handleAllPostsUpdateDeleteOptimistically,
   allPosts,
   handleDummy,
+  handleWassupClose
 }) => {
   //   const wassupRef = useRef();
   const classes = useStyles();
@@ -143,6 +144,8 @@ const Wassup = ({
           // Upload completed successfully, now we can get the download URL
           getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
             setshowProgressBar(false);
+            handleWassupClose();
+
 
             console.log("File available at", downloadURL);
             postObj.imageUrl = downloadURL;
@@ -177,6 +180,7 @@ const Wassup = ({
           });
         }
       );
+
     } else {
       postObj.likes = 0;
       postObj.text = wassupText;
@@ -207,6 +211,8 @@ const Wassup = ({
       });
       console.log("allUserDocs after state update  => ", allUserDocs);
       handlePostToFireStore({ ...postObj });
+      handleWassupClose();
+
      
     }
     setWassupText("");

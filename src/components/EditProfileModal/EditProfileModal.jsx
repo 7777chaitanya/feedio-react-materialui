@@ -2,7 +2,7 @@ import React, { useContext, useState, useRef } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Modal from "@material-ui/core/Modal";
 import useStyles from "./styles";
-import { Card, Button, IconButton, Avatar, createTheme, ThemeProvider } from "@material-ui/core";
+import { Card, Button, IconButton, Avatar, createTheme, ThemeProvider, Snackbar } from "@material-ui/core";
 import { TextField } from "@material-ui/core";
 import { CurrentUserDetailsContext } from "../../contexts/CurrentUserDetailsContext";
 import { AllUserDetailsContext } from "../../contexts/AllUserDetailsContext";
@@ -19,6 +19,7 @@ import {
   uploadBytesResumable,
   getDownloadURL,
 } from "firebase/storage";
+import { Alert } from "@material-ui/lab";
 
 function getModalStyle() {
   const top = 50;
@@ -55,6 +56,11 @@ export default function EditProfileModal({ open, handleOpen, handleClose,handleL
   const usernameRef = useRef();
   const bioRef = useRef();
   const [avatarImage, setAvatarImage] = useState(null);
+
+  const [editProfileSnackbar, setEditProfileSnackbar] = useState(false);
+  const handleEditProfileSnackbar = () => {
+    setEditProfileSnackbar(p => !p);
+  }
 
   const handleAvatarImageChange = (e) => {
     e.target.files[0] && setAvatarImage(e.target.files[0]);
@@ -187,6 +193,8 @@ export default function EditProfileModal({ open, handleOpen, handleClose,handleL
         }
       );
     }
+    handleEditProfileSnackbar();
+
   };
 
   const handleProfileChangesSave = () => {
@@ -199,6 +207,7 @@ export default function EditProfileModal({ open, handleOpen, handleClose,handleL
     updateDetailsInFirestore();
     handlePostToFireStorage();
     handleClose();
+
     history.push(`/profile/${usernameRef.current.value}`);
   };
 
@@ -296,7 +305,10 @@ export default function EditProfileModal({ open, handleOpen, handleClose,handleL
       >
         {body}
       </Modal>
-      {/* <img src={currentUserDoc.avatarUrl} alt="" /> */}
-    </div>
+      <Snackbar open={editProfileSnackbar} autoHideDuration={1000} onClose={handleEditProfileSnackbar}>
+        <Alert onClose={handleEditProfileSnackbar} severity="success">
+Changes Saved!
+        </Alert>
+      </Snackbar>    </div>
   );
 }

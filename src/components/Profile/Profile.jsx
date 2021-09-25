@@ -7,6 +7,7 @@ import {
   Modal,
   Typography,
   ThemeProvider,
+  Snackbar,
 } from "@material-ui/core";
 import React, { useContext, useState } from "react";
 import { CurrentUserDetailsContext } from "../../contexts/CurrentUserDetailsContext";
@@ -22,6 +23,7 @@ import { db } from "../../firebase";
 import EditProfileModal from "../EditProfileModal/EditProfileModal";
 import LinearIndeterminate from "../LinearIndeterminate/LinearIndeterminate";
 import { ClickContext } from "../../contexts/ClickContext";
+import { Alert } from "@material-ui/lab";
 
 const theme = createTheme({
   palette: {
@@ -107,9 +109,20 @@ const Profile = ({ match }) => {
     });
   };
 
+  const [followingSnackbar, setFollowingSnackbar] = useState(false);
+  const handleFollowingSnackbar = () => {
+    setFollowingSnackbar((p) => !p);
+  };
+
+  const [unfollowingSnackbar, setUnfollowingSnackbar] = useState(false);
+  const handleUnfollowingSnackbar = () => {
+    setUnfollowingSnackbar((p) => !p);
+  };
+
   const handleFollow = () => {
     AddToFollowingArrayInCurrentUserDoc();
     AddToFollowersArrayInProfileBelongsTo();
+    handleFollowingSnackbar();
   };
 
   const removeFromFollowingArrayInFirestore = async () => {
@@ -179,6 +192,7 @@ const Profile = ({ match }) => {
   const handleUnfollow = () => {
     RemoveFromFollowingArrayInCurrentUserDoc();
     RemoveFromFollowersArrayInProfileBelongsTo();
+    handleUnfollowingSnackbar();
   };
 
   const checkIfUserIsFollowed = () => {
@@ -227,145 +241,145 @@ const Profile = ({ match }) => {
     <Box className={classes.profileCover}>
       <NavBar2 />
       {showLinearIndeterminate && <LinearIndeterminate />}
-      <Box  onClick={closeDisplayPopUp}>
-      <Box className={classes.veryOuterBox} onClick={closeDisplayPopUp}>
-        <Box className={classes.profileHeaderContainer}>
-          <Box className={classes.avatar}>
-            {profileBelongsTo?.avatarUrl ? (
-              <Avatar
-                alt={profileBelongsTo?.username}
-                src={profileBelongsTo?.avatarUrl}
-                className={classes.avatarSize}
-              />
-            ) : (
-              <AccountCircle className={classes?.avatarSize} />
+      <Box onClick={closeDisplayPopUp}>
+        <Box className={classes.veryOuterBox} onClick={closeDisplayPopUp}>
+          <Box className={classes.profileHeaderContainer}>
+            <Box className={classes.avatar}>
+              {profileBelongsTo?.avatarUrl ? (
+                <Avatar
+                  alt={profileBelongsTo?.username}
+                  src={profileBelongsTo?.avatarUrl}
+                  className={classes.avatarSize}
+                />
+              ) : (
+                <AccountCircle className={classes?.avatarSize} />
+              )}
+            </Box>
+            <Box className={classes.profileDetails}>
+              <Box className={classes.usernameAndEditProfileButtonContainer}>
+                <Typography variant="h4" className={classes.username}>
+                  {profileBelongsTo?.username}
+                </Typography>
+                <ThemeProvider theme={theme}>
+                  {profileBelongsTo?.username === currentUserDoc.username ? (
+                    <Button
+                      variant="contained"
+                      color="secondary"
+                      size="small"
+                      className={classes.editProfileButton}
+                      onClick={handleOpen}
+                    >
+                      Edit Profile
+                    </Button>
+                  ) : (
+                    // <Button
+                    //   variant="contained"
+                    //   color="primary"
+                    //   size="small"
+                    //   className={classes.editProfileButton}
+                    // >
+                    //   Follow
+                    // </Button>
+                    checkIfUserIsFollowed()
+                  )}
+                </ThemeProvider>
+              </Box>
+              <Box className={classes.followerCountBox}>
+                <Typography variant="body1">
+                  <span className={classes.followerCountBoxNumbers}>
+                    {profileBelongsTo?.posts?.length}
+                  </span>{" "}
+                  posts
+                </Typography>
+                <Typography variant="body1">
+                  <span className={classes.followerCountBoxNumbers}>
+                    {profileBelongsTo?.followers?.length}
+                  </span>{" "}
+                  followers
+                </Typography>
+                <Typography variant="body1">
+                  <span className={classes.followerCountBoxNumbers}>
+                    {profileBelongsTo?.following?.length}
+                  </span>{" "}
+                  following
+                </Typography>
+              </Box>
+              <Typography variant="body1" className={classes.bio}>
+                {profileBelongsTo?.bio}
+              </Typography>
+            </Box>
+          </Box>
+
+          <Box className={classes.followerCountBoxForSmallDevices}>
+            <Box className={classes.eachCountItem}>
+              <Typography
+                variant="body1"
+                className={classes.followerCountBoxNumbers}
+              >
+                {profileBelongsTo?.posts?.length}
+              </Typography>
+              <Typography variant="body2">posts</Typography>
+            </Box>
+            <Box className={classes.eachCountItem}>
+              <Typography
+                variant="body1"
+                className={classes.followerCountBoxNumbers}
+              >
+                {profileBelongsTo?.followers?.length}
+              </Typography>
+              <Typography variant="body2">followers</Typography>
+            </Box>
+            <Box className={classes.eachCountItem}>
+              <Typography
+                variant="body1"
+                className={classes.followerCountBoxNumbers}
+              >
+                {profileBelongsTo?.following?.length}
+              </Typography>
+              <Typography variant="body2">following</Typography>
+            </Box>
+          </Box>
+
+          <Box className={classes.buttonGroup}>
+            <ButtonGroup
+              variant="text"
+              color="primary"
+              aria-label="contained primary button group"
+              fullWidth={true}
+            >
+              <Button
+                className={classes.eachButtonInButtonGroup}
+                onClick={() => handleCurrentTabChange("posts")}
+              >
+                posts
+              </Button>
+              <Button
+                className={classes.eachButtonInButtonGroup}
+                onClick={() => handleCurrentTabChange("saved")}
+              >
+                saved
+              </Button>
+              <Button
+                className={classes.eachButtonInButtonGroup}
+                onClick={() => handleCurrentTabChange("liked")}
+              >
+                liked
+              </Button>
+            </ButtonGroup>
+          </Box>
+
+          <Box>
+            {currentTab === "posts" && (
+              <MyPosts2 profileBelongsTo={profileBelongsTo} />
+            )}
+            {currentTab === "liked" && (
+              <LikedPosts profileBelongsTo={profileBelongsTo} />
+            )}
+            {currentTab === "saved" && (
+              <SavedPosts profileBelongsTo={profileBelongsTo} />
             )}
           </Box>
-          <Box className={classes.profileDetails}>
-            <Box className={classes.usernameAndEditProfileButtonContainer}>
-              <Typography variant="h4" className={classes.username}>
-                {profileBelongsTo?.username}
-              </Typography>
-              <ThemeProvider theme={theme}>
-                {profileBelongsTo?.username === currentUserDoc.username ? (
-                  <Button
-                    variant="contained"
-                    color="secondary"
-                    size="small"
-                    className={classes.editProfileButton}
-                    onClick={handleOpen}
-                  >
-                    Edit Profile
-                  </Button>
-                ) : (
-                  // <Button
-                  //   variant="contained"
-                  //   color="primary"
-                  //   size="small"
-                  //   className={classes.editProfileButton}
-                  // >
-                  //   Follow
-                  // </Button>
-                  checkIfUserIsFollowed()
-                )}
-              </ThemeProvider>
-            </Box>
-            <Box className={classes.followerCountBox}>
-              <Typography variant="body1">
-                <span className={classes.followerCountBoxNumbers}>
-                  {profileBelongsTo?.posts?.length}
-                </span>{" "}
-                posts
-              </Typography>
-              <Typography variant="body1">
-                <span className={classes.followerCountBoxNumbers}>
-                  {profileBelongsTo?.followers?.length}
-                </span>{" "}
-                followers
-              </Typography>
-              <Typography variant="body1">
-                <span className={classes.followerCountBoxNumbers}>
-                  {profileBelongsTo?.following?.length}
-                </span>{" "}
-                following
-              </Typography>
-            </Box>
-            <Typography variant="body1" className={classes.bio}>
-              {profileBelongsTo?.bio}
-            </Typography>
-          </Box>
         </Box>
-
-        <Box className={classes.followerCountBoxForSmallDevices}>
-          <Box className={classes.eachCountItem}>
-            <Typography
-              variant="body1"
-              className={classes.followerCountBoxNumbers}
-            >
-              {profileBelongsTo?.posts?.length}
-            </Typography>
-            <Typography variant="body2">posts</Typography>
-          </Box>
-          <Box className={classes.eachCountItem}>
-            <Typography
-              variant="body1"
-              className={classes.followerCountBoxNumbers}
-            >
-              {profileBelongsTo?.followers?.length}
-            </Typography>
-            <Typography variant="body2">followers</Typography>
-          </Box>
-          <Box className={classes.eachCountItem}>
-            <Typography
-              variant="body1"
-              className={classes.followerCountBoxNumbers}
-            >
-              {profileBelongsTo?.following?.length}
-            </Typography>
-            <Typography variant="body2">following</Typography>
-          </Box>
-        </Box>
-
-        <Box className={classes.buttonGroup}>
-          <ButtonGroup
-            variant="text"
-            color="primary"
-            aria-label="contained primary button group"
-            fullWidth={true}
-          >
-            <Button
-              className={classes.eachButtonInButtonGroup}
-              onClick={() => handleCurrentTabChange("posts")}
-            >
-              posts
-            </Button>
-            <Button
-              className={classes.eachButtonInButtonGroup}
-              onClick={() => handleCurrentTabChange("saved")}
-            >
-              saved
-            </Button>
-            <Button
-              className={classes.eachButtonInButtonGroup}
-              onClick={() => handleCurrentTabChange("liked")}
-            >
-              liked
-            </Button>
-          </ButtonGroup>
-        </Box>
-
-        <Box>
-          {currentTab === "posts" && (
-            <MyPosts2 profileBelongsTo={profileBelongsTo} />
-          )}
-          {currentTab === "liked" && (
-            <LikedPosts profileBelongsTo={profileBelongsTo} />
-          )}
-          {currentTab === "saved" && (
-            <SavedPosts profileBelongsTo={profileBelongsTo} />
-          )}
-        </Box>
-      </Box>
       </Box>
       <EditProfileModal
         open={open}
@@ -373,6 +387,21 @@ const Profile = ({ match }) => {
         handleClose={handleClose}
         handleLinearIndeterminate={handleLinearIndeterminate}
       />
+      <Snackbar
+        open={followingSnackbar}
+        autoHideDuration={1000}
+        onClose={handleFollowingSnackbar}
+      >
+        <Alert onClose={handleFollowingSnackbar} severity="success">
+          You started following {profileBelongsTo?.username}
+        </Alert>
+      </Snackbar>
+
+      <Snackbar open={unfollowingSnackbar} autoHideDuration={1000} onClose={handleUnfollowingSnackbar}>
+        <Alert onClose={handleUnfollowingSnackbar} severity="error">
+          Unfollowed {profileBelongsTo?.username}
+        </Alert>
+      </Snackbar>
     </Box>
   );
 };

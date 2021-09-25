@@ -37,7 +37,7 @@ export default function SimpleModal({wassupOpen,handleWassupOpen, handleWassupCl
 
   const body = (
     <div style={modalStyle} className={classes.paper}>
-     <Wassup/>
+     <Wassup handleWassupClose={handleWassupClose}/>
     </div>
   );
 
