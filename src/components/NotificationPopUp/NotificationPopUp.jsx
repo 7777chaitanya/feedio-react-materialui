@@ -7,7 +7,7 @@ import NotificationCard from "./NotificationCard/NotificationCard";
 import { Typography, IconButton, Box } from "@material-ui/core";
 import HighlightOffIcon from "@material-ui/icons/HighlightOff";
 
-const NotificationPopUp = ({ handleNotificationPopUp }) => {
+const NotificationPopUp = ({ handleNotificationPopUp, handleNotificationsModalClose }) => {
   const [currentUserDoc, setCurrentUserDoc] = useContext(
     CurrentUserDetailsContext
   );
@@ -17,15 +17,15 @@ const NotificationPopUp = ({ handleNotificationPopUp }) => {
   return (
     <Card className={classes.root}>
         <Box className={classes.closeIcon}>
-      <IconButton size="small" onClick={handleNotificationPopUp} >
+      {/* <IconButton size="small" onClick={handleNotificationPopUp} >
         <HighlightOffIcon />
-      </IconButton>
+      </IconButton> */}
       </Box>
       {currentUserDoc?.notifications?.length !== 0 ? (
         currentUserDoc?.notifications?.map((notification) => (
           <NotificationCard
             notification={notification}
-            handleNotificationPopUp={handleNotificationPopUp}
+            handleNotificationsModalClose={handleNotificationsModalClose}
           />
         ))
       ) : (

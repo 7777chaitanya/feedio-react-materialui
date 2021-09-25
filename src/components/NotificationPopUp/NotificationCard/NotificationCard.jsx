@@ -4,7 +4,7 @@ import dateCustomizer from '../../../utils/dateCustomizer';
 import {Card, CardHeader, Avatar } from '@material-ui/core/';
 import {Link} from 'react-router-dom';
 import useStyles from "./styles"
-const NotificationCard = ({handleNotificationPopUp, notification}) => {
+const NotificationCard = ({handleNotificationPopUp, notification, handleNotificationsModalClose}) => {
     const [allUserDocs, setAllUserDocs] = useContext(AllUserDetailsContext);
     const notificationOwner = allUserDocs.find(doc => doc.email ===notification.email);
     const classes = useStyles();
@@ -15,7 +15,7 @@ const NotificationCard = ({handleNotificationPopUp, notification}) => {
         className={classes.notificationCard}
         component={Link}
         to={`/profile/${notification.username}`}
-        onClick={handleNotificationPopUp}
+        onClick={handleNotificationsModalClose}
         avatar={
           (notificationOwner?.avatarUrl!==null) &&
           (

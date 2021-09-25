@@ -28,6 +28,7 @@ import { useAuth } from "../../contexts/AuthContext";
 import PopUp from "../PopUp/PopUp";
 import NotificationPopUp from "../NotificationPopUp/NotificationPopUp";
 import MessagesPopUp from "../MessagesPopUp/MessagesPopUp";
+import NotificationsModal from "../NotificationsModal/NotificationsModal";
 
 export default function NavBar2() {
   const [displayPopUp, setDisplayPopUp] = useState(false);
@@ -201,6 +202,16 @@ export default function NavBar2() {
     setWassupOpen(false);
   };
 
+  const [openNotificationsModal, setOpenNotificationsModal] = React.useState(false);
+
+  const handleNotificationsModalOpen = () => {
+    setOpenNotificationsModal(true);
+  };
+
+  const handleNotificationsModalClose = () => {
+    setOpenNotificationsModal(false);
+  };
+
   
 
   return (
@@ -271,7 +282,9 @@ export default function NavBar2() {
             <IconButton
               aria-label="show 17 new notifications"
               color="inherit"
-              onClick={handleNotificationPopUp}
+              // onClick={handleNotificationPopUp}
+              onClick={handleNotificationsModalOpen}
+
             >
               <Badge
                 badgeContent={currentUserDoc?.notifications?.length}
@@ -327,6 +340,10 @@ export default function NavBar2() {
 
       {wassupOpen && (
         <WassupModal wassupOpen={wassupOpen} handleWassupOpen={handleWassupOpen} handleWassupClose={handleWassupClose}/>
+      )}
+
+      {openNotificationsModal && (
+        <NotificationsModal openNotificationsModal={openNotificationsModal} handleNotificationsModalOpen={handleNotificationsModalOpen} handleNotificationsModalClose={handleNotificationsModalClose} />
       )}
 
     </div>
