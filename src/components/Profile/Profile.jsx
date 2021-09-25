@@ -241,7 +241,7 @@ const Profile = ({ match }) => {
               {profileBelongsTo?.username === currentUserDoc.username ? (
                 <Button
                   variant="contained"
-                  color="primary"
+                  color="secondary"
                   size="small"
                   className={classes.editProfileButton}
                   onClick={handleOpen}

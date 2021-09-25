@@ -243,7 +243,7 @@ export default function EditProfileModal({ open, handleOpen, handleClose,handleL
       />
       <Button
         variant="contained"
-        color="primary"
+        color="secondary"
         size="small"
         disabled={editProfileDisabled()}
         // component={Link}
@@ -254,7 +254,7 @@ export default function EditProfileModal({ open, handleOpen, handleClose,handleL
       </Button>
       <Button
         variant="contained"
-        color="primary"
+        color="secondary"
         size="small"
         // component={Link}
         // to={`/profile/${usernameRef?.current?.value}`}

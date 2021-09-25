@@ -46,7 +46,9 @@ const App = () => {
       },
       secondary : {
         // main : "#808000",
-        main: "rgb(232, 243, 236)",
+        // main: "rgb(232, 243, 236)",
+        main: "rgb(232, 232, 232)",
+
         dark : "rgb(0, 171, 107)"
       }
     },

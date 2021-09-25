@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import { AllUserDetailsContext } from "../../contexts/AllUserDetailsContext";
 import { CurrentUserDetailsContext } from "../../contexts/CurrentUserDetailsContext";
 import Post2 from "../Post2/Post2";
+import NoPostsCard from "../NoPostsCard/NoPostsCard";
 
 const SavedPosts = ({profileBelongsTo}) => {
   const [currentUserDoc, setCurrentUserDoc] = useContext(
@@ -43,12 +44,14 @@ const SavedPosts = ({profileBelongsTo}) => {
   console.log("saved Posts =>", savedPosts);
 
   return (
-    <div>
-      SavedPosts
-      {savedPosts?.map((post) => (
+    <>
+    
+      { savedPosts.length!==0 ? (savedPosts?.map((post) => (
         <Post2 post={post} />
-      ))}
-    </div>
+      ))) : 
+      <NoPostsCard text="There are no Saved posts!"/>
+      }
+    </>
   );
 };
 
