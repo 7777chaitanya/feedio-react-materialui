@@ -224,9 +224,10 @@ const Profile = ({ match }) => {
   };
 
   return (
-    <Box className={classes.profileCover} onClick={closeDisplayPopUp}>
+    <Box className={classes.profileCover}>
       <NavBar2 />
       {showLinearIndeterminate && <LinearIndeterminate />}
+      <Box  onClick={closeDisplayPopUp}>
       <Box className={classes.veryOuterBox} onClick={closeDisplayPopUp}>
         <Box className={classes.profileHeaderContainer}>
           <Box className={classes.avatar}>
@@ -364,6 +365,7 @@ const Profile = ({ match }) => {
             <SavedPosts profileBelongsTo={profileBelongsTo} />
           )}
         </Box>
+      </Box>
       </Box>
       <EditProfileModal
         open={open}
