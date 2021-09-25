@@ -60,8 +60,8 @@ const Wassup = ({
   const theme = createTheme({
     palette: {
       secondary: {
-        main: "rgb(140,233,23)",
-        dark: "#1db954",
+        main: "rgb(107,187,117)",
+        dark: "rgb(0, 171, 107)",
       },
     },
   });
@@ -248,7 +248,7 @@ const Wassup = ({
         <Box className={classes.outerBox}>
           <Box>
             <Box className={classes.wassuptextbox}>
-              <ThemeProvider theme={theme}>
+              {/* <ThemeProvider theme={theme}> */}
                 <input
                   type="file"
                   id="icon-button-file"
@@ -277,11 +277,10 @@ const Wassup = ({
                   className={classes.textfield}
                   onChange={handleWassupTextChange}
                 />
-              </ThemeProvider>
+              {/* </ThemeProvider> */}
             </Box>
 
             <Box
-              onClick={handlePostToFireStorage}
               className={classes.postButton}
             >
               <ThemeProvider theme={theme}>
@@ -289,6 +288,8 @@ const Wassup = ({
                   variant="contained"
                   color="secondary"
                   disabled={checkIfImageOrTextBoxIsEmpty()}
+                  onClick={handlePostToFireStorage}
+
                 >
                   POST
                 </Button>
