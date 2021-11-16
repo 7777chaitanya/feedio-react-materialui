@@ -269,6 +269,7 @@ export default function NavBar2() {
               inputProps={{ "aria-label": "search" }}
               onChange={handleDisplayPopUp}
               onKeyDown={handleKeyPress}
+              onMouseDown={handleDisplayPopUp}
               value={searchTerm}
             />
             {displayPopUp &&
