@@ -7,6 +7,7 @@ const useStyles = makeStyles(theme=>( {
         zIndex : 100,
         backgroundColor : "rgb(235,235,235)",
         left : "15vw",
+        top : "12vh",
         minWidth : "20vw",
         paddingLeft : "1vw",
         paddingRight : "1vw",
