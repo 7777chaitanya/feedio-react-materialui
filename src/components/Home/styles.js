@@ -24,7 +24,6 @@ const useStyles = makeStyles({
   },
   innerBoxRight: {
     flex : 3,
-    backgroundColor : "red",
     overflowY: "hidden",
     overlfowX : "hidden"
    

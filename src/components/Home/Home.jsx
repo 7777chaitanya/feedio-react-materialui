@@ -10,7 +10,7 @@ import { doc, getDoc } from "firebase/firestore";
 import { Box, IconButton, Tooltip, Typography } from "@material-ui/core";
 import { CurrentUserDetailsContext } from "../../contexts/CurrentUserDetailsContext";
 import useStyles from "./styles";
-
+import UserSuggestion from "./UserSuggestion/UserSuggestion"
 const Home = ({
   handleAllPostsUpdateDeleteOptimistically,
   handleDummy,
@@ -47,7 +47,7 @@ const Home = ({
           <AllPosts2 />
         </Box>
         <Box className={classes.innerBoxRight}>
-          <Typography variant="h1">User suggestion field</Typography>
+          <UserSuggestion/>
         </Box>
       </Box>
 
