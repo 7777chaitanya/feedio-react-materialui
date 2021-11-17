@@ -238,7 +238,7 @@ export default function NavBar2() {
   );
 
   return (
-    <div className={classes.grow}>
+    <Box className={classes.grow} >
       <AppBar position="static">
         <Toolbar>
           {/* <IconButton
@@ -413,6 +413,6 @@ export default function NavBar2() {
       {/* <Box className={classes.hide}>
         <Post2 closeDisplayPopUp={closeDisplayPopUp} />
       </Box> */}
-    </div>
+    </Box>
   );
 }

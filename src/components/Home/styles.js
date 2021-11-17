@@ -8,7 +8,7 @@ const  useStyles = makeStyles({
         right : "2rem",
         border : "1px solid gray",
         borderRadius : "50px",
-        backgroundColor : "rgb(107,187,117)"
+        backgroundColor : "rgb(107,187,117)",
     }
 })
 
