@@ -5,7 +5,12 @@ const useStyles = makeStyles(theme=>({
     position: "fixed",
     zIndex: "100",
     bottom: "2rem",
-    right: "2rem",
+    [theme.breakpoints.down('sm')]: {
+      right: "2rem",
+    },
+    [theme.breakpoints.up('sm')]: {
+      left: "63vw",
+    },
     border: "1px solid gray",
     borderRadius: "50px",
     backgroundColor: "rgb(107,187,117)",
