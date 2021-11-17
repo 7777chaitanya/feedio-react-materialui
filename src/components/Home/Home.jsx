@@ -51,13 +51,13 @@ const Home = ({
         </Box>
       </Box>
 
-      <Box className={classes.goToTopButtonBox}>
+      {/* <Box className={classes.goToTopButtonBox}>
         <Tooltip title="Go to top">
           <IconButton onClick={handleGoToTop}>
             <ArrowUpwardIcon />
           </IconButton>
         </Tooltip>
-      </Box>
+      </Box> */}
     </div>
   );
 };
