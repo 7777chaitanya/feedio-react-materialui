@@ -239,7 +239,7 @@ export default function NavBar2() {
 
   return (
     <Box className={classes.grow} >
-      <AppBar position="static">
+      <AppBar position="fixed">
         <Toolbar>
           {/* <IconButton
             edge="start"

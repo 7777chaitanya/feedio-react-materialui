@@ -7,11 +7,15 @@ import AllPosts2 from "../AllPosts2/AllPosts2";
 import ArrowUpwardIcon from "@material-ui/icons/ArrowUpward";
 import { db } from "../../firebase";
 import { doc, getDoc } from "firebase/firestore";
-import { Box, IconButton, Tooltip } from "@material-ui/core";
-import { CurrentUserDetailsContext } from '../../contexts/CurrentUserDetailsContext';
+import { Box, IconButton, Tooltip, Typography } from "@material-ui/core";
+import { CurrentUserDetailsContext } from "../../contexts/CurrentUserDetailsContext";
 import useStyles from "./styles";
 
-const Home = ({handleAllPostsUpdateDeleteOptimistically,handleDummy,allPosts}) => {
+const Home = ({
+  handleAllPostsUpdateDeleteOptimistically,
+  handleDummy,
+  allPosts,
+}) => {
   const { currentUser } = useAuth();
   const [currentUserDoc, setCurrentUserDoc] = useContext(
     CurrentUserDetailsContext
@@ -22,18 +26,31 @@ const Home = ({handleAllPostsUpdateDeleteOptimistically,handleDummy,allPosts}) =
   const handleGoToTop = () => {
     window.scrollTo(0, 0);
   };
-    
-
-
-  
 
   return (
-    <div>
+    <div className={classes.homePage}>
       {/* <NavBar currentUsername={currentUserDoc.username} handleAllPostsUpdateDeleteOptimistically={handleAllPostsUpdateDeleteOptimistically} /> */}
-      <NavBar2/>
-      <Wassup currentUser={currentUser} handleAllPostsUpdateDeleteOptimistically={handleAllPostsUpdateDeleteOptimistically} handleDummy={handleDummy} allPosts={allPosts}/>
-      <AllPosts2/>
-      
+      <Box className={classes.navbar}>
+        <NavBar2 />
+      </Box>
+      {/* <Wassup
+        currentUser={currentUser}
+        handleAllPostsUpdateDeleteOptimistically={
+          handleAllPostsUpdateDeleteOptimistically
+        }
+        handleDummy={handleDummy}
+        allPosts={allPosts}
+      /> */}
+
+      <Box className={classes.outerBox}>
+        <Box className={classes.innerBoxLeft}>
+          <AllPosts2 />
+        </Box>
+        <Box className={classes.innerBoxRight}>
+          <Typography variant="h1">User suggestion field</Typography>
+        </Box>
+      </Box>
+
       <Box className={classes.goToTopButtonBox}>
         <Tooltip title="Go to top">
           <IconButton onClick={handleGoToTop}>
