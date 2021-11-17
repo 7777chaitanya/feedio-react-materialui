@@ -24,6 +24,7 @@ import EditProfileModal from "../EditProfileModal/EditProfileModal";
 import LinearIndeterminate from "../LinearIndeterminate/LinearIndeterminate";
 import { ClickContext } from "../../contexts/ClickContext";
 import { Alert } from "@material-ui/lab";
+import clsx from "clsx";
 
 const theme = createTheme({
   palette: {
@@ -348,19 +349,33 @@ const Profile = ({ match }) => {
               fullWidth={true}
             >
               <Button
-                className={classes.eachButtonInButtonGroup}
+                // className={classes.eachButtonInButtonGroup}
+                className={clsx(
+                  classes.eachButtonInButtonGroup,
+                  currentTab === "posts" && classes.selectedButton
+                )}
                 onClick={() => handleCurrentTabChange("posts")}
+                // variant="contained"
+                // color="secondary"
               >
                 posts
               </Button>
               <Button
-                className={classes.eachButtonInButtonGroup}
+                // className={classes.eachButtonInButtonGroup}
+                className={clsx(
+                  classes.eachButtonInButtonGroup,
+                  currentTab === "saved" && classes.selectedButton
+                )}
                 onClick={() => handleCurrentTabChange("saved")}
               >
                 saved
               </Button>
               <Button
-                className={classes.eachButtonInButtonGroup}
+                // className={classes.eachButtonInButtonGroup}
+                className={clsx(
+                  classes.eachButtonInButtonGroup,
+                  currentTab === "liked" && classes.selectedButton
+                )}
                 onClick={() => handleCurrentTabChange("liked")}
               >
                 liked
@@ -397,7 +412,11 @@ const Profile = ({ match }) => {
         </Alert>
       </Snackbar>
 
-      <Snackbar open={unfollowingSnackbar} autoHideDuration={1000} onClose={handleUnfollowingSnackbar}>
+      <Snackbar
+        open={unfollowingSnackbar}
+        autoHideDuration={1000}
+        onClose={handleUnfollowingSnackbar}
+      >
         <Alert onClose={handleUnfollowingSnackbar} severity="error">
           Unfollowed {profileBelongsTo?.username}
         </Alert>

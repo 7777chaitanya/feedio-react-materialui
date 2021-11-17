@@ -1,17 +1,17 @@
 import { makeStyles } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
-  profileCover:{
-    overflowX : "hidden"
+  profileCover: {
+    overflowX: "hidden",
   },
   veryOuterBox: {
     marginLeft: "10vw",
     marginRight: "10vw",
     paddingTop: "3vh",
-    overflowX: "hidden"
+    overflowX: "hidden",
   },
-  bio :{
-    paddingTop : "3vh"
+  bio: {
+    paddingTop: "3vh",
   },
   profileHeaderContainer: {
     display: "flex",
@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
     flex: 3,
     display: "flex",
     justifyContent: "center",
-    paddingTop : "2vh"
+    paddingTop: "2vh",
     // alignItems: "center",
   },
   avatarSize: {
@@ -29,53 +29,48 @@ const useStyles = makeStyles((theme) => ({
     // width : "full-width",
     // height : "full-height"
   },
-  buttonGroup:{
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    '& > *': {
+  buttonGroup: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    "& > *": {
       margin: theme.spacing(3),
     },
   },
-  eachButtonInButtonGroup:{
-      fontWeight : 600
+  eachButtonInButtonGroup: {
+    fontWeight: 600,
   },
-  followerCountBox:{
-      display :"flex",
-      justifyContent:"space-between",
-      margin : "2rem",
-      [theme.breakpoints.down("sm")]: {
-        display :"none"
-      },
-
+  followerCountBox: {
+    display: "flex",
+    justifyContent: "space-between",
+    margin: "2rem",
+    [theme.breakpoints.down("sm")]: {
+      display: "none",
+    },
   },
-  followerCountBoxNumbers:{
-        fontWeight : 700
+  followerCountBoxNumbers: {
+    fontWeight: 700,
   },
-  followerCountBoxForSmallDevices:{
-      display :"flex",
-      justifyContent:"space-evenly",
-      [theme.breakpoints.up("sm")]: {
-        display :"none"
-      },
-      marginTop: "2vh"
-
+  followerCountBoxForSmallDevices: {
+    display: "flex",
+    justifyContent: "space-evenly",
+    [theme.breakpoints.up("sm")]: {
+      display: "none",
+    },
+    marginTop: "2vh",
   },
-  eachCountItem:{
-      display: 'flex',
-      flexDirection : "column",
-      justifyContent:"center",
-      alignItems : "center"
+  eachCountItem: {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
   },
 
   [theme.breakpoints.down("sm")]: {
-    editProfileButton : {
-        width : "13rem",
-        
+    editProfileButton: {
+      width: "13rem",
     },
-    username:{
-      
-    }
+    username: {},
   },
   [theme.breakpoints.up("sm")]: {
     username: {
@@ -89,21 +84,28 @@ const useStyles = makeStyles((theme) => ({
       flex: 7,
       paddingTop: "3vh",
     },
-    editProfileButton : {
-        width : "15rem",
-        marginTop : "1vh"
-        // paddingTop :0,
-        // paddingBottom : 0
+    editProfileButton: {
+      width: "15rem",
+      marginTop: "1vh",
+      // paddingTop :0,
+      // paddingBottom : 0
     },
     paper: {
-      position: 'absolute',
+      position: "absolute",
       width: 400,
       backgroundColor: theme.palette.background.paper,
-      border: '2px solid #000',
+      border: "2px solid #000",
       boxShadow: theme.shadows[5],
       padding: theme.spacing(2, 4, 3),
     },
-    
+    selectedButton: {
+      backgroundColor: "rgb(157,210,164)",
+      color: "black",
+      "&:hover": {
+        backgroundColor: "rgb(157,210,164)",
+        color: "black",
+      },
+    },
   },
 }));
 
