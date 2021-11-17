@@ -11,12 +11,17 @@ import {
 import { Divider } from "@material-ui/core";
 import { Avatar } from "@material-ui/core";
 import { Typography } from "@material-ui/core";
+import { CurrentUserDetailsContext } from "../../../contexts/CurrentUserDetailsContext";
 
 const UserSuggestion = () => {
   const [allUserDocs, setAllUserDocs] = useContext(AllUserDetailsContext);
+  const [currentUserDoc, setCurrentUserDoc] = useContext(CurrentUserDetailsContext);
+
   const classes = useStyles();
 
-  console.log("user suggestion => ", allUserDocs);
+  const usersToShow = allUserDocs.filter(doc => doc.username !== currentUserDoc?.username);
+console.log(usersToShow)
+  console.log("user suggestion => ", currentUserDoc);
   return (
     <>
       <List className={classes.root}>
@@ -24,7 +29,7 @@ const UserSuggestion = () => {
         <Divider variant="inset" component="li" />
 
         
-        {allUserDocs.map(eachDoc => <EachUserDetail 
+        {usersToShow.map(eachDoc => <EachUserDetail 
         avatarUrl={eachDoc?.avatarUrl}
         bio={eachDoc?.bio}
         userName={eachDoc?.username}
