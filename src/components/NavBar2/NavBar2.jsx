@@ -300,7 +300,7 @@ export default function NavBar2() {
                 </IconButton>
               </Tooltip>
             )}
-            {(location.pathname !== "/" && location.pathname === `/profile/${currentUserDoc.username}`)&& (
+            {(location.pathname === "/" || location.pathname === `/profile/${currentUserDoc.username}`)&& (
               <Tooltip title="Add post">
                 <IconButton
                   aria-label="show 4 new mails"
