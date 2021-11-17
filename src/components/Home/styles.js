@@ -1,6 +1,6 @@
 import { makeStyles } from "@material-ui/core";
 
-const useStyles = makeStyles({
+const useStyles = makeStyles(theme=>({
   goToTopButtonBox: {
     position: "fixed",
     zIndex: "100",
@@ -15,23 +15,33 @@ const useStyles = makeStyles({
     justifyContent: "center",
     // alignItems: "center",
     marginTop : "5.5rem",
-    maxHeight : "90vh"
+
+   
+    [theme.breakpoints.up('sm')]: {
+      maxHeight : "90vh"
+    },
     
   },
   innerBoxLeft: {
     flex: 7,
-    overflowY : "scroll"
+    [theme.breakpoints.up('sm')]: {
+      overflowY : "scroll"
+    },
   },
   innerBoxRight: {
     flex : 3,
     overflowY: "hidden",
-    overlfowX : "hidden"
+    overlfowX : "hidden",
+    [theme.breakpoints.down('sm')]: {
+      display : "none"
+    },
+
    
   },
   homePage : {
       overflow : "hidden"
   }
 
-});
+}));
 
 export default useStyles;
