@@ -59,6 +59,14 @@ const useStyles = makeStyles((theme) => ({
     },
     marginTop: "2vh",
   },
+
+  outerMostProfileBox:{
+    marginTop : "5.5rem",
+    [theme.breakpoints.down("sm")]: {
+      marginTop : "3rem",
+    },
+
+  },
   eachCountItem: {
     display: "flex",
     flexDirection: "column",
@@ -114,7 +122,11 @@ const useStyles = makeStyles((theme) => ({
       border : "1px solid gray",
       borderRadius : "50px",
       backgroundColor : "rgb(157,210,164)"
-  }
+  },
+
+  
+  
+  
   },
 }));
 

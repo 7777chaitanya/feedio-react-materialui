@@ -251,7 +251,7 @@ const Profile = ({ match }) => {
     <Box className={classes.profileCover}>
       <NavBar2 />
       {showLinearIndeterminate && <LinearIndeterminate />}
-      <Box onClick={closeDisplayPopUp}>
+      <Box onClick={closeDisplayPopUp} className={classes.outerMostProfileBox}>
         <Box className={classes.veryOuterBox} onClick={closeDisplayPopUp}>
           <Box className={classes.profileHeaderContainer}>
             <Box className={classes.avatar}>
