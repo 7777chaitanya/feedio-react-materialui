@@ -8,6 +8,8 @@ import {
   Typography,
   ThemeProvider,
   Snackbar,
+  Tooltip,
+  IconButton,
 } from "@material-ui/core";
 import React, { useContext, useState } from "react";
 import { CurrentUserDetailsContext } from "../../contexts/CurrentUserDetailsContext";
@@ -25,6 +27,8 @@ import LinearIndeterminate from "../LinearIndeterminate/LinearIndeterminate";
 import { ClickContext } from "../../contexts/ClickContext";
 import { Alert } from "@material-ui/lab";
 import clsx from "clsx";
+import ArrowUpwardIcon from "@material-ui/icons/ArrowUpward";
+
 
 const theme = createTheme({
   palette: {
@@ -238,6 +242,11 @@ const Profile = ({ match }) => {
     setShowLinearIndeterminate((prevState) => !prevState);
   };
 
+  const handleGoToTop = () => {
+    window.scrollTo(0, 0);
+  };
+
+
   return (
     <Box className={classes.profileCover}>
       <NavBar2 />
@@ -421,6 +430,15 @@ const Profile = ({ match }) => {
           Unfollowed {profileBelongsTo?.username}
         </Alert>
       </Snackbar>
+
+      <Box className={classes.goToTopButtonBox}>
+        <Tooltip title="Go to top">
+          <IconButton onClick={handleGoToTop}>
+            <ArrowUpwardIcon />
+          </IconButton>
+        </Tooltip>
+      </Box>
+      
     </Box>
   );
 };

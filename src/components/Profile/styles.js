@@ -106,6 +106,15 @@ const useStyles = makeStyles((theme) => ({
         color: "black",
       },
     },
+    goToTopButtonBox:{
+      position : "fixed",
+      zIndex : "100",
+      bottom : "2rem",
+      right : "2rem",
+      border : "1px solid gray",
+      borderRadius : "50px",
+      backgroundColor : "rgb(157,210,164)"
+  }
   },
 }));
 
