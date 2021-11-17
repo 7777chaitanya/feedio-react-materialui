@@ -252,6 +252,7 @@ export default function EditProfileModal({ open, handleOpen, handleClose,handleL
           readOnly: true,
         }}
         color="secondary"
+        disabled
       />
 
       <TextField
