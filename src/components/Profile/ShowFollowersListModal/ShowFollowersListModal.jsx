@@ -113,6 +113,7 @@ export default function ShowFollowersListModal({
         usersToShow={usersToShow}
         handleFollow={handleFollow}
         handleUnfollow={handleUnfollow}
+        handleClose={handleClose}
         />
       </Paper>
     );

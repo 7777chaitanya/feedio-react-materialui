@@ -13,6 +13,7 @@ import Avatar from "@material-ui/core/Avatar";
 import { Button } from "@material-ui/core";
 import { CurrentUserDetailsContext } from "../../../../../contexts/CurrentUserDetailsContext";
 import { AllUserDetailsContext } from "../../../../../contexts/AllUserDetailsContext";
+import { Link, useHistory } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -23,45 +24,57 @@ const useStyles = makeStyles((theme) => ({
   followButton: {
     backgroundColor: "lightGray",
     "&:hover": {
-        backgroundColor: "darkGray"
-      }
+      backgroundColor: "darkGray",
+    },
   },
   unfollowButton: {
     backgroundColor: "lightGray",
     "&:hover": {
-        backgroundColor: "darkGray"
-      }
+      backgroundColor: "darkGray",
+    },
   },
 }));
 
-export default function ListItemGroup({ usersToShow,  handleFollow,
-    handleUnfollow }) {
+export default function ListItemGroup({
+  usersToShow,
+  handleFollow,
+  handleUnfollow,
+  handleClose
+}) {
   const classes = useStyles();
   const [currentUserDoc, setCurrentUserDoc] = useContext(
     CurrentUserDetailsContext
   );
   const [allUserDocs, setAllUserDocs] = useContext(AllUserDetailsContext);
+  const history = useHistory();
 
   const buttonToShow = (value) => {
     return currentUserDoc.following.includes(value?.email) ? (
-      <Button className={classes.unfollowButton}
-      onClick={()=> {
-          console.log(value?.email)
-        handleUnfollow(value?.email)
-    }}
-      >Unfollow</Button>
+      <Button
+        className={classes.unfollowButton}
+        onClick={() => {
+          console.log(value?.email);
+          handleUnfollow(value?.email);
+        }}
+      >
+        Unfollow
+      </Button>
     ) : (
-      <Button className={classes.followButton}
-      onClick={()=> {
-          
-        handleUnfollow(value?.email)
-    }}
-      >Follow</Button>
+      <Button
+        className={classes.followButton}
+        onClick={() => {
+          handleFollow(value?.email);
+        }}
+      >
+        Follow
+      </Button>
     );
   };
 
-//   console.log("usersToShow => ", handleFollow, handleUnfollow);
-
+  const handleProfileUrlChange = (username) => {
+    history.push(`/profile/${username}`);
+    handleClose();
+  };
 
   return (
     <List className={classes.root}>
@@ -72,15 +85,17 @@ export default function ListItemGroup({ usersToShow,  handleFollow,
             role={undefined}
             dense
             button
-            //    onClick={}
+            onClick={() => handleProfileUrlChange(value?.username)}
+            // component={Link}
+            // to={`/profile/${value?.username}`}
           >
             <ListItemAvatar>
               <Avatar alt={value?.email} src={value?.avatarUrl} />
             </ListItemAvatar>
             <ListItemText primary={value?.username} />
-            <ListItemSecondaryAction>
+            {/* <ListItemSecondaryAction>
               {buttonToShow(value)}
-            </ListItemSecondaryAction>
+            </ListItemSecondaryAction> */}
           </ListItem>
         );
       })}
