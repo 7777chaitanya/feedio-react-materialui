@@ -18,13 +18,23 @@ const EachUserDetail = ({avatarUrl, bio, userName}) => {
     <>
       <ListItem alignItems="flex-start" button={true} onClick={handleEnterUserProfile}>
         <ListItemAvatar>
-          <Avatar
-            alt="Remy Sharp"
+        {(avatarUrl)  ? (
+            <Avatar
+              alt={userName}
+              src={avatarUrl}
+              // className={classes.avatarSize}
+            />
+          ) : (
+            <Avatar aria-label="recipe" 
+            // className={classes.avatarSize} 
             src={avatarUrl}
-          />
+          >
+            {userName[0].toUpperCase()}
+          </Avatar>)}
         </ListItemAvatar>
-        <ListItemText
-          primary={userName}
+
+        {/* <ListItemText
+        primary={userName}
           secondary={
             <React.Fragment>
               <Typography
@@ -33,12 +43,16 @@ const EachUserDetail = ({avatarUrl, bio, userName}) => {
                 className={classes.inline}
                 color="textPrimary"
               >
-                {/* {bio} */}
+                {bio}
               </Typography>
-              {/* {" — I'll be in your neighborhood doing errands this…"} */}
+              {" — I'll be in your neighborhood doing errands this…"}
             </React.Fragment>
           }
-        />
+        /> */}
+
+        <ListItemText className={classes.userSuggestionUserName}>
+          <Typography variant="body1">{userName}</Typography>
+          </ListItemText>
       </ListItem>
       <Divider component="li" />
     </>
