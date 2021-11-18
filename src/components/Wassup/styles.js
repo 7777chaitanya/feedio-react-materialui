@@ -127,6 +127,9 @@ marginBottom : "4rem"
 emojiPicker:{
   marginLeft : "10rem",
   marginTop : "1rem"
+},
+emojiPickerIsPresent:{
+  marginLeft : "30%"
 }
 }));
 

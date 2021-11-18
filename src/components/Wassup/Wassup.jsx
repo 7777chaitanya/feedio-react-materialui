@@ -233,7 +233,7 @@ const Wassup = ({
       <Box className={classes.mainOuterBox}>
         <Box className={classes.outerBox}>
           <Box>
-            <Box className={classes.wassuptextbox}>
+            <Box className={!showEmojiPicker ? classes.wassuptextbox : classes.emojiPickerIsPresent}>
               {/* <ThemeProvider theme={theme}> */}
               <input
                 type="file"
