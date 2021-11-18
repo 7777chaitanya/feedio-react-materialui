@@ -207,14 +207,14 @@ export default function NavBar2() {
         </IconButton>
         <p>Post</p>
       </MenuItem>
-      <MenuItem onClick={handleMessagesModalOpen}>
+      {/* <MenuItem onClick={handleMessagesModalOpen}>
         <IconButton aria-label="show 4 new mails" color="inherit">
           <Badge badgeContent={0} color="secondary">
             <MailIcon />
           </Badge>
         </IconButton>
         <p>Messages</p>
-      </MenuItem>
+      </MenuItem> */}
       <MenuItem onClick={handleNotificationsModalOpen}>
         <IconButton aria-label="show 11 new notifications" color="inherit">
           <Badge
@@ -323,7 +323,7 @@ export default function NavBar2() {
                 </IconButton>
               </Tooltip>
             )}
-            <Tooltip title="Messages">
+            {/* <Tooltip title="Messages">
               <IconButton
                 aria-label="show 4 new mails"
                 color="inherit"
@@ -333,7 +333,7 @@ export default function NavBar2() {
                   <MailIcon />
                 </Badge>
               </IconButton>
-            </Tooltip>
+            </Tooltip> */}
             <Tooltip title="Notifications">
               <IconButton
                 aria-label="show 17 new notifications"

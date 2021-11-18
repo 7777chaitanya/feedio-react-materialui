@@ -507,7 +507,7 @@ const Post2 = ({ post }) => {
           action={
             <>
               {post?.email === currentUserDoc.email && (
-                <IconButton onClick={handlePostDelete} size="large" color="primary">
+                <IconButton onClick={handlePostDelete} size="large" color="primary" className={classes.deleteForeverIcon}>
                   <DeleteForeverIcon />
                 </IconButton>
               )}

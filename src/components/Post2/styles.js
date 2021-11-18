@@ -48,6 +48,11 @@ const useStyles = makeStyles((theme) => ({
     },
     likesText:{
       marginRight : "0.7rem"
+    },
+    deleteForeverIcon : {
+      "&:hover": {
+        color: "red"
+      }
     }
   }));
 
