@@ -52,7 +52,7 @@ const Footer = () => {
         <CopyrightIcon className={classes.copyrightIcon}/>{" "}
         </Box>
         <Box className={classes.copyrightInnerBoxRight}>
-          <Typography variant="body2">2021 HardwareHub</Typography>
+          <Typography variant="body2">2021 Feedio Pvt Ltd.</Typography>
         </Box>
       </Box>
     </Box>) : null

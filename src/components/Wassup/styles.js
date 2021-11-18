@@ -93,6 +93,10 @@ const useStyles = makeStyles((theme) => ({
   },
   wassuptextbox: {
     flex: 0.8,
+    
+    marginLeft : "auto",
+    marginRight : "auto"
+   
   },
   mainOuterBox: {
     border: "0.2 rem solid lightgray",
@@ -119,6 +123,10 @@ progressBar:{
 marginLeft : "auto",
 marginRight : 'auto', 
 marginBottom : "4rem"
+},
+emojiPicker:{
+  marginLeft : "10rem",
+  marginTop : "1rem"
 }
 }));
 

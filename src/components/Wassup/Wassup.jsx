@@ -15,10 +15,12 @@ import {
 } from "firebase/storage";
 import { AllUserDetailsContext } from "../../contexts/AllUserDetailsContext";
 import { CurrentUserDetailsContext } from "../../contexts/CurrentUserDetailsContext";
-import PropTypes from 'prop-types';
-import LinearProgress from '@material-ui/core/LinearProgress';
-import Typography from '@material-ui/core/Typography';
+import PropTypes from "prop-types";
+import LinearProgress from "@material-ui/core/LinearProgress";
+import Typography from "@material-ui/core/Typography";
 import { ClickContext } from "../../contexts/ClickContext";
+import Picker from "emoji-picker-react";
+import InsertEmoticonIcon from "@material-ui/icons/InsertEmoticon";
 
 function LinearProgressWithLabel(props) {
   return (
@@ -28,19 +30,19 @@ function LinearProgressWithLabel(props) {
       </Box>
       <Box minWidth={35}>
         <Typography variant="body2" color="textSecondary">{`${Math.round(
-          props.value,
+          props.value
         )}%`}</Typography>
       </Box>
     </Box>
   );
-        }
+}
 
 const Wassup = ({
   currentUser,
   handleAllPostsUpdateDeleteOptimistically,
   allPosts,
   handleDummy,
-  handleWassupClose
+  handleWassupClose,
 }) => {
   //   const wassupRef = useRef();
   const classes = useStyles();
@@ -52,7 +54,7 @@ const Wassup = ({
   );
   const [progressBar, setProgressBar] = useState(null);
   const [showProgressBar, setshowProgressBar] = useState(false);
-  const {closeDisplayPopUp} =  useContext(ClickContext)
+  const { closeDisplayPopUp } = useContext(ClickContext);
 
   const checkIfImageOrTextBoxIsEmpty = () => {
     if (wassupText === "" && wassupImage === null) {
@@ -111,8 +113,8 @@ const Wassup = ({
           // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
           const progress =
             (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-            
-            setProgressBar(progress)
+
+          setProgressBar(progress);
           console.log("Upload is " + progress + "% done");
           switch (snapshot.state) {
             case "paused":
@@ -145,7 +147,6 @@ const Wassup = ({
           getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
             setshowProgressBar(false);
             handleWassupClose();
-
 
             console.log("File available at", downloadURL);
             postObj.imageUrl = downloadURL;
@@ -180,7 +181,6 @@ const Wassup = ({
           });
         }
       );
-
     } else {
       postObj.likes = 0;
       postObj.text = wassupText;
@@ -212,81 +212,94 @@ const Wassup = ({
       console.log("allUserDocs after state update  => ", allUserDocs);
       handlePostToFireStore({ ...postObj });
       handleWassupClose();
-
-     
     }
     setWassupText("");
     setWassupImage(null);
-
   };
 
- 
+  const onEmojiClick = (event, emojiObject) => {
+    // setChosenEmoji(emojiObject);
+    setWassupText(`${wassupText}${emojiObject.emoji}`);
+  };
+
+  const [showEmojiPicker, setShowEmojiPicker] = useState(false);
+
+  const handleShowEmojiPicker = () => {
+    setShowEmojiPicker(prevState => !prevState);
+  }
 
   return (
     <Box onClick={closeDisplayPopUp}>
-      <Box className={classes.mainOuterBox} >
+      <Box className={classes.mainOuterBox}>
         <Box className={classes.outerBox}>
           <Box>
             <Box className={classes.wassuptextbox}>
               {/* <ThemeProvider theme={theme}> */}
-                <input
-                  type="file"
-                  id="icon-button-file"
-                  className={classes.imageBox}
-                  onChange={handleWassupImageChange}
-                />
-                <label htmlFor="icon-button-file">
-                  <IconButton
-                    color="primary"
-                    aria-label="upload picture"
-                    component="span"
-                  >
-                    <PhotoCamera />
-                  </IconButton> 
-                  {wassupImage?.name}
-                </label>
-                <TextField
-                  id="outlined-secondary"
-                  // label="Wassup?"
-                  variant="outlined"
-                  color="secondary"
-                  value={wassupText}
-                  type="text"
-                  multiline={true}
-                  placeholder="Wassup?"
-                  className={classes.textfield}
-                  onChange={handleWassupTextChange}
-                />
+              <input
+                type="file"
+                id="icon-button-file"
+                className={classes.imageBox}
+                onChange={handleWassupImageChange}
+              />
+              <label htmlFor="icon-button-file">
+                <IconButton
+                  color="primary"
+                  aria-label="upload picture"
+                  component="span"
+                >
+                  <PhotoCamera />
+                </IconButton>
+                {wassupImage?.name}
+              </label>
+              <TextField
+                id="outlined-secondary"
+                // label="Wassup?"
+                variant="outlined"
+                color="secondary"
+                value={wassupText}
+                type="text"
+                multiline={true}
+                placeholder="Wassup?"
+                className={classes.textfield}
+                onChange={handleWassupTextChange}
+              />
+              <IconButton onClick={handleShowEmojiPicker}>
+                <InsertEmoticonIcon />
+                
+              </IconButton>
+              
+
               {/* </ThemeProvider> */}
             </Box>
+            <Box className={classes.emojiPicker}>
+            {showEmojiPicker &&
+              (<Picker
+                onEmojiClick={onEmojiClick}
+                native={true}
+                pickerStyle={{ width: "80%" }}
+              />)}
+            </Box>
 
-            <Box
-              className={classes.postButton}
-            >
+            <Box className={classes.postButton}>
               <ThemeProvider theme={theme}>
                 <Button
                   variant="contained"
                   color="secondary"
                   disabled={checkIfImageOrTextBoxIsEmpty()}
                   onClick={handlePostToFireStorage}
-
                 >
                   POST
                 </Button>
               </ThemeProvider>
-              
-
-
             </Box>
           </Box>
-        
         </Box>
       </Box>
-      {showProgressBar &&
-             ( <Box className={classes.progressBar}>
-              <LinearProgressWithLabel value={progressBar} />
-              </Box>)
-}
+      {showProgressBar && (
+        <Box className={classes.progressBar}>
+          <LinearProgressWithLabel value={progressBar} />
+        </Box>
+      )}
     </Box>
   );
 };
