@@ -40,7 +40,7 @@ const EachUserDetail = ({avatarUrl, bio, userName}) => {
           }
         />
       </ListItem>
-      <Divider variant="inset" component="li" />
+      <Divider component="li" />
     </>
   );
 };

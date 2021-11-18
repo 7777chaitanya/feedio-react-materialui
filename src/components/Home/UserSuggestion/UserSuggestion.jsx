@@ -26,7 +26,9 @@ console.log(usersToShow)
     <>
       <List className={classes.root}>
         <Typography variant="h6" className={classes.exploreFriends} align="center">Explore Friends</Typography>
-        <Divider variant="inset" component="li" />
+        {/* <Divider variant="inset" component="li" /> */}
+        <Divider component="li" />
+
 
         
         {usersToShow.map(eachDoc => <EachUserDetail 
