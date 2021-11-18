@@ -3,10 +3,11 @@ import { makeStyles } from "@material-ui/core/styles";
 import Modal from "@material-ui/core/Modal";
 import {
   CurrentUserDetailsContext,
-  CurrentUserDetailsProvider,
 } from "../../../contexts/CurrentUserDetailsContext";
 import { AllUserDetailsContext } from "../../../contexts/AllUserDetailsContext";
 import ListItemGroup from "./UsersListToDisplay/ListItemGroup/ListItemGroup";
+import { Typography, Button, IconButton, Box, Paper, Divider } from "@material-ui/core";
+import CancelIcon from "@material-ui/icons/Cancel";
 
 function rand() {
   return Math.round(Math.random() * 20) - 10;
@@ -26,12 +27,39 @@ function getModalStyle() {
 const useStyles = makeStyles((theme) => ({
   paper: {
     position: "absolute",
-    width: 400,
+    width: "25vw",
+    [theme.breakpoints.down('sm')]: {
+        width : "40vw"
+      },
+      [theme.breakpoints.down('xs')]: {
+        width : "80vw"
+      },
     backgroundColor: theme.palette.background.paper,
-    border: "2px solid #000",
+    // border: "1px solid #000",
     boxShadow: theme.shadows[5],
     padding: theme.spacing(2, 4, 3),
   },
+  headingBox: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  cancelIcon: {
+    color: "darkGray",
+    "&:hover": {
+      color: "red",
+    },
+    position: "relative",
+    right: "0rem",
+  },
+  iconButtonBox:{
+      flex : "1"
+  },
+  headingTypography:{
+      flex : '9',
+      marginLeft : "15%",
+     
+  }
 }));
 
 export default function ShowFollowersListModal({
@@ -67,11 +95,21 @@ export default function ShowFollowersListModal({
 
   const body = () => {
     return (
-      <div style={modalStyle} className={classes.paper}>
-        <h2>{whoToShow}</h2>
+      <Paper style={modalStyle} className={classes.paper} elevation={4}>
+        <Box className={classes.headingBox}>
+          <Typography variant="h3" color="primary" display="inline" className={classes.headingTypography}>
+            {`${whoToShow[0]?.toUpperCase()}${whoToShow?.slice(1)}`}
+          </Typography>
+          <Box className={classes.iconButtonBox}>
+            <IconButton className={classes.cancelIcon} onClick={handleClose}>
+              <CancelIcon />
+            </IconButton>
+          </Box>
+        </Box>
+        <Divider/>
 
         <ListItemGroup usersToShow={usersToShow} />
-      </div>
+      </Paper>
     );
   };
 

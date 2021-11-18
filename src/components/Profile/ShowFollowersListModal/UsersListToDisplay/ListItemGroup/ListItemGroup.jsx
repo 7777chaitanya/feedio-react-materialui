@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -10,6 +10,9 @@ import IconButton from '@material-ui/core/IconButton';
 import CommentIcon from '@material-ui/icons/Comment';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
+import { Button } from '@material-ui/core';
+import { CurrentUserDetailsContext } from '../../../../../contexts/CurrentUserDetailsContext';
+import { AllUserDetailsContext } from '../../../../../contexts/AllUserDetailsContext';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -21,7 +24,21 @@ const useStyles = makeStyles((theme) => ({
 
 export default function ListItemGroup({usersToShow}) {
   const classes = useStyles();
+  const [currentUserDoc, setCurrentUserDoc] = useContext(
+    CurrentUserDetailsContext
+  );
+  const [allUserDocs, setAllUserDocs] = useContext(AllUserDetailsContext);
  
+  const buttonToShow = (value) => {
+      return (currentUserDoc.following.includes(value?.email)) ?
+          
+              <Button>Unfollow</Button>
+          
+      
+      :
+          <Button>Follow</Button>
+      
+  }
 
   return (
     <List className={classes.root}>
@@ -39,9 +56,8 @@ export default function ListItemGroup({usersToShow}) {
             </ListItemAvatar>
             <ListItemText  primary={value?.username} />
             <ListItemSecondaryAction>
-              <IconButton edge="end" aria-label="comments">
-                <CommentIcon />
-              </IconButton>
+             
+              {buttonToShow(value)}
             </ListItemSecondaryAction>
           </ListItem>
         );
