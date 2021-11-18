@@ -16,6 +16,7 @@ const useStyles = makeStyles((theme) => ({
     },
     maxHeight: "60vh",
     overflow: "auto",
+    overflowX : "hidden"
   },
 }));
 

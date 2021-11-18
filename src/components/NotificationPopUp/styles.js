@@ -6,6 +6,9 @@ const useStyles = makeStyles({
         right : "5vw",
         backgroundColor : "rgb(235,235,235)",
         zIndex:100,
+        maxHeight : "60vh",
+        overflow : "auto",
+        overflowX : "hidden"
     },
     closeIcon:{
         display : "flex",
