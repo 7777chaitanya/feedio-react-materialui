@@ -28,6 +28,7 @@ import { ClickContext } from "../../contexts/ClickContext";
 import { Alert } from "@material-ui/lab";
 import clsx from "clsx";
 import ArrowUpwardIcon from "@material-ui/icons/ArrowUpward";
+import ShowFollowersListModal from "./ShowFollowersListModal/ShowFollowersListModal";
 
 const theme = createTheme({
   palette: {
@@ -245,8 +246,22 @@ const Profile = ({ match }) => {
     window.scrollTo(0, 0);
   };
 
-  const handleShowFollowers = () => {
-    console.log("followers");
+  const [openFollowsersModal, setOpenFollowsersModal] = React.useState(false);
+
+  const handleOpenFollowsersModal = () => {
+    setOpenFollowsersModal(true);
+  };
+
+  const handleCloseFollowsersModal = () => {
+    setOpenFollowsersModal(false);
+  };
+
+  const [whoToShow, setWhoToShow] = useState("");
+
+  const handleShowFollowersOrFollowing = (value) => {
+    console.log(value);
+    setWhoToShow(value);
+    handleOpenFollowsersModal();
   };
 
   const handleShowFollowing = () => {
@@ -309,7 +324,7 @@ const Profile = ({ match }) => {
                     posts
                   </Typography>
                 </Button>
-                <Button onClick={handleShowFollowers}>
+                <Button onClick={()=>handleShowFollowersOrFollowing("followers")}>
                   <Typography variant="body1">
                     <span className={classes.followerCountBoxNumbers}>
                       {profileBelongsTo?.followers?.length}
@@ -317,7 +332,7 @@ const Profile = ({ match }) => {
                     followers
                   </Typography>
                 </Button>
-                <Button onClick={handleShowFollowing}>
+                <Button onClick={()=>handleShowFollowersOrFollowing("following")}>
                   <Typography variant="body1">
                     <span className={classes.followerCountBoxNumbers}>
                       {profileBelongsTo?.following?.length}
@@ -450,6 +465,13 @@ const Profile = ({ match }) => {
           </IconButton>
         </Tooltip>
       </Box>
+
+      <ShowFollowersListModal
+        open={openFollowsersModal}
+        handleOpen={handleOpenFollowsersModal}
+        handleClose={handleCloseFollowsersModal}
+        whoToShow={whoToShow}
+      />
     </Box>
   );
 };
