@@ -125,6 +125,8 @@ export default function NavBar2() {
 
   const handleWassupOpen = () => {
     setWassupOpen(true);
+    handleMobileMenuClose();
+
   };
 
   const handleWassupClose = () => {
@@ -196,6 +198,14 @@ export default function NavBar2() {
           </Badge>
         </IconButton>
         <p>Home</p>
+      </MenuItem>
+      <MenuItem component={Link} to="/" onClick={handleWassupOpen}>
+        <IconButton aria-label="show 4 new mails" color="inherit">
+          <Badge color="secondary">
+          <AddCircleIcon />
+          </Badge>
+        </IconButton>
+        <p>Post</p>
       </MenuItem>
       <MenuItem onClick={handleMessagesModalOpen}>
         <IconButton aria-label="show 4 new mails" color="inherit">
