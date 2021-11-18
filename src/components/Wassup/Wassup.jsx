@@ -271,7 +271,7 @@ const Wassup = ({
                 ref={wassupRef}
                 autoFocus
               />
-              <IconButton onClick={handleShowEmojiPicker}>
+              <IconButton onClick={handleShowEmojiPicker} className={classes.insertEmoticonIcon}>
                 <InsertEmoticonIcon />
                 
               </IconButton>

@@ -130,6 +130,11 @@ emojiPicker:{
 },
 emojiPickerIsPresent:{
   marginLeft : "30%"
+},
+insertEmoticonIcon:{
+  [theme.breakpoints.down('sm')]: {
+    display : "none"
+  },
 }
 }));
 
