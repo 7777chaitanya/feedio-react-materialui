@@ -7,6 +7,7 @@ import {
   ListItemAvatar,
   ListItemText,
   List,
+  Box
 } from "@material-ui/core";
 import { Divider } from "@material-ui/core";
 import { Avatar } from "@material-ui/core";
@@ -25,17 +26,19 @@ console.log(usersToShow)
   return (
     <>
       <List className={classes.root}>
-        <Typography variant="h6" className={classes.exploreFriends} align="center">Explore Friends</Typography>
+        <Typography variant="h5" className={classes.exploreFriends} align="center" color="primary">Explore Friends</Typography>
         {/* <Divider variant="inset" component="li" /> */}
         <Divider component="li" />
 
 
-        
+        <Box className={classes.usersList}>
         {usersToShow.map(eachDoc => <EachUserDetail 
         avatarUrl={eachDoc?.avatarUrl}
         bio={eachDoc?.bio}
         userName={eachDoc?.username}
         />)}
+
+        </Box>
       </List>
     </>
   );
