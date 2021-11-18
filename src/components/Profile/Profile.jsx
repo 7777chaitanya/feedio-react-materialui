@@ -473,6 +473,7 @@ const Profile = ({ match }) => {
         whoToShow={whoToShow}
         handleFollow={handleFollow}
         handleUnfollow={handleUnfollow}
+        profileBelongsTo={profileBelongsTo}
       />
     </Box>
   );

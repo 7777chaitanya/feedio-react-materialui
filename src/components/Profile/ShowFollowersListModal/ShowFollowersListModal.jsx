@@ -68,7 +68,8 @@ export default function ShowFollowersListModal({
   handleClose,
   whoToShow,
   handleFollow,
-  handleUnfollow
+  handleUnfollow,
+  profileBelongsTo
 }) {
   const classes = useStyles();
   const [modalStyle] = React.useState(getModalStyle);
@@ -81,13 +82,15 @@ export default function ShowFollowersListModal({
 
   if (whoToShow === "followers") {
     allUserDocs.forEach((user) => {
-      if (currentUserDoc?.followers?.includes(user.email)) {
+      if (  profileBelongsTo
+        ?.followers?.includes(user.email)) {
         usersToShow.push(user);
       }
     });
   } else {
     allUserDocs.forEach((user) => {
-      if (currentUserDoc?.following?.includes(user.email)) {
+      if (  profileBelongsTo
+        ?.following?.includes(user.email)) {
         usersToShow.push(user);
       }
     });
