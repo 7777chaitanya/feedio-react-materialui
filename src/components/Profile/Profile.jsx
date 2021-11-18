@@ -29,7 +29,6 @@ import { Alert } from "@material-ui/lab";
 import clsx from "clsx";
 import ArrowUpwardIcon from "@material-ui/icons/ArrowUpward";
 
-
 const theme = createTheme({
   palette: {
     secondary: {
@@ -246,6 +245,13 @@ const Profile = ({ match }) => {
     window.scrollTo(0, 0);
   };
 
+  const handleShowFollowers = () => {
+    console.log("followers");
+  };
+
+  const handleShowFollowing = () => {
+    console.log("following");
+  };
 
   return (
     <Box className={classes.profileCover}>
@@ -295,24 +301,30 @@ const Profile = ({ match }) => {
                 </ThemeProvider>
               </Box>
               <Box className={classes.followerCountBox}>
-                <Typography variant="body1">
-                  <span className={classes.followerCountBoxNumbers}>
-                    {profileBelongsTo?.posts?.length}
-                  </span>{" "}
-                  posts
-                </Typography>
-                <Typography variant="body1">
-                  <span className={classes.followerCountBoxNumbers}>
-                    {profileBelongsTo?.followers?.length}
-                  </span>{" "}
-                  followers
-                </Typography>
-                <Typography variant="body1">
-                  <span className={classes.followerCountBoxNumbers}>
-                    {profileBelongsTo?.following?.length}
-                  </span>{" "}
-                  following
-                </Typography>
+                <Button>
+                  <Typography variant="body1">
+                    <span className={classes.followerCountBoxNumbers}>
+                      {profileBelongsTo?.posts?.length}
+                    </span>{" "}
+                    posts
+                  </Typography>
+                </Button>
+                <Button onClick={handleShowFollowers}>
+                  <Typography variant="body1">
+                    <span className={classes.followerCountBoxNumbers}>
+                      {profileBelongsTo?.followers?.length}
+                    </span>{" "}
+                    followers
+                  </Typography>
+                </Button>
+                <Button onClick={handleShowFollowing}>
+                  <Typography variant="body1">
+                    <span className={classes.followerCountBoxNumbers}>
+                      {profileBelongsTo?.following?.length}
+                    </span>{" "}
+                    following
+                  </Typography>
+                </Button>
               </Box>
               <Typography variant="body1" className={classes.bio}>
                 {profileBelongsTo?.bio}
@@ -438,7 +450,6 @@ const Profile = ({ match }) => {
           </IconButton>
         </Tooltip>
       </Box>
-      
     </Box>
   );
 };
