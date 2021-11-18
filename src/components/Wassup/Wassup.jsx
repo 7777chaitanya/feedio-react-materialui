@@ -1,7 +1,6 @@
 import { Avatar, Box, Button, IconButton, TextField } from "@material-ui/core";
-import React, { useContext } from "react";
+import React, { useContext, useRef, useState } from "react";
 import { createTheme, ThemeProvider } from "@material-ui/core/styles";
-import { useRef, useState } from "react";
 import useStyles from "./styles";
 import { PhotoCamera } from "@material-ui/icons";
 import { arrayUnion, updateDoc, doc } from "firebase/firestore";
@@ -55,6 +54,8 @@ const Wassup = ({
   const [progressBar, setProgressBar] = useState(null);
   const [showProgressBar, setshowProgressBar] = useState(false);
   const { closeDisplayPopUp } = useContext(ClickContext);
+  const wassupRef = useRef();
+
 
   const checkIfImageOrTextBoxIsEmpty = () => {
     if (wassupText === "" && wassupImage === null) {
@@ -217,8 +218,11 @@ const Wassup = ({
     setWassupImage(null);
   };
 
+  
   const onEmojiClick = (event, emojiObject) => {
     // setChosenEmoji(emojiObject);
+    wassupRef?.current?.focus();
+
     setWassupText(`${wassupText}${emojiObject.emoji}`);
   };
 
@@ -226,6 +230,8 @@ const Wassup = ({
 
   const handleShowEmojiPicker = () => {
     setShowEmojiPicker(prevState => !prevState);
+    wassupRef?.current?.focus();
+
   }
 
   return (
@@ -262,6 +268,8 @@ const Wassup = ({
                 placeholder="Wassup?"
                 className={classes.textfield}
                 onChange={handleWassupTextChange}
+                ref={wassupRef}
+                autoFocus
               />
               <IconButton onClick={handleShowEmojiPicker}>
                 <InsertEmoticonIcon />
@@ -277,6 +285,8 @@ const Wassup = ({
                 onEmojiClick={onEmojiClick}
                 native={true}
                 pickerStyle={{ width: "80%" }}
+                disableSearchBar={true}
+                disableAutoFocus
               />)}
             </Box>
 
