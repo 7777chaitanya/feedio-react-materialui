@@ -471,6 +471,8 @@ const Profile = ({ match }) => {
         handleOpen={handleOpenFollowsersModal}
         handleClose={handleCloseFollowsersModal}
         whoToShow={whoToShow}
+        handleFollow={handleFollow}
+        handleUnfollow={handleUnfollow}
       />
     </Box>
   );

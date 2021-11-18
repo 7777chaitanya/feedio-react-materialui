@@ -34,7 +34,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function ListItemGroup({ usersToShow }) {
+export default function ListItemGroup({ usersToShow,  handleFollow,
+    handleUnfollow }) {
   const classes = useStyles();
   const [currentUserDoc, setCurrentUserDoc] = useContext(
     CurrentUserDetailsContext
@@ -43,11 +44,24 @@ export default function ListItemGroup({ usersToShow }) {
 
   const buttonToShow = (value) => {
     return currentUserDoc.following.includes(value?.email) ? (
-      <Button className={classes.unfollowButton}>Unfollow</Button>
+      <Button className={classes.unfollowButton}
+      onClick={()=> {
+          console.log(value?.email)
+        handleUnfollow(value?.email)
+    }}
+      >Unfollow</Button>
     ) : (
-      <Button className={classes.followButton}>Follow</Button>
+      <Button className={classes.followButton}
+      onClick={()=> {
+          
+        handleUnfollow(value?.email)
+    }}
+      >Follow</Button>
     );
   };
+
+//   console.log("usersToShow => ", handleFollow, handleUnfollow);
+
 
   return (
     <List className={classes.root}>

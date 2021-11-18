@@ -67,6 +67,8 @@ export default function ShowFollowersListModal({
   handleOpen,
   handleClose,
   whoToShow,
+  handleFollow,
+  handleUnfollow
 }) {
   const classes = useStyles();
   const [modalStyle] = React.useState(getModalStyle);
@@ -91,7 +93,6 @@ export default function ShowFollowersListModal({
     });
   }
 
-  console.log("usersToShow => ", usersToShow);
 
   const body = () => {
     return (
@@ -108,7 +109,11 @@ export default function ShowFollowersListModal({
         </Box>
         <Divider/>
 
-        <ListItemGroup usersToShow={usersToShow} />
+        <ListItemGroup 
+        usersToShow={usersToShow}
+        handleFollow={handleFollow}
+        handleUnfollow={handleUnfollow}
+        />
       </Paper>
     );
   };
